@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.scss';
+import Header from './components/Header/Header';
+import TrendcardsContainer from "./components/TrendcardsContainer/TrendcardsContainer";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+        <div className={styles['app__container']}>
+            <h2 className={[styles['app__heading'], styles['app__heading--2']].join(' ')}>Trending movies</h2>
+            <TrendcardsContainer />
+        </div>
     </div>
   );
 }
