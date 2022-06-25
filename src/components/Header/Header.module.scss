@@ -1,0 +1,80 @@
+@import '../../scss/base';
+
+.header {
+  background-color: $base-grey;
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    max-height: 64px;
+    margin-bottom: 15px;
+
+    @include media(">=tablet") {
+      margin-bottom: 0;
+    }
+  }
+
+  &__menu {
+    margin-left: 20px;
+
+    &-link {
+      color: $base-blue;
+      transition: color $animation-speed $animation-effect;
+      font-size: 17px;
+      display: flex;
+
+      &:hover {
+        color: darken($base-blue, 15%);
+
+        .header__menu-num {
+          background-color: transparent;
+          color: $base-blue;
+        }
+      }
+
+      .fa {
+        font-size: 22px;
+      }
+    }
+
+    &-link-name {
+      display: none;
+
+      @include media(">=tablet") {
+        display: block;
+        margin-left: 10px;
+      }
+    }
+
+    &-num {
+      font-size: 14px;
+      font-weight: 700;
+      color: $white;
+      background-color: $base-blue;
+      border: 1px solid darken($base-blue, 15%);
+      border-radius: $border-radius;
+      padding: 2px 5px;
+      margin-left: 10px;
+      min-width: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 5px 5px 10px -2px colorOpacity($black, 0.4);
+      transition: all $animation-speed $animation-effect;
+      visibility: hidden;
+
+      &:hover {
+        background-color: transparent;
+        color: $base-blue;
+      }
+    }
+  }
+}
