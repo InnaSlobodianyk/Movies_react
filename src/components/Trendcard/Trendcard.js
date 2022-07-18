@@ -1,12 +1,10 @@
+import Button from "../Button/Button";
 import trendcardClass from "./Trendcard.module.scss";
 import { imageUrl } from "../../config";
-import { HiOutlineBookmark } from "react-icons/hi";
-// import { HiBookmark } from "react-icons/hi";
+import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
+import Genre from "../Genre/Genre";
 
 const Trendcard = ( { movie } ) => {
-    console.log('%c PROPS' , 'background: #222; color: #bada55');
-    console.log(movie);
-
     const calcDate = releaseDate => {
         if (releaseDate !== '') {
             const date = new Date(releaseDate);
@@ -35,6 +33,10 @@ const Trendcard = ( { movie } ) => {
         return title;
     };
 
+    const roundRatingValue = ( rating ) => {
+        return parseFloat(rating.toFixed(1));
+    };
+
     return (
         <figure className={trendcardClass['item']} id={ `trendcard-${movie.id}`}>
             <div className={trendcardClass['thumb']}>
@@ -42,7 +44,7 @@ const Trendcard = ( { movie } ) => {
                      alt={movie.title}
                      className={trendcardClass['img']} />
                 <div className={trendcardClass['rating']}>
-                    <span>{movie.vote_average}</span>
+                    <span>{roundRatingValue(movie.vote_average)}</span>
                 </div>
 
                 <div className={trendcardClass['description']}>
@@ -80,16 +82,17 @@ const Trendcard = ( { movie } ) => {
                     </div>
 
                     <div className={trendcardClass['info-details']}>
-                        <button className={trendcardClass['icon']} data-hash={movie.id}>
-                            <HiOutlineBookmark className={trendcardClass['icon-svg']} />
-                        </button>
+                        <Button className={trendcardClass['icon']} data-hash={movie.id}>
+                            <IoBookmarkOutline className={trendcardClass['icon-svg']} />
+                        </Button>
+                        {/*<button className={trendcardClass['icon']} data-hash={movie.id}>*/}
+                        {/*    <IoBookmark className={trendcardClass['icon-svg']} />*/}
+                        {/*</button>*/}
                     </div>
                 </div>
 
                 <ul className={trendcardClass['genres']}>
-                    <li className={trendcardClass['genres-item']}>Genre 1</li>
-                    <li className={trendcardClass['genres-item']}>Genre 2</li>
-                    <li className={trendcardClass['genres-item']}>Genre 3</li>
+                    <Genre className={trendcardClass['genres-item']} genres={movie.genre_ids} />
                 </ul>
             </figcaption>
         </figure>

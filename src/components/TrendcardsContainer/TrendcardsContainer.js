@@ -6,7 +6,7 @@ import { apiRequestTrendsUrl, key } from "../../config";
 
 const TrendcardsContainer = () => {
     const [movies, setMovies] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
+    // const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         const getTrends = async () => {
@@ -16,15 +16,8 @@ const TrendcardsContainer = () => {
         }
 
         getTrends().then(data => {
-            // console.log('%c In promise' , 'background: #222; color: #bada55');
             setMovies(data.results);
-            setTotalPages(data.total_pages);
-
-            // console.log('%c MOVIES' , 'background: #222; color: #bada55');
-            // console.log(movies);
-            //
-            // console.log('%c TOTAL PAGES' , 'background: #222; color: #bada55');
-            // console.log(totalPages);
+            // setTotalPages(data.total_pages);
         })
     }, []);
 
@@ -32,8 +25,6 @@ const TrendcardsContainer = () => {
         <div className={styles.container}>
 
             { movies.map(movie => {
-                // console.log('%c RENDER' , 'background: #222; color: #bada55');
-                // console.log(movie);
                 return <Trendcard key={movie.id} movie={movie} />;
             }) }
         </div>
