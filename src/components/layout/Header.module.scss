@@ -41,18 +41,18 @@
     }
 
     &-link {
-      color: $base-blue;
+      color: $base-purple;
       transition: color $animation-speed $animation-effect;
       font-size: 17px;
       display: flex;
       padding: 5px;
 
       &:hover {
-        color: darken($base-blue, 15%);
+        color: darken($base-indigo, 15%);
 
         .header__menu-num {
           background-color: transparent;
-          color: $base-blue;
+          color: $base-purple;
         }
       }
 
