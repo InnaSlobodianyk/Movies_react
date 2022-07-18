@@ -18,7 +18,7 @@ const Header = () => {
               </NavLink>
             </li>
             <li className={classes['header__menu-item']}>
-              <NavLink to="/favourites/" className={classes['header__menu-link']}>
+              <NavLink to="/favorites/" className={classes['header__menu-link']}>
                 <i className="fa fa-bookmark"/>
                 <span className={classes['header__menu-link-name']}>Favorites</span>
                 <span className={classes['header__menu-num']}/>
