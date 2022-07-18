@@ -1,7 +1,7 @@
 import Button from "../Button/Button";
 import trendcardClass from "./Trendcard.module.scss";
 import { imageUrl } from "../../config";
-import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
+import { IoBookmarkOutline } from "react-icons/io5";
 import Genre from "../Genre/Genre";
 
 const Trendcard = ( { movie } ) => {
