@@ -5,6 +5,7 @@ import Lists from "./pages/Lists";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import MoviePage from "./pages/MoviePage";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/' element={ <Home /> } />
         <Route path='/lists/' element={ <Lists /> } />
         <Route path='/favorites/' element={ <Favorites /> } />
+        <Route path='/movie/:movieId' element={ <MoviePage /> } />
         <Route path='*' element={ <NotFound /> } />
       </Routes>
     </Layout>
