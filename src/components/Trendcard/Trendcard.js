@@ -24,7 +24,7 @@ const Trendcard = ( { movie } ) => {
                 <div className={styles.description}>
                     <div className={styles.descriptionHeading}>
                         <div className={styles.info}>
-                            <Link to={`/movie/#${movie.id}`} className={styles.permalink}>
+                            <Link to={`/movie/${movie.id}`} className={styles.permalink}>
                                 <div className={styles.descriptionTitle}>
                                     {movie.title}
                                 </div>
@@ -38,14 +38,14 @@ const Trendcard = ( { movie } ) => {
                         </p>
                     </div>
 
-                    <Link to={`/movie/#${movie.id}`} className="btn btn btn-primary">Details</Link>
+                    <Link to={`/movie/${movie.id}`} className="btn btn btn-primary">Details</Link>
                 </div>
             </div>
 
             <figcaption className={styles.heading}>
                 <div className={styles.infoWrapper}>
                     <div className={styles.info}>
-                        <Link to={`/movie/#${movie.id}`} className={styles.permalink}>
+                        <Link to={`/movie/${movie.id}`} className={styles.permalink}>
                             <div className={styles.title}>
                                 { movie.title }
                             </div>
