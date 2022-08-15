@@ -1,45 +1,47 @@
-import genreClass from "./Genre.module.scss";
-import {useEffect, useState} from "react";
-import {apiRequestGenresUrl, key} from "../../config";
+import cn from "classnames";
+import { useEffect, useState } from "react";
+
+import { apiRequestGenresUrl, key } from "../../config";
+import { sendRequest } from "../../service/apiService";
+
+import styles from "./Genre.module.scss";
+
+const filterGenres = (allGenres, genres) => {
+  return allGenres.filter(el => genres.some(item => item === el.id));
+};
 
 const Genre = (props) => {
-  const [genres, setGenres] = useState([]);
+  const [allGenres, setAllGenres] = useState([]);
+
+  const getAllGenres = async () => {
+    return await sendRequest(`${apiRequestGenresUrl}?api_key=${key}`);
+  }
 
   useEffect(() => {
-    const getAllGenres = async () => {
-      const response = await fetch(`${apiRequestGenresUrl}?api_key=${key}`);
-      const responseData = await response.json();
+    getAllGenres()
+      .then((response) => {
+        const genresResponse = response.data;
+        setAllGenres(genresResponse.genres);
+    })
+      .catch((error) => {
+        console.log(error);
+      })
+  }, []);
 
-      setGenres(responseData.genres);
-    }
+  let filteredGenres = filterGenres(allGenres, props.genres);
 
-    getAllGenres();
-  }, [setGenres]);
+  let movieGenres = filteredGenres.map((genre) => {
+    let genreName = [];
 
-  const getGenresNames = movieGenresArr => {
-    let genresNames = [];
+    genreName = [...genreName, genre.name];
 
-    movieGenresArr.map(genreId => {
-      genres.filter(genre => {
-        if (genre.id === genreId) {
-          genresNames = [...genresNames, genre.name];
-        }
-
-        return genresNames
-      });
-
-      return genresNames;
-    });
-
-    return genresNames;
-  };
-
-  let movieGenres = getGenresNames(props.genres);
+    return genreName;
+  });
 
   return (
     <ul>
       {movieGenres.map(genreItem => {
-        return <li key={genreItem} className={[genreClass['item'], props.className].join(' ')}>{genreItem}</li>;
+        return <li key={genreItem} className={cn(styles.item, props.className && props.className)}>{genreItem}</li>;
       })}
     </ul>
   );
