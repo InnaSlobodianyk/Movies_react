@@ -1,14 +1,15 @@
-import { Fragment } from "react";
+import cn from "classnames";
+
+import TrendcardsContainer from "../components/TrendcardsContainer/TrendcardsContainer";
 
 import styles from "../components/layout/Layout.module.scss";
-import TrendcardsContainer from "../components/TrendcardsContainer/TrendcardsContainer";
 
 const Home = () => {
   return (
-    <Fragment>
-      <h2 className={[styles['page__heading'], styles['page__heading--2']].join(' ')}>Trending movies</h2>
-      <TrendcardsContainer/>
-    </Fragment>
+    <>
+      <h2 className={cn(styles.pageHeading, styles['pageHeading--2'])}>Trending movies</h2>
+      <TrendcardsContainer />
+    </>
   )
 };
 
