@@ -4,92 +4,21 @@
   background-color: $base-grey;
   display: flex;
   justify-content: center;
+}
 
-  &__container {
-    width: 100%;
-    max-width: 1400px;
-    padding: 20px 15px;
-    display: flex;
-    justify-content: space-between;
-  }
+.headerContainer {
+  width: 100%;
+  max-width: 1400px;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: space-between;
+}
 
-  &__logo {
-    max-height: 64px;
-    margin-bottom: 15px;
+.headerLogo {
+  max-height: 64px;
+  margin-bottom: 15px;
 
-    @include media(">=tablet") {
-      margin-bottom: 0;
-    }
-  }
-
-  &__menu {
-    display: flex;
-
-    &-nav {
-      display: flex;
-      align-items: center;
-      margin-left: 20px;
-    }
-
-    &-item {
-      margin-left: 20px;
-
-      &:first-child {
-
-        margin-left: 0;
-      }
-    }
-
-    &-link {
-      color: $base-purple;
-      transition: color $animation-speed $animation-effect;
-      font-size: 17px;
-      display: flex;
-      padding: 5px;
-
-      &:hover {
-        color: darken($base-indigo, 15%);
-
-        .header__menu-num {
-          background-color: transparent;
-          color: $base-purple;
-        }
-      }
-
-      .fa {
-        font-size: 22px;
-      }
-    }
-
-    &-link-name {
-      display: none;
-
-      @include media(">=tablet") {
-        display: block;
-      }
-    }
-
-    &-num {
-      font-size: 14px;
-      font-weight: 700;
-      color: $white;
-      background-color: $base-blue;
-      border: 1px solid darken($base-blue, 15%);
-      border-radius: $border-radius;
-      padding: 2px 5px;
-      margin-left: 10px;
-      min-width: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 5px 5px 10px -2px colorOpacity($black, 0.4);
-      transition: all $animation-speed $animation-effect;
-      visibility: hidden;
-
-      &:hover {
-        background-color: transparent;
-        color: $base-blue;
-      }
-    }
+  @include media(">=tablet") {
+    margin-bottom: 0;
   }
 }

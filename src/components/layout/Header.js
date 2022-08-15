@@ -1,31 +1,19 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Menu from "../Menu/Menu";
 
-import classes from './Header.module.scss';
-import logo from "../../images/movierise-logo.png";
+import logo from "../../assets/images/movierise-logo.png";
+
+import styles from './Header.module.scss';
 
 const Header = () => {
   return (
-    <header className={classes['header']}>
-      <div className={classes['header__container']}>
-        <Link to="/" className={classes['header__logo']}>
+    <header className={styles.header}>
+      <div className={styles.headerContainer}>
+        <Link to="/" className={styles.headerLogo}>
           <img src={logo} alt="logo-movierise"/>
         </Link>
-        <nav className={classes['header__menu-nav']} role="navigation">
-          <ul className={classes['header__menu']}>
-            <li className={classes['header__menu-item']}>
-              <NavLink to="/lists/" className={classes['header__menu-link']}>
-                <span className={classes['header__menu-link-name']}>Lists</span>
-              </NavLink>
-            </li>
-            <li className={classes['header__menu-item']}>
-              <NavLink to="/favorites/" className={classes['header__menu-link']}>
-                <i className="fa fa-bookmark"/>
-                <span className={classes['header__menu-link-name']}>Favorites</span>
-                <span className={classes['header__menu-num']}/>
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
+
+        <Menu />
       </div>
     </header>
   );

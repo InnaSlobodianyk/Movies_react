@@ -1,16 +1,15 @@
-import { Fragment } from 'react';
+import Header from "./Header";
 
 import styles from "./Layout.module.scss";
-import Header from "./Header";
 
 const Layout = ( props ) => {
   return (
-    <Fragment>
+    <>
       <Header />
-      <main className={styles['page__container']}>
+      <main className={styles.pageContainer}>
         {props.children}
       </main>
-    </Fragment>
+    </>
   );
 };
 
