@@ -1,8 +1,10 @@
-import buttonClass from "./Button.module.scss";
+import cn from "classnames";
+
+import styles from "./Button.module.scss";
 
 const Button = ( props ) => {
     return (
-        <button className={[ buttonClass['btn'], props.className && props.className ].join(' ')}>
+        <button className={cn(styles.btn, props.className && props.className)}>
             { props.children }
         </button>
     );
