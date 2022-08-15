@@ -1,29 +1,31 @@
-import styles from "./TrendcardsContainer.module.scss";
-import Trendcard from "../Trendcard/Trendcard";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { apiRequestTrendsUrl, key } from "../../config";
+import { sendRequest } from "../../service/apiService";
+
+import Trendcard from "../Trendcard/Trendcard";
+
+import styles from "./TrendcardsContainer.module.scss";
 
 const TrendcardsContainer = () => {
     const [movies, setMovies] = useState([]);
-    // const [totalPages, setTotalPages] = useState(0);
+
+    const getTrends = async () => {
+        return await sendRequest(`${apiRequestTrendsUrl}?api_key=${key}&page=1&language=ru`);
+    }
 
     useEffect(() => {
-        const getTrends = async () => {
-            const { data } = await axios(`${apiRequestTrendsUrl}?api_key=${key}&page=1&language=ru`);
-            console.log('%c GET TRENDS' , 'background: red; color: #bada55');
-            return data;
-        }
-
-        getTrends().then(data => {
-            setMovies(data.results);
-            // setTotalPages(data.total_pages);
-        })
+        getTrends()
+          .then((response) => {
+              const trendsResponse = response.data;
+              setMovies(trendsResponse.results);
+          })
+          .catch((error) => {
+              console.log(error);
+          })
     }, []);
 
     return (
         <div className={styles.container}>
-
             { movies.map(movie => {
                 return <Trendcard key={movie.id} movie={movie} />;
             }) }
@@ -31,4 +33,4 @@ const TrendcardsContainer = () => {
     );
 }
 
-export default React.memo(TrendcardsContainer);
+export default TrendcardsContainer;
