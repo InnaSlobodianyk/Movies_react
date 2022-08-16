@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const sendRequest = async ({ url, method = "get", payload }) => {
+export const sendRequest = async ({ url, method = "GET", payload }) => {
   return await axios({
     url,
     method,
