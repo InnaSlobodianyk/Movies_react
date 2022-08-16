@@ -1,11 +1,12 @@
-import React from "react";
+import {useCallback, useEffect, useState} from "react";
+import { IoBookmarkOutline } from "react-icons/io5";
+import { apiRequestUrl, imageUrl, key } from "../../config";
+import { sendRequest } from "../../service/apiService";
+
 import Button from "../Button/Button";
 import Genre from "../Genre/Genre";
-import { IoBookmarkOutline } from "react-icons/io5";
-import { imageUrl } from "../../config";
 
 import styles from "./Movie.module.scss";
-
 
 // const imageFullUrl = ( imageUrl, imagePath ) => {
 //   console.log('%c imageFullUrl' , 'background: #222; color: #bada55');
@@ -18,9 +19,28 @@ import styles from "./Movie.module.scss";
 //   }
 // };
 
-const Movie = ( movieId, movie ) => {
-  console.log('%c MOVIE' , 'background: #222; color: #bada55');
-  console.log(movie);
+const Movie = ( movie ) => {
+  const [movieDetails, setMovieDetails] = useState([]);
+
+  const getMovie = useCallback(async () => {
+    return await sendRequest(`${apiRequestUrl}${movie.movieId}?api_key=${key}&append_to_response=videos,similar,recommendations,credits`);
+  }, [movie.movieId]);
+
+  useEffect(() => {
+    getMovie()
+      .then((response) => {
+        const movieResponse = response.data;
+        setMovieDetails(movieResponse);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    return () => {};
+  }, [getMovie, movie.movieId]);
+
+  console.log(movieDetails.genres);
+
   return (
     <>
       {/*<section className="section__intro section__movie"*/}
@@ -30,9 +50,9 @@ const Movie = ( movieId, movie ) => {
         <div className={styles.movieReview__poster}>
           <figure className={styles.movieReview__imgWrapper}>
             {/*<img src="http://image.tmdb.org/t/p/original/8cXbitsS6dWQ5gfMTZdorpAAzEH.jpg"*/}
-            <img src={`${imageUrl}/${movie.imagePath}`}
+            <img src={movieDetails.poster_path && `${imageUrl}/${movieDetails.poster_path}`}
                  className={styles.movieReview__img}
-                 alt={`Poster for ${movie.title}`}
+                 alt={`Poster for ${movieDetails.title}`}
             />
           </figure>
         </div>
@@ -40,9 +60,9 @@ const Movie = ( movieId, movie ) => {
         <div className={styles.movieReview__content}>
           <div className={styles.movieReview__heading}>
             <h3 className={styles.movieReview__title}>
-              {movie.title}
+              {movieDetails.title}
             </h3>
-            <Button data-hash={movieId}>
+            <Button data-hash={movie.movieId}>
               <IoBookmarkOutline />
             </Button>
             {/*<a href="#" className="movieReview__icon favorites-icon" data-hash="725201">*/}
@@ -54,7 +74,7 @@ const Movie = ( movieId, movie ) => {
             <div className={styles.movieReview__info}>
               <span className={styles.movieReview__release}>2022</span>
               <ul className={styles.movieReview__genres}>
-                <Genre className={styles.movieReview__genresItem} genres={movie.genre_ids} />
+                <Genre className={styles.movieReview__genresItem} genres={movieDetails.genres} />
               </ul>
               {/*<ul className={styles.movieReview__genres}>*/}
               {/*  <li className={styles.movieReview__genresItem}>Action</li>*/}

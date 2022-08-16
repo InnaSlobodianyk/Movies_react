@@ -20,7 +20,7 @@
   &__imgWrapper {
     overflow: hidden;
     min-height: 310px;
-    background: url('../../images/cinema-hall.jpg') no-repeat center;
+    background: url('../../assets/images/cinema-hall.jpg') no-repeat center;
     background-size: cover;
     border-radius: $border-radius;
   }
@@ -345,7 +345,7 @@
       transition: background-color $animation-speed $animation-effect;
       overflow: hidden;
       height: 252px;
-      background: url('../../images/cinema-hall.jpg') no-repeat center;
+      background: url('../../assets/images/cinema-hall.jpg') no-repeat center;
       background-size: cover;
 
       &:hover {
