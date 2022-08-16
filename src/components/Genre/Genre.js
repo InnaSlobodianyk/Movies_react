@@ -1,8 +1,7 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { apiRequestGenresUrl, key } from "../../config";
-import { sendRequest } from "../../service/apiService";
+import { getAllGenres } from "services/genres";
 
 import styles from "./Genre.module.scss";
 
@@ -13,35 +12,26 @@ const filterGenres = (allGenres, genres) => {
 const Genre = (props) => {
   const [allGenres, setAllGenres] = useState([]);
 
-  const getAllGenres = async () => {
-    return await sendRequest(`${apiRequestGenresUrl}?api_key=${key}`);
-  }
-
   useEffect(() => {
-    getAllGenres()
-      .then((response) => {
-        const genresResponse = response.data;
-        setAllGenres(genresResponse.genres);
+    getAllGenres().then((response) => {
+      const genresResponse = response.data;
+      setAllGenres(genresResponse.genres);
     })
-      .catch((error) => {
-        console.log(error);
-      })
   }, []);
 
-  let filteredGenres = filterGenres(allGenres, props.genres);
+  const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
 
-  let movieGenres = filteredGenres.map((genre) => {
-    let genreName = [];
-
-    genreName = [...genreName, genre.name];
-
-    return genreName;
-  });
+  let itemClasses;
+  if (props.className) {
+    itemClasses = cn(styles.item, props.className);
+  } else {
+    itemClasses = styles.item;
+  }
 
   return (
     <ul>
-      {movieGenres.map(genreItem => {
-        return <li key={genreItem} className={cn(styles.item, props.className && props.className)}>{genreItem}</li>;
+      {filteredGenres.map(genreItem => {
+        return <li key={genreItem.name} className={itemClasses}>{genreItem.name}</li>;
       })}
     </ul>
   );

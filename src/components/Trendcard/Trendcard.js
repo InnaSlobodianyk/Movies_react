@@ -1,11 +1,10 @@
-import cn from "classnames";
 import { Link } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 
-import { imageUrl } from "../../config";
-import { calcDate, roundRatingValue } from "../../helpers/helpers";
-import Button from "../Button/Button";
-import Genre from "../Genre/Genre";
+import { imageUrl } from "config";
+import { calcDate, roundRatingValue } from "helpers/helpers";
+import Button from "components/Button/Button";
+import Genre from "components/Genre/Genre";
 
 import styles from "./Trendcard.module.scss";
 
@@ -26,9 +25,9 @@ const Trendcard = ( { movie } ) => {
                     <div className={styles.descriptionHeading}>
                         <div className={styles.info}>
                             <Link to={`/movie/#${movie.id}`} className={styles.permalink}>
-                                <h3 className={styles.descriptionTitle}>
+                                <div className={styles.descriptionTitle}>
                                     {movie.title}
-                                </h3>
+                                </div>
                             </Link>
                         </div>
                     </div>
@@ -47,9 +46,9 @@ const Trendcard = ( { movie } ) => {
                 <div className={styles.infoWrapper}>
                     <div className={styles.info}>
                         <Link to={`/movie/#${movie.id}`} className={styles.permalink}>
-                            <h3 className={cn(styles.title, styles.titleCropped)}>
+                            <div className={styles.title}>
                                 { movie.title }
-                            </h3>
+                            </div>
                         </Link>
                         <span className={styles.release}>
                             { calcDate(movie.release_date) }

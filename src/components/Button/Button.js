@@ -4,7 +4,7 @@ import styles from "./Button.module.scss";
 
 const Button = ( props ) => {
     return (
-        <button className={cn(styles.btn, props.className && props.className)}>
+        <button className={cn(styles.btn, props.className)}>
             { props.children }
         </button>
     );

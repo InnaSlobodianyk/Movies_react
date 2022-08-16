@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Menu from "../Menu/Menu";
+import Menu from "components/Menu/Menu";
 
-import logo from "../../assets/images/movierise-logo.png";
+import logo from "assets/images/movierise-logo.png";
 
 import styles from './Header.module.scss';
 

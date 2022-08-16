@@ -1,8 +1,8 @@
 import cn from "classnames";
 
-import TrendcardsContainer from "../components/TrendcardsContainer/TrendcardsContainer";
+import TrendcardsContainer from "components/TrendcardsContainer/TrendcardsContainer";
 
-import styles from "../components/layout/Layout.module.scss";
+import styles from "components/layout/Layout.module.scss";
 
 const Home = () => {
   return (

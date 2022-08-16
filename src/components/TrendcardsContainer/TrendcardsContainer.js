@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { apiRequestTrendsUrl, key } from "../../config";
-import { sendRequest } from "../../service/apiService";
+import { getTrends } from "services/trends";
 
-import Trendcard from "../Trendcard/Trendcard";
+import Trendcard from "components/Trendcard/Trendcard";
 
 import styles from "./TrendcardsContainer.module.scss";
 
 const TrendcardsContainer = () => {
     const [movies, setMovies] = useState([]);
 
-    const getTrends = async () => {
-        return await sendRequest(`${apiRequestTrendsUrl}?api_key=${key}&page=1&language=ru`);
-    }
-
     useEffect(() => {
         getTrends()
           .then((response) => {
               const trendsResponse = response.data;
               setMovies(trendsResponse.results);
-          })
-          .catch((error) => {
-              console.log(error);
           })
     }, []);
 
