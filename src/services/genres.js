@@ -1,9 +1,9 @@
 import { sendRequest } from "./apiService";
-import { apiRequestGenresUrl, key } from "config";
+import { apiRequestGenresUrl } from "config";
 
 export const getAllGenres = async () => {
   try {
-    return await sendRequest({url: `${apiRequestGenresUrl}?api_key=${key}`});
+    return await sendRequest({url: apiRequestGenresUrl});
   } catch (e) {
     return [];
   }

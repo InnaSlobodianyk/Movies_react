@@ -11,8 +11,7 @@ const TrendcardsContainer = () => {
     useEffect(() => {
         getTrends()
           .then((response) => {
-              const trendsResponse = response.data;
-              setMovies(trendsResponse.results);
+              setMovies(response.results);
           })
     }, []);
 

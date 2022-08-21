@@ -14,19 +14,13 @@ const Genre = (props) => {
 
   useEffect(() => {
     getAllGenres().then((response) => {
-      const genresResponse = response.data;
-      setAllGenres(genresResponse.genres);
+      setAllGenres(response.genres);
     })
   }, []);
 
   const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
 
-  let itemClasses;
-  if (props.className) {
-    itemClasses = cn(styles.item, props.className);
-  } else {
-    itemClasses = styles.item;
-  }
+  const itemClasses = cn(styles.item, props.className);
 
   return (
     <ul>

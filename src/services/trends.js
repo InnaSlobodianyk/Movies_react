@@ -1,11 +1,11 @@
 import { sendRequest } from "./apiService";
-import { apiRequestTrendsUrl, key } from "config";
+import { apiRequestTrendsUrl } from "config";
 
 export const getTrends = async () => {
   try {
     return await sendRequest({
-      url: `${apiRequestTrendsUrl}?api_key=${key}`,
-      payload: `&page=1&language=ru`
+      url: apiRequestTrendsUrl,
+      payload: `&page=1&language=en`
     });
   } catch (e) {
     return [];

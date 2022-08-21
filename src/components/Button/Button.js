@@ -3,12 +3,7 @@ import cn from "classnames";
 import styles from "./Button.module.scss";
 
 const Button = ( props ) => {
-    let buttonClasses;
-    if (props.className) {
-        buttonClasses = cn(styles.btn, props.className)
-    } else {
-        buttonClasses = styles.btn
-    }
+    const buttonClasses = cn(styles.btn, props.className);
 
     return (
         <button className={buttonClasses}>
