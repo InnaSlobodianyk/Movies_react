@@ -176,19 +176,19 @@
 }
 
 .rating {
-  font-size: $base-font-size;
-  line-height: 1;
-  color: $white;
+  //font-size: $base-font-size;
+  //line-height: 1;
+  //color: $white;
   border: 0;
   position: absolute;
   left: 0;
   bottom: 20px;
-  background: $base-indigo;
-  background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
-  padding: 5px 16px;
-  border-radius: 12px;
-  min-width: 50px;
-  text-align: center;
+  //background: $base-indigo;
+  //background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
+  //padding: 5px 16px;
+  //border-radius: 12px;
+  //min-width: 50px;
+  //text-align: center;
 }
 
 .release {

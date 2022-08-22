@@ -5,6 +5,7 @@ import { imageUrl } from "config";
 import { calcDate, roundRatingValue } from "helpers/helpers";
 import Button from "components/Button/Button";
 import Genre from "components/Genre/Genre";
+import Label from "components/Label/Label";
 
 import styles from "./Trendcard.module.scss";
 
@@ -17,9 +18,10 @@ const Trendcard = ( { movie } ) => {
                 <img src={imageUrl + movie.poster_path}
                      alt={movie.title}
                      className={styles.img} />
-                <div className={styles.rating}>
+
+                <Label className={styles.rating}>
                     <span>{ratingRounded}</span>
-                </div>
+                </Label>
 
                 <div className={styles.description}>
                     <div className={styles.descriptionHeading}>
