@@ -6,21 +6,20 @@ import Trendcard from "components/Trendcard/Trendcard";
 import styles from "./TrendcardsContainer.module.scss";
 
 const TrendcardsContainer = () => {
-    const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-    useEffect(() => {
-        getTrends()
-          .then((response) => {
-              setMovies(response.results);
-          })
-    }, []);
+  useEffect(() => {
+    getTrends().then((response) => {
+      setMovies(response);
+    });
+  }, []);
 
     return (
-        <div className={styles.container}>
-            { movies.map(movie => {
-                return <Trendcard key={movie.id} movie={movie} />;
-            }) }
-        </div>
+      <div className={styles.container}>
+        {movies.map(movie => {
+          return <Trendcard key={movie.id} movie={movie}/>;
+        })}
+      </div>
     );
 }
 

@@ -3,10 +3,12 @@ import { apiRequestTrendsUrl } from "config";
 
 export const getTrends = async () => {
   try {
-    return await sendRequest({
+    const response = await sendRequest({
       url: apiRequestTrendsUrl,
       payload: `&page=1&language=en`
     });
+
+    return response.results;
   } catch (e) {
     return [];
   }
