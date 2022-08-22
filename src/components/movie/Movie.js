@@ -1,12 +1,19 @@
-import {useCallback, useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { IoBookmarkOutline } from "react-icons/io5";
-import { apiRequestUrl, imageUrl, key } from "../../config";
-import { sendRequest } from "../../service/apiService";
+import cn from "classnames";
 
-import Button from "../Button/Button";
-import Genre from "../Genre/Genre";
+import { imageUrl } from "config";
+import { getMovie } from "services/movie";
+import { calcDate, formatRuntime, formatBudget} from "helpers/helpers";
+
+import Button from "components/Button/Button";
+import Genre from "components/Genre/Genre";
+import Label from "components/Label/Label";
+import Card from "components/Card/Card";
 
 import styles from "./Movie.module.scss";
+import {Link} from "react-router-dom";
+
 
 // const imageFullUrl = ( imageUrl, imagePath ) => {
 //   console.log('%c imageFullUrl' , 'background: #222; color: #bada55');
@@ -19,27 +26,25 @@ import styles from "./Movie.module.scss";
 //   }
 // };
 
-const Movie = ( movie ) => {
+const Movie = ({ movieId }, ...props) => {
   const [movieDetails, setMovieDetails] = useState([]);
 
-  const getMovie = useCallback(async () => {
-    return await sendRequest(`${apiRequestUrl}${movie.movieId}?api_key=${key}&append_to_response=videos,similar,recommendations,credits`);
-  }, [movie.movieId]);
-
   useEffect(() => {
-    getMovie()
+    getMovie(movieId)
       .then((response) => {
-        const movieResponse = response.data;
-        setMovieDetails(movieResponse);
+        setMovieDetails(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+  }, [movieId]);
 
-    return () => {};
-  }, [getMovie, movie.movieId]);
-
+  console.log(movieDetails);
   console.log(movieDetails.genres);
+
+  const genreStyles = cn(styles.movieReview__genres, props.className);
+  const runtime = formatRuntime(movieDetails.runtime);
+  const budget = formatBudget(movieDetails.budget);
+  const releaseDate = calcDate(movieDetails.release_date);
+  console.log('%c BUDGET' , 'background: #222; color: #bada55');
+  console.log(budget);
 
   return (
     <>
@@ -62,7 +67,7 @@ const Movie = ( movie ) => {
             <h3 className={styles.movieReview__title}>
               {movieDetails.title}
             </h3>
-            <Button data-hash={movie.movieId}>
+            <Button data-hash={movieId}>
               <IoBookmarkOutline />
             </Button>
             {/*<a href="#" className="movieReview__icon favorites-icon" data-hash="725201">*/}
@@ -72,10 +77,16 @@ const Movie = ( movie ) => {
 
           <div className={styles.movieReview__subheading}>
             <div className={styles.movieReview__info}>
-              <span className={styles.movieReview__release}>2022</span>
-              <ul className={styles.movieReview__genres}>
-                <Genre className={styles.movieReview__genresItem} genres={movieDetails.genres} />
-              </ul>
+              {movieDetails.release_date && (
+                <Label className={styles.movieReview__release}>
+                  {releaseDate}
+                </Label>
+              )}
+              {/*<ul className={styles.movieReview__genres}>*/}
+                {movieDetails.genres && (
+                  <Genre className={genreStyles} genres={movieDetails.genres} />
+                )}
+              {/*</ul>*/}
               {/*<ul className={styles.movieReview__genres}>*/}
               {/*  <li className={styles.movieReview__genresItem}>Action</li>*/}
               {/*  <li className={styles.movieReview__genresItem}>Thriller</li>*/}
@@ -110,61 +121,85 @@ const Movie = ( movie ) => {
                 </div>
               </div>
 
-              <span className="movieReview__rating-value rating__value">6.971</span>
+              <span className={styles.movieReview__ratingValue}>{movieDetails.vote_average}</span>
             </div>
           </div>
 
-          <table className="movieReview__table table table-striped movie-review__section">
+          <table className={cn(styles.movieReview__table, styles.movieReview__section)}>
             <tbody>
-            <tr>
-              <td>Country</td>
-              <td className="movieReview__country-desc" data-label="Country">
-                <ul className="movieReview__country">
-                  <li className="movieReview__country-item">Czech Republic</li>
-                  <li className="movieReview__country-item">United States of America</li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>Slogan</td>
-              <td className="movieReview__slogan-desc" data-label="Slogan" />
-            </tr>
-            <tr>
-              <td>Runtime</td>
-              <td data-label="Runtime">
-                <div className="runtime"><span>2:08:00</span></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Budget</td>
-              <td className="movieReview__budget-desc" data-label="Budget">$ 200 000 000</td>
-            </tr>
-            <tr>
-              <td>Homepage</td>
-              <td className="movieReview__homepage-desc" data-label="Homepage"><a
-                href="https://www.netflix.com/title/81160697">https://www.netflix.com/title/81160697</a></td>
-            </tr>
-            <tr>
-              <td>Production companies</td>
-              <td className="movieReview__company-desc" data-label="Production companies">
-                <ul className="movieReview__company">
-                  <li className="movieReview__company-item">Stillking Films</li>
-                  <li className="movieReview__company-item">Roth-Kirschenbaum Films</li>
-                  <li className="movieReview__company-item">AGBO</li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>Overview</td>
-              <td className="movieReview__overview-desc" data-label="Overview">When a shadowy CIA agent uncovers
-                damning agency secrets, he's hunted across the globe by a sociopathic rogue operative who's put a
-                bounty on his head.
-              </td>
-            </tr>
+            {movieDetails.production_countries && (
+              <tr>
+                <td>Country</td>
+                <td className={styles.movieReview__countryDesc} data-label="Country">
+                  <ul className={styles.movieReview__country}>
+                    {movieDetails.production_countries.map( (el, index) => {
+                      return <li key={index} className={styles.movieReview__countryItem}>{el.name}</li>;
+                    })}
+                  </ul>
+                </td>
+              </tr>
+            )}
+
+            {movieDetails.tagline && (
+              <tr>
+                <td>Slogan</td>
+                <td className={styles.movieReview__sloganDesc} data-label="Slogan">{movieDetails.tagline}</td>
+              </tr>
+            )}
+
+            {runtime && (
+              <tr>
+                <td>Runtime</td>
+                <td data-label="Runtime">
+                  <div className={styles.movieReview__runtime}><span>{runtime}</span></div>
+                </td>
+              </tr>
+            )}
+
+            {budget && (
+              <tr>
+                <td>Budget</td>
+                <td className={styles.movieReview__budgetDesc} data-label="Budget">{budget}</td>
+              </tr>
+            )}
+
+            {movieDetails.homepage && (
+              <tr>
+                <td>Homepage</td>
+                <td className={styles.movieReview__homepageDesc} data-label="Homepage">
+                  <a href={movieDetails.homepage} target="_blank" rel="nofollow noreferrer">
+                    {movieDetails.homepage}
+                  </a>
+                </td>
+              </tr>
+            )}
+
+            {movieDetails.production_companies && (
+              <tr>
+                <td>Production companies</td>
+                <td className={styles.movieReview__companyDesc} data-label="Production companies">
+                  <ul className={styles.movieReview__company}>
+                    {movieDetails.production_companies.map( (el, index) => {
+                      return <li key={index} className={styles.movieReview__companyItem}>{el.name}</li>;
+                    })}
+                  </ul>
+                </td>
+              </tr>
+            )}
+
+            {movieDetails.overview && (
+              <tr>
+                <td>Overview</td>
+                <td className={styles.movieReview__overviewDesc} data-label="Overview">
+                  {movieDetails.overview}
+                </td>
+              </tr>
+            )}
             </tbody>
           </table>
-          <div className="movieReview__trailer movie-review__section"><h2
-            className="movieReview__title-second">Watch trailer</h2>
+
+          <div className={cn(styles.movieReview__trailer, styles.movieReview__section)}>
+            <h2 className={styles.movieReview__titleSecond}>Watch trailer</h2>
             {/*<div className="swiper-container swiper-container-initialized swiper-container-horizontal">*/}
             {/*  <div className="swiper-wrapper"*/}
             {/*       style="transition-duration: 0ms; transform: translate3d(-1007px, 0px, 0px);">*/}
@@ -248,54 +283,75 @@ const Movie = ( movie ) => {
             {/*  <div className="swiper-button-next" tabIndex="0" role="button" aria-label="Next slide"></div>*/}
             {/*  <span className="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>*/}
           </div>
-          <div className="movieReview__actors movie-review__section"><h2
-            className="movieReview__title-second">Actors</h2>
-            <ul className="movieReview__actors-wrapper scrollbar">
-              <li className="movieReview__actors-card">
-                <figure className="movieReview__actors-img-wrapper">
-                  <img src="http://image.tmdb.org/t/p/original/lyUyVARQKhGxaxy0FbPJCQRpiaW.jpg"
-                       className="movieReview__actors-img" alt="" />
-                </figure>
 
-                <div className="movieReview__actors-description">
-                  <div className="movieReview__actors-name">Ryan Gosling</div>
-                  <div className="movieReview__actors-character">Six</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className="movieReview__similar movie-review__section"><h2
-            className="movieReview__title-second">More similar movies</h2>
-            <ul className="movieReview__similar-wrapper scrollbar">
-              <li className="movieReview__similar-card">
-                <figure className="movieReview__similar-img-wrapper">
-                  <img src="http://image.tmdb.org/t/p/original/aHzdMSKwq9ucnP2yXl5zYIfKgGl.jpg"
-                       className="movieReview__similar-img" alt="" />
+          {/*{movieDetails.credits.cast && (*/}
+          {/*  <div className={cn(styles.movieReview__actors, styles.movieReview__section)}>*/}
+          {/*    <h2 className={styles.movieReview__titleSecond}>Actors</h2>*/}
 
-                  <figcaption className="movieReview__similar-caption">
-                    <ul className="movieReview__similar-genres">
-                      <li>Romance</li>
-                      <li>Comedy</li>
-                    </ul>
-                  </figcaption>
-                </figure>
+          {/*    <ul className={styles.movieReview__actorsWrapper}>*/}
+          {/*      {movieDetails.credits.cast.map((item, index) => (*/}
+          {/*        <li key={index} className={styles.movieReview__actorsCard}>*/}
+          {/*          <figure className={styles.movieReview__actorsImgWrapper}>*/}
+          {/*            <img src={item.profile_path && `${imageUrl}/${item.profile_path}`}*/}
+          {/*                 className={styles.movieReview__actorsImg} alt="" />*/}
+          {/*          </figure>*/}
 
-                <div className="movieReview__similar-description">
-                  <a href="/movie/#272693" className="movieReview__similar-link">
-                    <div className="movieReview__similar-title">The DUFF</div>
-                  </a>
+          {/*          <div className={styles.movieReview__actorsDescription}>*/}
+          {/*            <div className={styles.movieReview__actorsName}>{item.name}</div>*/}
+          {/*            <div className={styles.movieReview__actorsCharacter}>{item.character}</div>*/}
+          {/*          </div>*/}
+          {/*        </li>*/}
+          {/*      ))}*/}
+          {/*    </ul>*/}
+          {/*  </div>*/}
+          {/*)}*/}
 
-                  <div className="movieReview__similar-content">
-                    <div className="movieReview__similar-release">2015</div>
+          {movieDetails.similar?.results && (
+            <div className={cn(styles.movieReview__similar, styles.movieReview__section)}>
+              <h2 className={styles.movieReview__titleSecond}>More similar movies</h2>
 
-                    <div
-                      className="movieReview__rating-value movie-review__rating-value--sm movie-review__similar-rate">6.8
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+              <ul className={cn(styles.movieReview__similarWrapper)}>
+                {movieDetails.similar.results.map((item, index) => (
+                  <li key={index} className={styles.movieReview__similarCard}>
+                    <Card props={item} />
+                    {/*<figure className={styles.movieReview__similarImgWrapper}>*/}
+                    {/*  <img src={item.poster_path && `${imageUrl}/${item.poster_path}`}*/}
+                    {/*       className={styles.movieReview__similarImg} alt="" />*/}
+                    {/*  /!*"http://image.tmdb.org/t/p/original/aHzdMSKwq9ucnP2yXl5zYIfKgGl.jpg"*!/*/}
+
+                    {/*  {item.genre_ids && (*/}
+                    {/*    <figcaption className={styles.movieReview__similarCaption}>*/}
+                    {/*      <Genre className={cn(genreStyles, styles.movieReview__similarGenres)} genres={item.genre_ids} />*/}
+                    {/*    </figcaption>*/}
+                    {/*  )}*/}
+
+
+                    {/*    /!*<ul className={styles.movieReview__similarGenres}>*!/*/}
+                    {/*    /!*  <li>Romance</li>*!/*/}
+                    {/*    /!*  <li>Comedy</li>*!/*/}
+                    {/*    /!*</ul>*!/*/}
+
+                    {/*</figure>*/}
+
+                    {/*<div className={styles.movieReview__similarDescription}>*/}
+                    {/*  <Link to={`/movie/${item.id}`} className={styles.movieReview__similarLink}>*/}
+                    {/*    <div className={styles.movieReview__similarTitle}>{item.title}</div>*/}
+                    {/*  </Link>*/}
+
+                    {/*  <div className={styles.movieReview__similarContent}>*/}
+                    {/*    <div className={styles.movieReview__similarRelease}>2015</div>*/}
+
+                    {/*    <div className="movieReview__rating-value movie-review__rating-value--sm movie-review__similar-rate">*/}
+                    {/*      6.8*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="movieReview__recommend movie-review__section"><h2
             className="movieReview__title-second">Recommended movies</h2>
             <ul className="movieReview__recommend-wrapper scrollbar">
