@@ -3,7 +3,9 @@ import { apiRequestGenresUrl } from "config";
 
 export const getAllGenres = async () => {
   try {
-    return await sendRequest({url: apiRequestGenresUrl});
+    const response = await sendRequest({url: apiRequestGenresUrl});
+
+    return response.genres;
   } catch (e) {
     return [];
   }

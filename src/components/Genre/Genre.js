@@ -14,8 +14,9 @@ const Genre = (props) => {
 
   useEffect(() => {
     getAllGenres().then((response) => {
-      setAllGenres(response.genres);
-    })
+      setAllGenres(response);
+    });
+
   }, []);
 
   const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
