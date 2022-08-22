@@ -1,10 +1,14 @@
 import axios from "axios";
 import { key } from "config";
 
-export const sendRequest = async ({ url, method = "GET", payload }) => {
+export const sendRequest = async ({ url, method = "GET", params }) => {
   return await axios({
-    url: payload ? `${url}?api_key=${key}${payload}` : `${url}?api_key=${key}`,
-    method
+    url,
+    method,
+    params: {
+      api_key: key,
+      ...params
+    }
   })
     .then((response) => {
       return response.data;

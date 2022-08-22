@@ -5,7 +5,10 @@ export const getTrends = async () => {
   try {
     const response = await sendRequest({
       url: apiRequestTrendsUrl,
-      payload: `&page=1&language=en`
+      params: {
+        page: 1,
+        language: 'en'
+      },
     });
 
     return response.results;
