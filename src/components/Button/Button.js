@@ -2,12 +2,12 @@ import cn from "classnames";
 
 import styles from "./Button.module.scss";
 
-const Button = ( props ) => {
-    const buttonClasses = cn(styles.btn, props.className);
+const Button = ({ type = 'button', disabled = false, className, children }) => {
+    const buttonClasses = cn(styles.btn, className);
 
     return (
-        <button className={buttonClasses}>
-            { props.children }
+        <button className={buttonClasses} type={type} disabled={disabled}>
+            { children }
         </button>
     );
 }
