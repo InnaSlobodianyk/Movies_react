@@ -32,7 +32,7 @@
   align-items: center;
   border-radius: $border-radius $border-radius 0 0;
   position: relative;
-  background: url("../../assets/images/cinema-hall.jpg") no-repeat center;
+  background: url("../../../public/assets/images/cinema-hall.jpg") no-repeat center;
   background-size: cover;
 
   @include media(">=desktop") {
