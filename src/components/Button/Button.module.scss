@@ -1,0 +1,39 @@
+@import "../../scss/base";
+
+.btn {
+  padding: 6px 30px;
+  border: 0;
+  background-color: transparent;
+
+  &-primary {
+    color: $white;
+    background-color: $base-blue;
+    border-color: $base-blue;
+
+    &:hover {
+      background-color: darken($base-blue, 15%);
+      border-color: darken($base-blue, 15%);
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      background-color: darken($base-blue, 20%);
+      border-color: darken($base-blue, 20%);
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &:focus,
+    &.focus {
+      background-color: darken($base-blue, 20%);
+      border-color: darken($base-blue, 20%);
+      box-shadow: none;
+    }
+  }
+
+  &-small {
+    padding: 6px;
+  }
+}

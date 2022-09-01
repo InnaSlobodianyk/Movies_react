@@ -1,0 +1,50 @@
+/// Creates a list of global breakpoints
+$breakpoints: (
+        'xs-phone': 320px,
+        'phone': 480px,
+        'tablet': 768px,
+        'desktop': 992px,
+        'large': 1024px,
+        'widescreen': 1200px,
+        'wider': 1400px
+);
+
+
+// Fonts
+$base-font-family: 'Roboto', Arial, Helvetica, sans-serif;
+
+$base-font-icomoon: 'icomoon';
+
+// Font-size
+$base-font-size: 14px;
+
+$font-size-h1: 66px;
+$font-size-h2: 38px;
+$font-size-h3: 20px;
+$font-size-h4: 18px;
+$font-size-h5: 16px;
+$font-size-h6: 14px;
+
+// Colors
+$black:                         #000;
+$white:                         #fff;
+
+$base-blue:                     #0aafea;
+$base-dark-grey:                #242b2d;
+$base-light-grey:               #f5f6f6;
+$base-grey:                     #1f1f1f;
+
+$base-indigo:                   #6f1ddd;
+$base-purple:                   #d82870;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                       $white;
+$body-color:                    $black;
+
+$animation-effect:              ease-out;
+$animation-speed:               200ms;
+
+$border-radius:                 6px;

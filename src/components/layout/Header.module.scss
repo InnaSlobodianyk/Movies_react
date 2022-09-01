@@ -1,0 +1,24 @@
+@import '../../scss/base';
+
+.header {
+  background-color: $base-grey;
+  display: flex;
+  justify-content: center;
+}
+
+.headerContainer {
+  width: 100%;
+  max-width: 1400px;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerLogo {
+  max-height: 64px;
+  margin-bottom: 15px;
+
+  @include media(">=tablet") {
+    margin-bottom: 0;
+  }
+}

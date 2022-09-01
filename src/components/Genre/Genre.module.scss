@@ -1,0 +1,11 @@
+@import "../../scss/base";
+
+.item {
+  display: inline-block;
+  margin-right: 15px;
+  color: $base-indigo;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
