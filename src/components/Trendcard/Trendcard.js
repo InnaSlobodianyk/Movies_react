@@ -16,8 +16,7 @@ const Trendcard = ( { movie } ) => {
         <figure className={styles.item} id={`trendcard-${movie.id}`}>
             <div className={styles.thumb}>
                 <img src={imageUrl + movie.poster_path}
-                     alt={movie.title}
-                     className={styles.img} />
+                     alt={movie.title} />
 
                 <Label className={styles.rating}>
                     <span>{ratingRounded}</span>
@@ -40,7 +39,11 @@ const Trendcard = ( { movie } ) => {
                         </p>
                     </div>
 
-                    <Link to={`/movie/${movie.id}`} className="btn btn btn-primary">Details</Link>
+                    <Link to={`/movie/${movie.id}`} className={styles.btn}>
+                        <Label>
+                            Details
+                        </Label>
+                    </Link>
                 </div>
             </div>
 
@@ -67,9 +70,7 @@ const Trendcard = ( { movie } ) => {
                     </div>
                 </div>
 
-                <ul className={styles.genres}>
-                    <Genre className={styles.genresItem} genres={movie.genre_ids} />
-                </ul>
+                <Genre className={styles.genresItem} genres={movie.genre_ids} />
             </figcaption>
         </figure>
     );
