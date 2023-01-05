@@ -1,0 +1,43 @@
+@import "../../scss/base";
+
+.rating {
+  display: flex;
+  align-items: center;
+
+  &__inner {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 24px;
+    margin: 0 15px 0 0;
+  }
+
+  &__base,
+  &__active {
+    display: flex;
+    line-height: 1;
+    font-size: 19px;
+    color: $base-purple;
+  }
+
+  &__active {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    flex: none;
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  &__label {
+    font-weight: 900;
+    font-size: 15px;
+  }
+}
