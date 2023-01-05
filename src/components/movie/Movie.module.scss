@@ -3,27 +3,60 @@
 .movieReview {
   display: flex;
   flex-direction: column;
+  margin-top: 15px;
 
   @include media(">=tablet") {
     flex-direction: row;
+    margin-top: -200px;
+    flex-basis: 1px;
+  }
+
+  &__sectionIntro {
+    height: 568px;
+    padding: 0 9999px;
+    margin: 0 -9999px;
+    position: relative;
+    background-color: #f1f1f1;
+
+    @include media(">=tablet") {
+      height: 600px;
+    }
+  }
+
+  &__sectionIntroInner {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left top;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
   }
 
   &__poster {
     @include media(">=tablet") {
-      position: sticky;
-      top: 0;
+      position: relative;
       max-width: 33%;
       flex: 0 0 33%;
+      height: 100%;
     }
   }
 
   &__imgWrapper {
     overflow: hidden;
-    min-height: 310px;
+    min-height: 268px;
     background: url('../../assets/images/cinema-hall.jpg') no-repeat center;
     background-size: cover;
     border-radius: $border-radius;
     margin: 0 40px 0 0;
+    width: 100%;
+
+    @include media(">=desktop") {
+      min-height: 310px;
+      width: auto;
+    }
   }
 
   &__img {
@@ -34,18 +67,22 @@
   &__content {
     background: $white;
     padding: 30px 20px;
-    margin: 0 -15px;
     height: 100%;
     box-shadow: 6px 5px 10px -2px colorOpacity($black, 0.4);
     border-radius: $border-radius;
     font-size: 16px;
+    overflow-x: auto;
+    position: relative;
+    width: 100%;
 
     @include media(">=tablet") {
       padding: 30px;
+      height: 100%;
+      margin-left: 15px;
     }
 
-    .rating-wrapper {
-      font-size: 18px;
+    @include media(">=desktop") {
+      margin: 0 -15px;
     }
   }
 
@@ -68,54 +105,6 @@
     }
   }
 
-  &__rating {
-    margin: -7px 0 0 0;
-    justify-content: space-between;
-    width: 100%;
-
-    @include media(">=large") {
-      width: auto;
-      margin-left: 30px;
-    }
-
-    &-value {
-      font-weight: 500;
-      background-color: $base-blue;
-      color: $white;
-      padding: 7px 40px 7px 20px;
-      border-radius: 10px 0 0 10px;
-      box-shadow: 2px 2px 5px colorOpacity($black, 0.3);
-      margin-right: -10px;
-      position: relative;
-
-      @include media(">=tablet") {
-        margin-right: -40px;
-      }
-
-      &:before {
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: -10px;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 10px 10px 0 0;
-        border-color: darken($base-blue, 20%) transparent transparent transparent;
-      }
-
-      &--sm {
-        padding: 7px 20px;
-        margin-right: -17px;
-
-        &:before {
-          bottom: -7px;
-          border-width: 7px 7px 0 0;
-        }
-      }
-    }
-  }
-
   &__info {
     display: flex;
     align-items: flex-start;
@@ -130,21 +119,22 @@
     margin: 30px 0 50px;
 
     &:last-child {
-      margin-bottom: 30px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__btnFavourite {
+    color: $base-purple;
+    padding: 0;
+    font-size: 20px;
+
+    &:hover {
+      color: $base-indigo;
     }
   }
 
   &__release {
-    //font-weight: 500;
-    //background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
-    //color: $white;
-    //padding: 3px 15px;
-    //border-radius: 15px;
-    //font-size: 15px;
     letter-spacing: 1px;
-    //display: flex;
-    //justify-content: center;
-    //align-items: center;
   }
 
   &__genres {
@@ -161,31 +151,13 @@
       left: -15px;
       width: 2px;
       height: 100%;
-      background-color: $base-blue;
-    }
-  }
-
-  &__genresItem {
-    font-weight: 500;
-    background-color: $base-blue;
-    color: $white;
-    padding: 3px 15px;
-    border-radius: 15px;
-    font-size: 15px;
-    letter-spacing: 1px;
-    margin: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:last-child {
-      &:after {
-        content: '';
-      }
+      background-color: $base-purple;
     }
   }
 
   &__table {
+    width: 100%;
+
     tr {
       &:nth-child(odd) {
         background-color: $base-light-grey;
@@ -215,7 +187,7 @@
         display: block;
         font-size: 14px;
         font-weight: 400;
-        color: $base-blue;
+        color: $base-purple;
         content: attr(data-label);
         margin-bottom: 10px;
 
@@ -250,19 +222,38 @@
     margin: 3px 0;
   }
 
-  &__trailer {
-    &-item {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
+  &__sliderItem {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
 
-      iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+
+  &__scrollbar {
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
+      border-radius: $border-radius;
+      background-color: $base-light-grey;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 10px;
+      background-color: $base-light-grey;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: $border-radius;
+      -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
+      background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
     }
   }
 
@@ -270,25 +261,6 @@
     display: flex;
     margin: 0 -7px;
     overflow-x: auto;
-
-    &.scrollbar {
-      &::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
-        border-radius: $border-radius;
-        background-color: $base-light-grey;
-      }
-
-      &::-webkit-scrollbar {
-        width: 6px;
-        background-color: $base-light-grey;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: $border-radius;
-        -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
-        background-color: $base-blue;
-      }
-    }
   }
 
   &__actorsCard {
@@ -296,7 +268,7 @@
     border-radius: $border-radius;
     box-shadow: 0 2px 8px colorOpacity($base-grey, 0.1);
     overflow: hidden;
-    flex: 0 0 130px;
+    flex: 0 0 140px;
     border: 1px solid colorOpacity($base-grey, 0.1);
     display: flex;
     flex-direction: column;
@@ -313,7 +285,7 @@
   &__actorsName {
     font-weight: 700;
     margin-bottom: 10px;
-    color: $base-indigo;
+    color: $black;
   }
 
   &__actorsCharacter {
@@ -322,7 +294,6 @@
   }
 
   &__actorsImgWrapper {
-    //background: url('../../images/person2.png') no-repeat center $base-light-grey;
     min-height: 192px;
     margin: 0;
   }
@@ -331,174 +302,13 @@
     box-shadow: 0 0 10px colorOpacity($black, 0.65);
   }
 
-  &__similar,
-  &__recommend {
-    &-wrapper {
-      display: flex;
-      overflow-x: auto;
-      margin: 0 -7px;
+  &__moreMovies {
+    display: flex;
+    overflow-x: auto;
+    margin: 0 -7px;
+  }
 
-      &.scrollbar {
-        &::-webkit-scrollbar-track {
-          -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
-          border-radius: 6px;
-          background-color: $base-light-grey;
-        }
-
-        &::-webkit-scrollbar {
-          width: 6px;
-          background-color: $base-light-grey;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          border-radius: 6px;
-          -webkit-box-shadow: inset 0 0 6px colorOpacity($black, 0.3);
-          background-color: $base-blue;
-        }
-      }
-    }
-
-    &-card {
-      width: 170px;
-      display: flex;
-      flex-direction: column;
-      margin: 0 7px 10px;
-      flex: 0 0 170px;
-      border-radius: $border-radius;
-      box-shadow: 0 2px 8px colorOpacity($base-grey, 0.1);
-      border: 1px solid colorOpacity($base-grey, 0.1);
-    }
-
-    &-caption {
-      opacity: 0;
-      visibility: hidden;
-      position: absolute;
-      z-index: 2;
-      bottom: 0;
-      transition: all $animation-speed $animation-effect;
-    }
-
-    &-img-wrapper {
-      border-radius: $border-radius $border-radius 0 0;
-      margin-bottom: 0;
-      position: relative;
-      transition: background-color $animation-speed $animation-effect;
-      overflow: hidden;
-      height: 252px;
-      background: url('../../assets/images/cinema-hall.jpg') no-repeat center;
-      background-size: cover;
-
-      &:hover {
-        &:before {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-color: colorOpacity($black, 0.5);
-          z-index: 1;
-        }
-
-        .movie-review__similar-caption,
-        .movie-review__recommend-caption {
-          opacity: 1;
-          visibility: visible;
-        }
-      }
-    }
-
-    &-img {
-      border-radius: $border-radius $border-radius 0 0;
-      box-shadow: 0 0 10px colorOpacity($black, 0.3);
-    }
-
-    &-link {
-      color: $base-blue;
-
-      &:hover {
-        color: darken($base-blue, 10%);
-      }
-    }
-
-    &-title {
-      font-weight: 700;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-
-    &-description {
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
-
-    &-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &-rate {
-      .fa {
-        font-size: 15px;
-        margin: 0;
-      }
-    }
-
-    &-release {
-      font-size: 14px;
-      color: colorOpacity($base-grey, 0.5);
-    }
-
-    &-genres {
-      display: flex;
-      flex-wrap: wrap;
-      margin: -3px;
-      padding: 10px;
-
-      li {
-        font-weight: 500;
-        background-color: $base-blue;
-        color: $white;
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 12px;
-        margin: 3px;
-      }
-    }
+  &__moreMoviesItem {
+    display: flex;
   }
 }
-
-//.table td {
-//  word-break: break-word;
-//  padding: 15px;
-//  line-height: 1.25;
-//  vertical-align: middle;
-//
-//  &:first-child {
-//    color: colorOpacity($base-grey, 0.5);
-//    display: none;
-//
-//    @include media(">=tablet") {
-//      min-width: 170px;
-//    }
-//
-//    @include media(">=desktop") {
-//      display: table-cell;
-//    }
-//  }
-//
-//  &:before {
-//    display: block;
-//    font-size: 14px;
-//    font-weight: 400;
-//    color: $base-blue;
-//    content: attr(data-label);
-//    margin-bottom: 10px;
-//
-//    @include media(">=desktop") {
-//      display: none;
-//    }
-//  }
-//}
