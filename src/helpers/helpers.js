@@ -39,10 +39,53 @@ export const formatRuntime = ( time ) => {
 }
 
 export const formatBudget = ( sum ) => {
-  console.log('%c 43434' , 'background: #222; color: #bada55');
-  console.log(sum);
   if(typeof sum === 'undefined' || sum === 0) return false;
 
-  // return sum.toLocaleString().replace(/,/g, " ");
-  // return sum.toLocaleString().replace(/,/g, " ");
+  return sum.toLocaleString().replace(/,/g, " ");
+};
+
+export const formatGenresArray = array => {
+  if(array) {
+    let idsArray = [];
+
+    array.forEach(el => idsArray.push(el.id));
+
+    return idsArray;
+  }
+};
+
+export const calcRatingWidth = rating => {
+  const ratingValue = rating * 100 / 10;
+  return `${ratingValue}%`;
+};
+
+export const limitMovieTitle = ( title, limit = 28 ) => {
+  const newTitle = [];
+
+  if(title.length > limit) {
+    title.split(' ').reduce((acc, cur) => {
+
+      if(acc + cur.length <= limit) {
+        newTitle.push(cur);
+      }
+
+      return acc + cur.length;
+    }, 0);
+
+    return `${newTitle.join(' ')}...`;
+  }
+
+  return title;
+};
+
+export const getWindowSize = () => {
+  const {innerWidth, innerHeight} = window;
+  return {innerWidth, innerHeight};
+}
+export const imageFullUrl = ( imageUrl, imagePath ) => {
+  if(imagePath === null) {
+    return ` `;
+  }else {
+    return `${imageUrl+imagePath}`;
+  }
 };
