@@ -2,6 +2,7 @@ import cn from "classnames";
 import { useEffect, useMemo, useState } from "react";
 
 import { getAllGenres } from "services/genres";
+import Label from "../Label/Label";
 
 import styles from "./Genre.module.scss";
 
@@ -9,7 +10,7 @@ const filterGenres = (allGenres, genres) => {
   return allGenres.filter(el => genres.some(item => item === el.id));
 };
 
-const Genre = (props) => {
+const Genre = ( props ) => {
   const [allGenres, setAllGenres] = useState([]);
 
   useEffect(() => {
@@ -24,9 +25,16 @@ const Genre = (props) => {
   const itemClasses = cn(styles.item, props.className);
 
   return (
-    <ul>
+    <ul className={styles.genres}>
       {filteredGenres.map(genreItem => {
-        return <li key={genreItem.name} className={itemClasses}>{genreItem.name}</li>;
+        return <li key={genreItem.name} className={itemClasses}>
+          {props.labeled ?
+            <Label variant={props.variant ? props.variant : null}>
+              {genreItem.name}
+            </Label> :
+            <span>{genreItem.name}</span>
+          }
+        </li>;
       })}
     </ul>
   );
