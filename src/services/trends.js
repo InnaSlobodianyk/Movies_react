@@ -3,13 +3,13 @@ import { apiRequestTrendsUrl } from "config";
 import { getAllGenres } from "./genres";
 import { filterGenres, roundRatingValue } from "helpers";
 
-export const getTrends = async () => {
+export const getTrends = async ( pageNumber = 1 ) => {
   try {
     const [trends, allGenres] = await Promise.all([
       sendRequest({
         url: apiRequestTrendsUrl,
         params: {
-          page: 1,
+          page: pageNumber,
           language: 'en'
         },
       }),
