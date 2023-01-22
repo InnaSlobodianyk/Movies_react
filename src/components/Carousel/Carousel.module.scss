@@ -1,0 +1,101 @@
+@import '../../scss/base';
+
+.carousel {
+  max-width: 100%;
+  overflow: hidden;
+
+  > *[role="button"] {
+    color: $base-purple;
+    height: 100%;
+    top: 0;
+    width: 30px;
+
+    @include media(">=tablet") {
+      width: 50px;
+    }
+  }
+}
+
+.carouselItem {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  width: 100%;
+  height: 600px;
+  position: relative;
+  padding: 106px 45px 0;
+
+  @include media(">=tablet") {
+    padding: 106px 70px 0;
+  }
+
+  @include media(">=widescreen") {
+    padding-top: 0;
+    background-position: center -50px;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: colorOpacity($black, 0.5);
+  }
+}
+
+.carouselItemHolder {
+  position: relative;
+  top: 0;
+  color: $white;
+  font-size: 15px;
+  padding-top: 40px;
+
+  @include media(">=tablet") {
+    position: absolute;
+    top: auto;
+    bottom: 85px;
+    font-size: 20px;
+    left: 70px;
+    right: 70px;
+  }
+
+  @include media(">=desktop") {
+    width: 50%;
+    height: auto;
+  }
+}
+
+.carouselItemTitle {
+  color: $white;
+  font-size: 28px;
+  margin-bottom: 20px;
+
+  @include media(">=tablet") {
+    font-size: 45px;
+    margin-bottom: 30px;
+  }
+}
+
+.carouselItemInfo {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.carouselItemRelease {
+  border-right: 2px solid $base-purple;
+  padding: 0 10px 0 0;
+  margin: 0 10px 0 0;
+  display: inline-block;
+}
+
+.carouselItemGenre {
+  display: inline-block;
+  margin-right: 15px;
+  color: $white;
+}
+
+.carouselPaginationBullet {
+  background-color: $base-purple;
+}
