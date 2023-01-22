@@ -5,3 +5,4 @@ export const apiRequestUrl = `${apiUrl}movie/`;
 export const apiRequestGenresUrl = `${apiUrl}genre/movie/list`;
 export const apiRequestTrendsUrl = `${apiUrl}trending/movie/day`;
 export const apiRequestSearchUrl = `${apiUrl}search/movie`;
+export const apiRequestPopularsUrl = `${apiRequestUrl}popular`;
