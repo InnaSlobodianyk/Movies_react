@@ -4,7 +4,7 @@ import Menu from "components/Menu";
 
 import SearchForm from "components/SearchForm/SearchForm";
 
-import { searchActions } from "store";
+import { loadingActions, searchActions } from "store";
 
 import logo from "assets/images/movierise-logo.png";
 
@@ -14,16 +14,16 @@ const Header = () => {
   const dispatch = useDispatch();
   const showSearchResults = useSelector(( state ) => state.search.showSearchResults);
 
-  const clickHandler = (e) => {
-      e.preventDefault();
+  const clickHandler = () => {
+    dispatch(loadingActions.setLoaded(false));
 
-      if(showSearchResults) {
-        dispatch(searchActions.showSearchResults(false));
-        dispatch(searchActions.searchQuery(''));
-        dispatch(searchActions.setSearchResults([]));
-        dispatch(searchActions.setTotalPages(0));
-        dispatch(searchActions.setTotalResults(0));
-      }
+    if(showSearchResults) {
+      dispatch(searchActions.showSearchResults(false));
+      dispatch(searchActions.searchQuery(''));
+      dispatch(searchActions.setSearchResults([]));
+      dispatch(searchActions.setTotalPages(0));
+      dispatch(searchActions.setTotalResults(0));
+    }
 
   };
 

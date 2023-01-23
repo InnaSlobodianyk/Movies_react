@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import Button from "components/Button/Button";
 import { getSearchResults } from "services/searchResults";
-import { searchActions } from "store";
+import { loadingActions, searchActions } from "store";
 
 import styles from "./SearchForm.module.scss";
 
@@ -22,6 +22,8 @@ const SearchForm = () => {
   const onFormSubmit = ( e ) => {
     e.preventDefault();
 
+    dispatch(loadingActions.setLoaded(false));
+
     getSearchResults( searchQuery ).then((response) => {
       setSearchQuery('');
 
@@ -30,6 +32,7 @@ const SearchForm = () => {
       dispatch(searchActions.setSearchResults(response.results));
       dispatch(searchActions.setTotalPages(response.total_pages));
       dispatch(searchActions.setTotalResults(response.total_results));
+      dispatch(loadingActions.setLoaded(true));
     });
   };
 
