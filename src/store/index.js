@@ -30,9 +30,24 @@ const searchSlice = createSlice({
   }
 });
 
+const initialLoadingState = {
+  loaded: false,
+};
+
+const loadingSlice = createSlice({
+  name: 'loading',
+  initialState: initialLoadingState,
+  reducers: {
+    setLoaded(state) {
+      state.loaded = ! state.loaded;
+    },
+  }
+});
+
 let store = configureStore({
-  reducer: { search: searchSlice.reducer }
+  reducer: { search: searchSlice.reducer, loading: loadingSlice.reducer }
 });
 
 export const searchActions = searchSlice.actions;
+export const loadingActions = loadingSlice.actions;
 export default store;
