@@ -22,20 +22,20 @@ const Genre = ( props ) => {
 
   const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
 
-  const itemClasses = cn(styles.item, props.className);
+  const itemClasses = cn( styles.item, props.className );
 
   return (
-    <ul className={styles.genres}>
-      {filteredGenres.map(genreItem => {
-        return <li key={genreItem.name} className={itemClasses}>
-          {props.labeled ?
-            <Label variant={props.variant ? props.variant : null}>
-              {genreItem.name}
+    <ul className={ styles.genres }>
+      { filteredGenres.map( genreItem => {
+        return <li key={ genreItem.name } className={ itemClasses }>
+          { props.labeled ?
+            <Label variant={ props.variant || null }>
+              { genreItem.name }
             </Label> :
-            <span>{genreItem.name}</span>
+            <span>{ genreItem.name }</span>
           }
         </li>;
-      })}
+      } ) }
     </ul>
   );
 }
