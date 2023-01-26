@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Navigation, Pagination, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { calcDate, limitMovieTitle, imageFullUrl } from "helpers/helpers";
+import { calcDate, imageFullUrl } from "helpers/helpers";
 import { imageUrl } from "config";
 
 import Genre from "components/Genre/Genre";
@@ -44,7 +44,7 @@ const Carousel = ( { slides } ) => {
                   <Genre className={ styles.carouselItemGenre } genres={ slide.genre_ids } />
                 </div>
 
-                <p>{ limitMovieTitle(slide.overview, 360) }</p>
+                <p className={ styles.carouselItemOverview }>{ slide.overview }</p>
 
                 <div className={ styles.rating }>
                   { slide.vote_average }
