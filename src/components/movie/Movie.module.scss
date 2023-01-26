@@ -12,14 +12,15 @@
   }
 
   &__sectionIntro {
-    height: 568px;
-    padding: 0 9999px;
-    margin: 0 -9999px;
-    position: relative;
-    background-color: #f1f1f1;
+    display: none;
 
     @include media(">=tablet") {
+      display: block;
       height: 600px;
+      padding: 0 9999px;
+      margin: 0 -9999px;
+      position: relative;
+      background-color: #f1f1f1;
     }
   }
 
@@ -220,20 +221,6 @@
 
   &__companyItem {
     margin: 3px 0;
-  }
-
-  &__sliderItem {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
 
 
