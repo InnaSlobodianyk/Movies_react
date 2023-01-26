@@ -8,6 +8,6 @@ export const getMovie = async ( id ) => {
       payload: `&append_to_response=videos,similar,recommendations,credits`
     });
   } catch (e) {
-    return [];
+    return null;
   }
 }
