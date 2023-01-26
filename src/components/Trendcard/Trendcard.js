@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 
-import { imageUrl } from "config";
-import { calcDate, roundRatingValue } from "helpers/helpers";
+import { calcDate, imageFullUrl, roundRatingValue } from "helpers";
 import Button from "components/Button/Button";
 import Genre from "components/Genre/Genre";
 import Label from "components/Label/Label";
@@ -15,11 +14,13 @@ const Trendcard = ( { movie } ) => {
     return (
         <figure className={styles.item} id={`trendcard-${movie.id}`}>
             <div className={styles.thumb}>
-                <img src={imageUrl + movie.poster_path}
-                     alt={movie.title} />
+                { movie.poster_path && (
+                  <img src={ imageFullUrl( { imagePath: movie.poster_path } ) }
+                       alt={movie.title} />
+                ) }
 
                 <Label className={styles.rating}>
-                    <span>{ratingRounded}</span>
+                    { ratingRounded }
                 </Label>
 
                 <div className={styles.description}>
