@@ -2,10 +2,10 @@ import cn from "classnames";
 
 import styles from "./Label.module.scss";
 
-const Label = ( props ) => {
+const Label = ( { variant, className, children } ) => {
   return (
-    <div className={cn(styles.label, props.variant && props.variant === 'plain' ? styles.plain : styles.gradient, props.className)}>
-      {props.children}
+    <div className={ cn( styles.label, variant === 'plain' ? styles.plain : styles.gradient, className ) }>
+      { children }
     </div>
   );
 };
