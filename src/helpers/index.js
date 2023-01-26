@@ -1,3 +1,5 @@
+import { imageUrl } from "config";
+
 export const calcDate = releaseDate => {
   if (releaseDate !== '') {
     const date = new Date(releaseDate);
@@ -12,10 +14,13 @@ export const roundRatingValue = ( rating ) => {
 };
 
 export const formatRuntime = ( time ) => {
-  if(time === null || time === 0) return false;
+  if(time === null || time === 0) return '';
 
   const hours = Math.floor(time / 60);
-  let formattedTime, mins, seconds = '00';
+
+  let formattedTime;
+  let mins;
+  let seconds = '00';
 
   if(hours) {
     mins = time % 60;
@@ -39,7 +44,7 @@ export const formatRuntime = ( time ) => {
 }
 
 export const formatBudget = ( sum ) => {
-  if(typeof sum === 'undefined' || sum === 0) return false;
+  if(typeof sum === 'undefined' || sum === 0) return '';
 
   return sum.toLocaleString().replace(/,/g, " ");
 };
@@ -52,6 +57,8 @@ export const formatGenresArray = array => {
 
     return idsArray;
   }
+
+  return [];
 };
 
 export const calcRatingWidth = rating => {
@@ -78,14 +85,10 @@ export const limitMovieTitle = ( title, limit = 28 ) => {
   return title;
 };
 
-export const getWindowSize = () => {
-  const {innerWidth, innerHeight} = window;
-  return {innerWidth, innerHeight};
-}
-export const imageFullUrl = ( imageUrl, imagePath ) => {
+export const imageFullUrl = ( { imagePath, imgUrl = imageUrl } ) => {
   if(imagePath === null) {
     return ` `;
   }else {
-    return `${imageUrl+imagePath}`;
+    return `${imgUrl+imagePath}`;
   }
 };
