@@ -1,57 +1,57 @@
-import { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { IoStar } from "react-icons/io5";
 import cn from "classnames";
 
-import { imageUrl } from "config";
-import { calcDate, limitMovieTitle, roundRatingValue } from "helpers/helpers";
+import {
+  calcDate,
+  imageFullUrl,
+  limitMovieTitle,
+  roundRatingValue
+} from "helpers";
 import Genre from "components/Genre/Genre";
 
 import styles from "./Card.module.scss";
 
-const Card = ({ props }) => {
-  const [item, setItem] = useState();
+const Card = ({ details }) => {
+  const ratingRounded = useMemo( () => roundRatingValue(details.vote_average), [details.vote_average]);
+  const movieTitle = useMemo(() => limitMovieTitle(details.title), [details.title]);
+  const releaseDate = useMemo(() => calcDate(details.release_date), [details.release_date]);
 
-  useEffect(() => {
-    setItem(props)
-
-    return () => {};
-  }, [item, props]);
-
-  if(!item) return <></>;
-
-  const ratingRounded = roundRatingValue(item.vote_average);
+  if(!details) return null;
 
   return (
-    <div className={cn(styles.card, props.className)}>
-      <Link to={`/movie/${item.id}`}>
-        <figure className={styles.card__imgWrapper}>
-          <img src={item.poster_path && `${imageUrl}/${item.poster_path}`}
-               className={styles.card__img} alt="" />
+    <div className={ cn( styles.card, details.className )}>
+      <Link to={ `/movie/${details.id}` }>
+        <figure className={ styles.card__imgWrapper }>
+          { details.poster_path && (
+            <img src={ imageFullUrl( { imagePath: details.poster_path } ) }
+                 className={ styles.card__img } alt={ details.title || 'Poster' } />
+          ) }
         </figure>
       </Link>
 
-      <div className={styles.card__description}>
-        <Link to={`/movie/${item.id}`} className={styles.card__link}>
-          <span className={styles.card__title}>{limitMovieTitle(item.title)}</span>
+      <div className={ styles.card__description }>
+        <Link to={ `/movie/${details.id}` } className={ styles.card__link }>
+          <span className={ styles.card__title }>{ movieTitle }</span>
         </Link>
 
         <div className={styles.card__details}>
-          {item.genre_ids && (
-            <Genre genres={item.genre_ids} />
-          )}
+          { details.genre_ids && (
+            <Genre genres={ details.genre_ids } />
+          ) }
 
-          <div className={styles.card__content}>
-            {item.release_date && (
-              <div className={styles.card__release}>{ calcDate(item.release_date) }</div>
-            )}
+          <div className={ styles.card__content }>
+            { details.release_date && (
+              <div className={styles.card__release}>{ releaseDate }</div>
+            ) }
 
-            {item.vote_average && (
-              <div className={styles.card__ratingValue}>
-                <IoStar className={styles.card__ratingStar} />
-                {ratingRounded}
+            { details.vote_average && (
+              <div className={ styles.card__ratingValue }>
+                <IoStar className={ styles.card__ratingStar } />
+                { ratingRounded }
               </div>
-            )}
+            ) }
           </div>
         </div>
       </div>
