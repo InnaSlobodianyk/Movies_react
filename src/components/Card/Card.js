@@ -6,7 +6,6 @@ import cn from "classnames";
 import {
   calcDate,
   imageFullUrl,
-  limitMovieTitle,
   roundRatingValue
 } from "helpers";
 import Genre from "components/Genre/Genre";
@@ -15,7 +14,6 @@ import styles from "./Card.module.scss";
 
 const Card = ({ details }) => {
   const ratingRounded = useMemo( () => roundRatingValue(details.vote_average), [details.vote_average]);
-  const movieTitle = useMemo(() => limitMovieTitle(details.title), [details.title]);
   const releaseDate = useMemo(() => calcDate(details.release_date), [details.release_date]);
 
   return (
@@ -31,7 +29,7 @@ const Card = ({ details }) => {
 
       <div className={ styles.card__description }>
         <Link to={ `/movie/${details.id}` } className={ styles.card__link }>
-          <span className={ styles.card__title }>{ movieTitle }</span>
+          <span className={ styles.card__title }>{ details.title }</span>
         </Link>
 
         <div className={styles.card__details}>

@@ -38,25 +38,6 @@ export const calcRatingWidth = rating => {
   return `${ratingValue}%`;
 };
 
-export const limitMovieTitle = ( title, limit = 28 ) => {
-  const newTitle = [];
-
-  if(title.length > limit) {
-    title.split(' ').reduce((acc, cur) => {
-
-      if(acc + cur.length <= limit) {
-        newTitle.push(cur);
-      }
-
-      return acc + cur.length;
-    }, 0);
-
-    return `${newTitle.join(' ')}...`;
-  }
-
-  return title;
-};
-
 export const imageFullUrl = ( { imagePath, imgUrl = imageUrl } ) => {
   if(imagePath === null) {
     return ` `;
