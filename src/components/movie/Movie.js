@@ -1,13 +1,7 @@
 import { IoBookmarkOutline } from "react-icons/io5";
 import cn from "classnames";
 
-import {
-  calcDate,
-  formatRuntime,
-  formatBudget,
-  formatGenresArray,
-  imageFullUrl
-} from "helpers";
+import { imageFullUrl } from "helpers";
 
 import Button from "components/Button/Button";
 import Genre from "components/Genre/Genre";
@@ -20,12 +14,8 @@ import imgPlaceholder from "assets/images/person.png";
 
 import styles from "./Movie.module.scss";
 
-const Movie = ({ movieDetails }, ...props) => {
-
-  const runtime = formatRuntime(movieDetails.runtime);
-  const budget = formatBudget(movieDetails.budget);
-  const releaseDate = calcDate(movieDetails.release_date);
-  const movieGenres = formatGenresArray(movieDetails.genres);
+const Movie = ({ movieDetails }) => {
+  if(!movieDetails) return null;
 
   return (
     <>
@@ -60,15 +50,15 @@ const Movie = ({ movieDetails }, ...props) => {
 
           <div className={ styles.movieReview__subheading }>
             <div className={ styles.movieReview__info }>
-              { movieDetails.release_date && (
+              { movieDetails.releaseYear && (
                 <Label className={ styles.movieReview__release }>
-                  { releaseDate }
+                  { movieDetails.releaseYear }
                 </Label>
               ) }
 
               <div className={ styles.movieReview__genres }>
-                { movieDetails.genres && (
-                  <Genre genres={ movieGenres } variant='plain' labeled />
+                { movieDetails.movieGenres && (
+                  <Genre genres={ movieDetails.movieGenres } variant='plain' labeled />
                 ) }
               </div>
             </div>
@@ -83,9 +73,7 @@ const Movie = ({ movieDetails }, ...props) => {
                 <td>Country</td>
                 <td data-label="Country">
                   <ul>
-                    { movieDetails.production_countries.map( (el, index) => {
-                      return <li key={index}>{el.name}</li>;
-                    }) }
+                    { movieDetails.production_countries.map( (el, index) => <li key={index}>{el.name}</li>) }
                   </ul>
                 </td>
               </tr>
@@ -98,17 +86,17 @@ const Movie = ({ movieDetails }, ...props) => {
               </tr>
             ) }
 
-            { runtime?.length > 0 && (
+            { movieDetails.runtime?.length > 0 && (
               <tr>
                 <td>Runtime</td>
-                <td data-label="Runtime">{ runtime }</td>
+                <td data-label="Runtime">{ movieDetails.runtime }</td>
               </tr>
             ) }
 
-            { budget?.length > 0 && (
+            { movieDetails.budget?.length > 0 && (
               <tr>
                 <td>Budget</td>
-                <td data-label="Budget">$ { budget }</td>
+                <td data-label="Budget">$ { movieDetails.budget }</td>
               </tr>
             ) }
 
@@ -128,9 +116,9 @@ const Movie = ({ movieDetails }, ...props) => {
                 <td>Production companies</td>
                 <td data-label="Production companies">
                   <ul className={styles.movieReview__company}>
-                    { movieDetails.production_companies.map( (el, index) => {
-                      return <li key={ index } className={ styles.movieReview__companyItem }>{ el.name }</li>;
-                    } ) }
+                    { movieDetails.production_companies.map( (el, index) => (
+                      <li key={ index } className={ styles.movieReview__companyItem }>{ el.name }</li>
+                    ) ) }
                   </ul>
                 </td>
               </tr>
@@ -157,7 +145,7 @@ const Movie = ({ movieDetails }, ...props) => {
             <Slider
               className={ styles.movieReview__sliderItem }
               slides={ movieDetails.videos.results }
-              navigation={ true }
+              navigation
             />
           </div>
         ) }

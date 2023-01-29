@@ -10,7 +10,7 @@ const MoviePage = () => {
 
   const { movieId } = params;
 
-  const [movieDetails, setMovieDetails] = useState([]);
+  const [movieDetails, setMovieDetails] = useState(null);
 
   useEffect(() => {
     getMovie(movieId)
