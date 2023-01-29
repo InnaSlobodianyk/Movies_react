@@ -5,9 +5,7 @@ import styles from "./CardsContainer.module.scss";
 const CardsContainer = ( { cardItems } ) => {
   return (
     <div className={ styles.container }>
-      { cardItems && cardItems.map( movie => {
-        return <Trendcard key={ movie.id } movie={ movie }/>;
-      } ) }
+      { cardItems && cardItems.map( movie => <Trendcard key={ movie.id } movie={ movie }/> ) }
 
       {/*TODO - add pagination*/}
     </div>
