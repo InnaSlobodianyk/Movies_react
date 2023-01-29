@@ -18,8 +18,6 @@ const Card = ({ details }) => {
   const movieTitle = useMemo(() => limitMovieTitle(details.title), [details.title]);
   const releaseDate = useMemo(() => calcDate(details.release_date), [details.release_date]);
 
-  if(!details) return null;
-
   return (
     <div className={ cn( styles.card, details.className )}>
       <Link to={ `/movie/${details.id}` }>

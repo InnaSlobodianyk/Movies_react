@@ -14,13 +14,11 @@ const TrendcardsContainer = () => {
     });
   }, []);
 
-    return (
-      <div className={styles.container}>
-        {movies.map(movie => {
-          return <Trendcard key={movie.id} movie={movie}/>;
-        })}
-      </div>
-    );
+  return (
+    <div className={styles.container}>
+      { movies.map( movie => <Trendcard key={movie.id} movie={movie}/> ) }
+    </div>
+  );
 }
 
 export default TrendcardsContainer;
