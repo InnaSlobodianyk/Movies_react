@@ -1,41 +1,37 @@
 import cn from "classnames";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getAllGenres } from "services/genres";
-import Label from "../Label/Label";
+import Label from "components/Label/Label";
 
 import styles from "./Genre.module.scss";
 
-const filterGenres = (allGenres, genres) => {
-  return allGenres.filter(el => genres.some(item => item === el.id));
-};
+const filterGenres = (allGenres, genres) => allGenres.filter(el => genres.some(item => item === el.id));
 
 const Genre = ( props ) => {
-  const [allGenres, setAllGenres] = useState([]);
+  const [filteredGenres, setFilteredGenres] = useState([]);
 
   useEffect(() => {
     getAllGenres().then((response) => {
-      setAllGenres(response);
+      const movieGenres = filterGenres(response, props.genres);
+      setFilteredGenres(movieGenres);
     });
-
-  }, []);
-
-  const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
+  }, [props.genres]);
 
   const itemClasses = cn( styles.item, props.className );
 
   return (
     <ul className={ styles.genres }>
-      { filteredGenres.map( genreItem => {
-        return <li key={ genreItem.name } className={ itemClasses }>
+      { filteredGenres.map( genreItem => (
+        <li key={ genreItem.name } className={ itemClasses }>
           { props.labeled ?
             <Label variant={ props.variant || null }>
               { genreItem.name }
             </Label> :
             <span>{ genreItem.name }</span>
           }
-        </li>;
-      } ) }
+        </li>
+      ) ) }
     </ul>
   );
 }
