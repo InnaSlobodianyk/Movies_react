@@ -14,40 +14,12 @@ export const roundRatingValue = ( rating ) => {
 };
 
 export const formatRuntime = ( time ) => {
-  if(time === null || time === 0) return '';
+  const minutes = time || 0;
 
-  const hours = Math.floor(time / 60);
-
-  let formattedTime;
-  let mins;
-  let seconds = '00';
-
-  if(hours) {
-    mins = time % 60;
-
-    if(mins < 10) {
-      mins = `0${mins}`;
-    }
-
-    formattedTime = `${hours}:${mins}:${seconds}`;
-  } else {
-    mins = time;
-
-    if(mins < 10) {
-      mins = `0${mins}`;
-    }
-
-    formattedTime = `00:${mins}:${seconds}`;
-  }
-
-  return formattedTime;
+  return new Date(minutes * 60000).toISOString().substr(11, 8);
 }
 
-export const formatBudget = ( sum ) => {
-  if(typeof sum === 'undefined' || sum === 0) return '';
-
-  return sum.toLocaleString().replace(/,/g, " ");
-};
+export const formatBudget = ( sum ) => sum ? sum.toLocaleString().replace(/,/g, " ") : '';
 
 export const formatGenresArray = array => {
   if(array) {
