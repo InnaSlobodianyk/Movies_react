@@ -1,26 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 
-import { IoStar, IoStarOutline } from "react-icons/io5";
 import { calcRatingWidth, roundRatingValue } from "helpers";
 import Label from "components/Label/Label";
+import Stars from "components/Stars/Stars";
 
 import styles from "./StarRating.module.scss";
 
-const starsNum = [...Array(10)];
-
-const Stars = ({ isOutline }) => {
-  return (
-    <>
-      { starsNum.map( (star, index) => {
-        return isOutline ? <IoStarOutline key={ index } /> : <IoStar key={ index } />;
-      } ) }
-    </>
-  );
-};
-
 const StarRating = ({ rating }) => {
-  const ratingWidth = useMemo(() => calcRatingWidth(rating), [rating]);
-  const ratingValue = useMemo(() => roundRatingValue(rating), [rating]);
+  const ratingWidth = calcRatingWidth(rating);
+  const ratingValue = roundRatingValue(rating);
 
   return (
     <div className={ styles.rating }>
