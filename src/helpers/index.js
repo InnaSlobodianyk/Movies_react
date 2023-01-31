@@ -40,7 +40,7 @@ export const calcRatingWidth = rating => {
 
 export const imageFullUrl = ( { imagePath, imgUrl = imageUrl } ) => {
   if(imagePath === null) {
-    return ` `;
+    return '';
   }else {
     return `${imgUrl+imagePath}`;
   }
