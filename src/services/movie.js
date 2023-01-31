@@ -19,7 +19,7 @@ export const getMovie = async ( id ) => {
       },
     });
 
-    const runtime = formatRuntime(response.runtime);
+    const runtime = response.runtime > 0 ? formatRuntime(response.runtime) : '';
     const budget = formatBudget(response.budget);
     const releaseYear = calcDate(response.release_date);
 
