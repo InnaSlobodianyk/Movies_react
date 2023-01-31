@@ -5,13 +5,12 @@ import Label from "components/Label/Label";
 import styles from "./Genre.module.scss";
 
 const Genre = ( props ) => {
-
   const itemClasses = cn( styles.item, props.className );
 
   return (
     <ul className={ styles.genres }>
-      { props.genres.map( genreItem => (
-        <li key={ genreItem.name } className={ itemClasses }>
+      { props.genres.map( ( genreItem, index ) => (
+        <li key={ index } className={ itemClasses }>
           { props.labeled ?
             <Label variant={ props.variant || null }>
               { genreItem.name }
