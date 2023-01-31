@@ -15,8 +15,6 @@ import imgPlaceholder from "assets/images/person.png";
 import styles from "./Movie.module.scss";
 
 const Movie = ({ movieDetails }) => {
-  if(!movieDetails) return null;
-
   return (
     <>
       <section className={ styles.movieReview__sectionIntro }>

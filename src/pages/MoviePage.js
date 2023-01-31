@@ -6,9 +6,7 @@ import Movie from "components/movie/Movie";
 import { getMovie } from "services/movie";
 
 const MoviePage = () => {
-  const params = useParams();
-
-  const { movieId } = params;
+  const { movieId } = useParams();
 
   const [movieDetails, setMovieDetails] = useState(null);
 
@@ -19,7 +17,11 @@ const MoviePage = () => {
       })
   }, [movieId]);
 
-  return <Movie movieDetails={ movieDetails } />;
+  return (
+    <>
+      { movieDetails && <Movie movieDetails={ movieDetails } /> }
+    </>
+  );
 }
 
 export default MoviePage;
