@@ -2,7 +2,7 @@ import React from "react";
 
 import { calcRatingWidth, roundRatingValue } from "helpers";
 import Label from "components/Label/Label";
-import Stars from "components/Stars/Stars";
+import Stars from "./Stars";
 
 import styles from "./StarRating.module.scss";
 
