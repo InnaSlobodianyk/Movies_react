@@ -45,3 +45,5 @@ export const imageFullUrl = ( { imagePath, imgUrl = imageUrl } ) => {
     return `${imgUrl+imagePath}`;
   }
 };
+
+export const filterGenres = (allGenres, genres) => allGenres.filter(el => genres.some(item => item === el.id));

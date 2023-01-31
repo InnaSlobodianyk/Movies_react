@@ -4,8 +4,10 @@ import {
   calcDate,
   formatBudget,
   formatGenresArray,
-  formatRuntime
+  formatRuntime,
+  filterGenres
 } from "helpers";
+import { getAllGenres } from "./genres";
 
 export const getMovie = async ( id ) => {
   try {
@@ -20,7 +22,9 @@ export const getMovie = async ( id ) => {
     const runtime = formatRuntime(response.runtime);
     const budget = formatBudget(response.budget);
     const releaseYear = calcDate(response.release_date);
-    const movieGenres = formatGenresArray(response.genres);
+
+    const allGenres = await getAllGenres();
+    const movieGenres = filterGenres(allGenres, formatGenresArray(response.genres));
 
     return { ...response, runtime, budget, releaseYear, movieGenres };
   } catch (e) {
