@@ -3,11 +3,8 @@ import { apiRequestUrl } from "config";
 import {
   calcDate,
   formatBudget,
-  formatGenresArray,
   formatRuntime,
-  filterGenres
 } from "helpers";
-import { getAllGenres } from "./genres";
 
 export const getMovie = async ( id ) => {
   try {
@@ -21,12 +18,9 @@ export const getMovie = async ( id ) => {
 
     const runtime = response.runtime > 0 ? formatRuntime(response.runtime) : '';
     const budget = formatBudget(response.budget);
-    const releaseYear = calcDate(response.release_date);
+    const release_date = calcDate(response.release_date);
 
-    const allGenres = await getAllGenres();
-    const movieGenres = filterGenres(allGenres, formatGenresArray(response.genres));
-
-    return { ...response, runtime, budget, releaseYear, movieGenres };
+    return { ...response, runtime, budget, release_date };
   } catch (e) {
     return null;
   }
