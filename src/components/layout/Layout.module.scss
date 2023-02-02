@@ -65,3 +65,14 @@
     }
   }
 }
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -12px 0;
+  max-width: 100%;
+
+  @include media(">=tablet") {
+    margin: -12px;
+  }
+}

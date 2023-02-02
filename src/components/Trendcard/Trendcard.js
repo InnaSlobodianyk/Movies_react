@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 
-import { calcDate, imageFullUrl, roundRatingValue, filterGenres } from "helpers";
+import { calcDate, imageFullUrl } from "helpers";
 import Button from "components/Button/Button";
 import Genre from "components/Genre/Genre";
 import Label from "components/Label/Label";
 
 import styles from "./Trendcard.module.scss";
 
-const Trendcard = ( { movie, genres } ) => {
-    const ratingRounded = roundRatingValue(movie.vote_average);
-    const filteredGenres = filterGenres(genres, movie.genre_ids);
-
+const Trendcard = ( { movie } ) => {
     return (
         <figure className={styles.item} id={`trendcard-${movie.id}`}>
             <div className={styles.thumb}>
@@ -21,7 +18,7 @@ const Trendcard = ( { movie, genres } ) => {
                 ) }
 
                 <Label className={styles.rating}>
-                    { ratingRounded }
+                    { movie.vote_average }
                 </Label>
 
                 <div className={styles.description}>
@@ -72,7 +69,7 @@ const Trendcard = ( { movie, genres } ) => {
                     </div>
                 </div>
 
-                <Genre className={styles.genresItem} genres={ filteredGenres } />
+                <Genre className={styles.genresItem} genres={ movie.genres } />
             </figcaption>
         </figure>
     );

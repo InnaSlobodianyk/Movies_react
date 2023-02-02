@@ -24,16 +24,16 @@ const MovieDetails = ({ movieDetails }) => {
       <div className={ styles.movieReview__subheading }>
         <div className={ styles.movieReview__info }>
 
-          { movieDetails.releaseYear && (
+          { movieDetails.release_date && (
             <Label className={ styles.movieReview__release }>
-              { movieDetails.releaseYear }
+              { movieDetails.release_date }
             </Label>
           ) }
 
           <div className={ styles.movieReview__genres }>
 
-            { movieDetails.movieGenres && (
-              <Genre genres={ movieDetails.movieGenres } variant='plain' labeled />
+            { movieDetails.genres && (
+              <Genre genres={ movieDetails.genres } variant='plain' labeled />
             ) }
           </div>
         </div>
