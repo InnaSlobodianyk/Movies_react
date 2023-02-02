@@ -4,9 +4,9 @@
 @import './base/functions';
 
 a {
-  color: #6f1ddd;
+  color: $base-indigo;
 }
 
 a:hover {
-  color: #d82870;
+  color: $base-purple;
 }

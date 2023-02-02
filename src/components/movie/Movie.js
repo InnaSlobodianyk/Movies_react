@@ -1,10 +1,10 @@
 import { imageFullUrl } from "helpers";
 
 import Slider from "components/Slider/Slider";
-import MovieDetails from "components/Card/MovieDetails";
-import Poster from "components/Card/Poster";
-import MoreMovies from "components/Card/MoreMovies";
-import ActorsCards from "components/Card/ActorsCards";
+import MovieDetails from "./MovieDetails";
+import Poster from "./Poster";
+import MoreMovies from "./MoreMovies";
+import ActorsCards from "./ActorsCards";
 
 import styles from "./Movie.module.scss";
 

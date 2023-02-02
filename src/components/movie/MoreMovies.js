@@ -1,5 +1,5 @@
 import cn from "classnames";
-import Card from "./Card";
+import Card from "components/Card/Card";
 
 import styles from "components/movie/Movie.module.scss";
 
