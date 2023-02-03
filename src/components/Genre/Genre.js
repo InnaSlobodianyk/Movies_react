@@ -4,15 +4,15 @@ import Label from "components/Label/Label";
 
 import styles from "./Genre.module.scss";
 
-const Genre = ( props ) => {
-  const itemClasses = cn( styles.item, props.className );
+const Genre = ( { genres, labeled, variant, className } ) => {
+  const itemClasses = cn( styles.item, className );
 
   return (
     <ul className={ styles.genres }>
-      { props.genres.map( ( genreItem, index ) => (
+      { genres.map( ( genreItem, index ) => (
         <li key={ index } className={ itemClasses }>
-          { props.labeled ?
-            <Label variant={ props.variant || null }>
+          { labeled ?
+            <Label variant={ variant || null }>
               { genreItem.name }
             </Label> :
             <span>{ genreItem.name }</span>
