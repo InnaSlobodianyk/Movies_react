@@ -17,11 +17,7 @@ const MoviePage = () => {
       })
   }, [movieId]);
 
-  return (
-    <>
-      { movieDetails && <Movie movieDetails={ movieDetails } /> }
-    </>
-  );
+  return  movieDetails && <Movie movieDetails={ movieDetails } />;
 }
 
 export default MoviePage;
