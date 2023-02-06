@@ -69,10 +69,34 @@
   .btn {
     margin-top: auto;
 
+    div {
+      position: relative;
+      z-index: 1;
+
+      &:before {
+        border-radius: inherit;
+        background: linear-gradient(-90deg, #6f1ddd 0%, #d82870 100%);
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        z-index: -100;
+        transition: all $animation-speed $animation-effect;
+      }
+    }
+
     > * {
       &:hover {
         transition: all $animation-speed $animation-effect;
         transform: scale(1.05);
+
+        &:before {
+          opacity: 1;
+        }
       }
     }
   }
