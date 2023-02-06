@@ -3,9 +3,9 @@ import cn from "classnames";
 
 import { getTrends } from "services/trends";
 
-import Slider from "components/Slider/Slider";
-import Trendcard from "components/Trendcard/Trendcard";
-import Pagination from "components/Pagination/Pagination";
+import Slider from "components/Slider";
+import Trendcard from "components/Trendcard";
+import Pagination from "components/Pagination";
 
 import styles from "components/layout/Layout.module.scss";
 
@@ -33,7 +33,7 @@ const Home = () => {
         <Slider
           slides={ popularMovies }
           navigation
-          autoplay={ { delay: 5000, pauseOnMouseEnter: true } }
+          autoplay={ { delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false } }
           videos={ false }
           pagination={{
             clickable: true,

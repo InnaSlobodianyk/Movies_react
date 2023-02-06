@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-import Label from "components/Label/Label";
-import Genre from "components/Genre/Genre";
-import StarRating from "components/StarRating/StarRating";
+import Label from "components/Label";
+import Genre from "components/Genre";
+import StarRating from "components/StarRating";
 
 import { imageFullUrl } from "helpers";
 

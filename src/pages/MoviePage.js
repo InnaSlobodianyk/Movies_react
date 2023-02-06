@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Movie from "components/movie/Movie";
+import Movie from "components/movie";
 import { getMovie } from "services/movie";
 
 const MoviePage = () => {

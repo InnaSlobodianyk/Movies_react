@@ -1,10 +1,10 @@
 import { IoBookmarkOutline } from "react-icons/io5";
 import cn from "classnames";
 
-import Button from "components/Button/Button";
-import Label from "components/Label/Label";
-import Genre from "components/Genre/Genre";
-import StarRating from "components/StarRating/StarRating";
+import Button from "components/Button";
+import Label from "components/Label";
+import Genre from "components/Genre";
+import StarRating from "components/StarRating";
 
 import styles from "components/movie/Movie.module.scss";
 

@@ -1,6 +1,6 @@
 import { imageFullUrl } from "helpers";
 
-import Slider from "components/Slider/Slider";
+import Slider from "components/Slider";
 import MovieDetails from "./MovieDetails";
 import Poster from "./Poster";
 import MoreMovies from "./MoreMovies";
