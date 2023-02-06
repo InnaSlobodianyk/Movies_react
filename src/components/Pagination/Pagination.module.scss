@@ -1,7 +1,7 @@
 @import '../../scss/base';
 
 .pagination {
-  color: black;
+  color: $base-dark-grey;
   display: flex;
   justify-content: center;
   gap: 8px;
@@ -21,7 +21,7 @@
   transition: background-color $animation-speed $animation-effect;
 
   &:hover {
-    background-color: rgba($black, 0.04);
+    background-color: colorOpacity($base-dark-grey, 0.04);
     cursor: pointer;
   }
 }
@@ -29,15 +29,15 @@
 .paginationItemSelected {
   color: $white;
   background: $base-indigo;
-  background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
+  background: linear-gradient(90deg, colorOpacity($base-indigo, 1) 0%, colorOpacity($base-purple,1) 100%);
 }
 
 .paginationItemDisabled {
   pointer-events: none;
 
   .paginationArrow::before {
-    border-right: 1.5px solid rgba($black, 0.43);
-    border-top: 1.5px solid rgba($black, 0.43);
+    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.43);
+    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.43);
   }
 
   &:hover {
@@ -62,8 +62,8 @@
     display: inline-block;
     width: 6px;
     height: 6px;
-    border-right: 1.5px solid rgba($black, 0.87);
-    border-top: 1.5px solid rgba($black, 0.87);
+    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.87);
+    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.87);
   }
 }
 
