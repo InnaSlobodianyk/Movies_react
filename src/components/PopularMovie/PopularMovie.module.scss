@@ -1,22 +1,6 @@
 @import '../../scss/base';
 
-.carousel {
-  max-width: 100%;
-  overflow: hidden;
-
-  > *[role="button"] {
-    color: $base-purple;
-    height: 100%;
-    top: 0;
-    width: 30px;
-
-    @include media(">=tablet") {
-      width: 50px;
-    }
-  }
-}
-
-.carouselItem {
+.popularMovieItem {
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -45,7 +29,7 @@
   }
 }
 
-.carouselItemHolder {
+.popularMovieHolder {
   position: relative;
   top: 0;
   color: $white;
@@ -67,7 +51,7 @@
   }
 }
 
-.carouselItemTitle {
+.popularMovieTitle {
   color: $white;
   font-size: 28px;
   margin-bottom: 20px;
@@ -78,25 +62,19 @@
   }
 }
 
-.carouselItemInfo {
+.popularMovieInfo {
   margin-bottom: 10px;
   display: flex;
 }
 
-.carouselItemRelease {
+.popularMovieRelease {
   border-right: 2px solid $base-purple;
   padding: 0 10px 0 0;
   margin: 0 10px 0 0;
   display: inline-block;
 }
 
-.carouselItemGenre {
-  display: inline-block;
-  margin-right: 15px;
-  color: $white;
-}
-
-.carouselItemOverview {
+.popularMovieOverview {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -104,6 +82,40 @@
   -webkit-box-orient: vertical;
 }
 
-.carouselPaginationBullet {
-  background-color: $base-purple;
+.popularMovieRating {
+  margin-bottom: 24px;
+}
+
+.popularMovieBtn {
+  display: inline-block;
+
+  div {
+    position: relative;
+    z-index: 1;
+
+    &:before {
+      border-radius: inherit;
+      background: linear-gradient(-90deg, #6f1ddd 0%, #d82870 100%);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      width: 100%;
+      z-index: -100;
+      transition: all $animation-speed $animation-effect;
+    }
+  }
+
+  &:hover {
+    div {
+      transform: scale(1.05);
+
+      &:before {
+        opacity: 1;
+      }
+    }
+  }
 }
