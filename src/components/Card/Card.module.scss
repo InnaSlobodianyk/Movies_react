@@ -1,0 +1,88 @@
+@import '../../scss/base';
+
+.card {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 7px 10px;
+  flex: 0 0 200px;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px colorOpacity($base-grey, 0.1);
+  border: 1px solid colorOpacity($base-grey, 0.1);
+
+  &__imgWrapper {
+    border-radius: $border-radius $border-radius 0 0;
+    margin: 0;
+    position: relative;
+    transition: background-color $animation-speed $animation-effect;
+    overflow: hidden;
+    height: 252px;
+    background: url('../../assets/images/cinema-hall.jpg') no-repeat center;
+    background-size: cover;
+
+    &:hover img {
+      transform: scale(1.15);
+      transition: transform .5s;
+    }
+  }
+
+  &__img {
+    border-radius: $border-radius $border-radius 0 0;
+    box-shadow: 0 0 10px colorOpacity($black, 0.3);
+  }
+
+  &__link {
+    color: $base-dark-grey;
+    margin-bottom: 10px;
+
+    &:hover {
+      color: $base-indigo;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  &__description {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  &__ratingValue {
+    color: $base-purple;
+    font-size: 18px;
+  }
+
+  &__ratingStar {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  &__release {
+    font-size: 14px;
+    color: colorOpacity($base-grey, 0.5);
+  }
+}

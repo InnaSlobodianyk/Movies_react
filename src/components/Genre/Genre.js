@@ -1,33 +1,24 @@
 import cn from "classnames";
-import { useEffect, useMemo, useState } from "react";
 
-import { getAllGenres } from "services/genres";
+import Label from "components/Label/Label";
 
 import styles from "./Genre.module.scss";
 
-const filterGenres = (allGenres, genres) => {
-  return allGenres.filter(el => genres.some(item => item === el.id));
-};
-
-const Genre = (props) => {
-  const [allGenres, setAllGenres] = useState([]);
-
-  useEffect(() => {
-    getAllGenres().then((response) => {
-      setAllGenres(response);
-    });
-
-  }, []);
-
-  const filteredGenres = useMemo(() => filterGenres(allGenres, props.genres), [allGenres, props.genres]);
-
-  const itemClasses = cn(styles.item, props.className);
+const Genre = ( { genres, labeled, variant, className } ) => {
+  const itemClasses = cn( styles.item, className );
 
   return (
-    <ul>
-      {filteredGenres.map(genreItem => {
-        return <li key={genreItem.name} className={itemClasses}>{genreItem.name}</li>;
-      })}
+    <ul className={ styles.genres }>
+      { genres.map( ( genreItem, index ) => (
+        <li key={ index } className={ itemClasses }>
+          { labeled ?
+            <Label variant={ variant || null }>
+              { genreItem.name }
+            </Label> :
+            <span>{ genreItem.name }</span>
+          }
+        </li>
+      ) ) }
     </ul>
   );
 }

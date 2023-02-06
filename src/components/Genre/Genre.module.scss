@@ -1,8 +1,12 @@
 @import "../../scss/base";
 
+.genres {
+  margin: -5px;
+}
+
 .item {
   display: inline-block;
-  margin-right: 15px;
+  margin: 5px;
   color: $base-indigo;
 
   &:last-child {

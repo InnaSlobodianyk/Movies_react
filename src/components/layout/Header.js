@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Menu from "components/Menu/Menu";
 
+import logo from "assets/images/movierise-logo.png";
+
 import styles from './Header.module.scss';
 
 const Header = () => {
@@ -8,7 +10,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <Link to="/" className={styles.headerLogo}>
-          <img src="assets/images/movierise-logo.png" alt="logo-movierise"/>
+          <img src={ logo } alt="logo-movierise"/>
         </Link>
 
         <Menu />

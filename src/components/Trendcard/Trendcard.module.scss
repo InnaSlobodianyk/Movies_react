@@ -68,6 +68,13 @@
 
   .btn {
     margin-top: auto;
+
+    > * {
+      &:hover {
+        transition: all $animation-speed $animation-effect;
+        transform: scale(1.05);
+      }
+    }
   }
 }
 
@@ -112,6 +119,16 @@
 
   @include media(">=tablet") {
     margin-bottom: 20px;
+  }
+}
+
+.iconSvg {
+  color: $base-purple;
+  font-size: 20px;
+  padding: 0;
+
+  &:hover {
+    color: $base-indigo;
   }
 }
 
@@ -163,10 +180,6 @@
   }
 }
 
-.genres {
-  margin-bottom: 5px;
-}
-
 .genresItem {
   display: inline-block;
   color: $base-indigo;
@@ -176,19 +189,10 @@
 }
 
 .rating {
-  font-size: $base-font-size;
-  line-height: 1;
-  color: $white;
   border: 0;
   position: absolute;
-  left: 0;
+  left: 20px;
   bottom: 20px;
-  background: $base-indigo;
-  background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
-  padding: 5px 16px;
-  border-radius: 12px;
-  min-width: 50px;
-  text-align: center;
 }
 
 .release {

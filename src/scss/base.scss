@@ -2,3 +2,11 @@
 @import './base/normalize';
 @import './base/include-media';
 @import './base/functions';
+
+a {
+  color: $base-indigo;
+}
+
+a:hover {
+  color: $base-purple;
+}

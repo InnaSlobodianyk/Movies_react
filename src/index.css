@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root {
+  overflow: hidden;
+}
+
+.swiper .swiper-button-next,
+.swiper .swiper-button-prev {
+  color: #6f1ddd;
+}
