@@ -14,7 +14,6 @@ const Home = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
   const [popularMovies, setPopularMovies] = useState([]);
 
   useEffect(() => {

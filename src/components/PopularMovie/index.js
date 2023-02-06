@@ -12,7 +12,9 @@ const PopularMovie = ( { movieDetails } ) => (
   <div
     id={ movieDetails.id }
     className={ styles.popularMovieItem }
-    style={{ backgroundImage: movieDetails.backdrop_path && `url(${ imageFullUrl({ imagePath: movieDetails.backdrop_path } ) }` }}
+    style={ movieDetails.backdrop_path
+      ? { backgroundImage: `url(${ imageFullUrl({ imagePath: movieDetails.backdrop_path } ) }` }
+      : { backgroundColor: '#f5f6f6' } }
   >
     <div className={ styles.popularMovieHolder }>
       <h2 className={ styles.popularMovieTitle }>{ movieDetails.title }</h2>

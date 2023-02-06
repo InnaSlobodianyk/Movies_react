@@ -95,7 +95,7 @@
 
     &:before {
       border-radius: inherit;
-      background: linear-gradient(-90deg, #6f1ddd 0%, #d82870 100%);
+      background: linear-gradient(-90deg, $base-indigo 0%, $base-purple 100%);
       content: '';
       display: block;
       height: 100%;

@@ -10,7 +10,7 @@ const Layout = ( props ) => {
   return (
     <>
       <Header />
-      <main className={ location.pathname !== '/' ? styles.pageContainer : ''}>
+      <main className={ location.pathname !== '/' ? styles.pageContainer : '' }>
         {props.children}
       </main>
     </>
