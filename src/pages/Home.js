@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import cn from "classnames";
 
 import { getTrends } from "services/trends";
@@ -9,20 +9,58 @@ import Pagination from "components/Pagination";
 
 import styles from "components/layout/Layout.module.scss";
 
+const sliderAutoplaySettings = {
+  delay: 5000,
+  pauseOnMouseEnter: true,
+  disableOnInteraction: false
+};
+
+const sliderPaginationSettings = {
+  clickable: true,
+  bulletClass: 'swiper-pagination-bullet'
+}
+
+const initialState = {
+  movies: [],
+  totalResults: 0,
+  currentPage: 1,
+  totalPages: 0,
+  popularMovies: []
+};
+
+const ACTIONS = {
+  SUCCESS: 'success',
+  SET_CURRENT_PAGE: 'setCurrentPage'
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.SUCCESS:
+      return {
+        ...state,
+        movies: action.payload.movies.movies,
+        totalResults: action.payload.movies.totalResults,
+        currentPage: action.payload.movies.page,
+        totalPages: action.payload.movies.totalPages,
+        popularMovies: action.payload.populars
+      };
+    case ACTIONS.SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload
+      };
+    default:
+      throw new Error();
+  }
+}
+
 const Home = () => {
-  const [movies, setMovies] = useState([]);
-  const [totalResults, setTotalResults] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [state, dispatch] = useReducer( reducer, initialState );
+  const { movies, totalResults, currentPage, totalPages, popularMovies } = state;
 
   useEffect(() => {
     getTrends(currentPage).then((response) => {
-      setMovies(response.movies.movies);
-      setCurrentPage(response.movies.page);
-      setTotalResults(response.movies.totalResults);
-      setTotalPages(response.movies.totalPages);
-      setPopularMovies(response.populars);
+      dispatch( { type: ACTIONS.SUCCESS, payload: response } );
     });
   }, [currentPage]);
 
@@ -32,12 +70,9 @@ const Home = () => {
         <Slider
           slides={ popularMovies }
           navigation
-          autoplay={ { delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false } }
+          autoplay={ sliderAutoplaySettings }
           videos={ false }
-          pagination={{
-            clickable: true,
-            bulletClass: 'swiper-pagination-bullet'
-          }}
+          pagination={ sliderPaginationSettings }
           className={ styles.sliderPopular }
         />
       ) }
@@ -55,7 +90,7 @@ const Home = () => {
           <Pagination
             totalPages={ totalPages }
             currentPage={ currentPage }
-            onPageChange={ page => setCurrentPage(page) }
+            onPageChange={ page => dispatch( { type: ACTIONS.SET_CURRENT_PAGE, payload: page } ) }
           />
         ) }
       </div>
