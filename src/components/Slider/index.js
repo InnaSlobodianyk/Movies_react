@@ -30,7 +30,7 @@ const Slider = (
     { slides.map( ( item ) => (
       <SwiperSlide
         key={ item.key || item.id }
-        className={ cn( videos ? styles.sliderItemVideo : styles.sliderItem ) }
+        className={ videos ? styles.sliderItemVideo : styles.sliderItem }
       >
         { videos ? (
           <iframe width='560' height='315' src={`https://www.youtube.com/embed/${ item.key }`} frameBorder='0'
