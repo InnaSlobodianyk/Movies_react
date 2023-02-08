@@ -36,6 +36,6 @@ export const getTrends = async ( pageNumber = 1 ) => {
 
     return { movies: { movies, page: pageNumber, totalPages: trends.total_pages, totalResults: trends.total_results }, populars: popularMovies };
   } catch (e) {
-    return [];
+    return null;
   }
 }
