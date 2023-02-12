@@ -6,15 +6,13 @@ import PaginationItem from "./PaginationItem";
 
 import styles from "./Pagination.module.scss";
 
-const Pagination = ( props ) => {
-  const {
-    onPageChange,
-    siblingCount = 1,
-    currentPage,
-    totalPages,
-    className
-  } = props;
-
+const Pagination = ( {
+   onPageChange,
+   siblingCount = 1,
+   totalPages,
+   className,
+   currentPage
+} ) => {
   const paginationRange = usePagination({
     siblingCount,
     currentPage,
@@ -23,21 +21,15 @@ const Pagination = ( props ) => {
 
   const isPaginationRange = currentPage > 0 || paginationRange.length > 1;
 
-  const onNext = () => {
-    onPageChange(currentPage + 1);
-  };
-
-  const onPrevious = () => {
-    onPageChange(currentPage - 1);
-  };
-
-  const lastPage = paginationRange.slice(-1)[0];
+  const lastPage = paginationRange.at(-1);
 
   return isPaginationRange ? (
     <ul className={ cn( styles.pagination, { [className]: className } ) }>
       <PaginationItem
-        onClick={ onPrevious }
+        onPageChange={ onPageChange }
+        currentPage={ currentPage }
         disabled={ currentPage === 1 }
+        prev
       >
         <span className={ cn( styles.paginationArrow, styles.paginationArrowLeft ) } />
       </PaginationItem>
@@ -47,15 +39,18 @@ const Pagination = ( props ) => {
           ? (
             <PaginationItem
               key={ index }
-              disabled={ true }
+              currentPage={ currentPage }
+              disabled
             >
               { DOTS }
             </PaginationItem>
           ) : (
             <PaginationItem
               key={ index }
-              onClick={ () => onPageChange(pageNumber) }
+              currentPage={ currentPage }
               selected={ pageNumber === currentPage }
+              pageNumber={ pageNumber }
+              onPageChange={ onPageChange }
             >
               { pageNumber }
             </PaginationItem>
@@ -63,8 +58,10 @@ const Pagination = ( props ) => {
       ) ) }
 
       <PaginationItem
-        onClick={ onNext }
+        onPageChange={ onPageChange }
+        currentPage={ currentPage }
         disabled={ currentPage === lastPage }
+        next
       >
         <span className={ cn( styles.paginationArrow, styles.paginationArrowRight ) } />
       </PaginationItem>
