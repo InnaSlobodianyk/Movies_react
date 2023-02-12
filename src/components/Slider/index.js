@@ -12,18 +12,29 @@ import "swiper/scss/autoplay";
 
 import styles from "./Slider.module.scss";
 
+const iframeSettings = {
+  width: '560',
+  height: '315',
+  allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+  allowFullScreen: true,
+  frameBorder: '0'
+};
+
+const swiperModules = [ Navigation, Pagination, Autoplay, A11y ];
+
 const Slider = (
   {
     slides,
-    navigation = true,
+    navigation = false,
     pagination = false,
-    videos = true,
-    autoplay, className
+    videos = false,
+    autoplay,
+    className
   } ) => (
   <Swiper
     navigation={ navigation }
     pagination={ pagination }
-    modules={ [ Navigation, Pagination, Autoplay, A11y ] }
+    modules={ swiperModules }
     autoplay={ autoplay }
     className={ cn( styles.slider, className ) }
   >
@@ -33,9 +44,7 @@ const Slider = (
         className={ videos ? styles.sliderItemVideo : styles.sliderItem }
       >
         { videos ? (
-          <iframe width='560' height='315' src={`https://www.youtube.com/embed/${ item.key }`} frameBorder='0'
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                  allowFullScreen title={ item.name } />
+          <iframe src={`https://www.youtube.com/embed/${ item.key }`} title={ item.name } { ...iframeSettings } />
         ) : (
           <PopularMovie movieDetails={ item } />
         ) }

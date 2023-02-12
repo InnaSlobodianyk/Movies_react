@@ -43,6 +43,7 @@ const Movie = ({ movieDetails }) => (
             className={ styles.movieReview__sliderItem }
             slides={ movieDetails.videos.results }
             navigation
+            videos
           />
         </div>
       ) }
