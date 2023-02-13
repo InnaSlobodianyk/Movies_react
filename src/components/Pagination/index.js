@@ -23,13 +23,20 @@ const Pagination = ( {
 
   const lastPage = paginationRange.at(-1);
 
+  const onNext = () => {
+    onPageChange(++currentPage);
+  };
+
+  const onPrevious = () => {
+    onPageChange(--currentPage);
+  };
+
   return isPaginationRange ? (
     <ul className={ cn( styles.pagination, { [className]: className } ) }>
       <PaginationItem
-        onPageChange={ onPageChange }
+        onPageChange={ onPrevious }
         currentPage={ currentPage }
         disabled={ currentPage === 1 }
-        prev
       >
         <span className={ cn( styles.paginationArrow, styles.paginationArrowLeft ) } />
       </PaginationItem>
@@ -58,10 +65,9 @@ const Pagination = ( {
       ) ) }
 
       <PaginationItem
-        onPageChange={ onPageChange }
+        onPageChange={ onNext }
         currentPage={ currentPage }
         disabled={ currentPage === lastPage }
-        next
       >
         <span className={ cn( styles.paginationArrow, styles.paginationArrowRight ) } />
       </PaginationItem>
