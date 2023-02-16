@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-import Label from "components/Label/Label";
+import Label from "components/Label";
 
 import styles from "./Genre.module.scss";
 

@@ -1,20 +1,23 @@
 import { sendRequest } from "./apiService";
 import { apiRequestTrendsUrl } from "config";
 import { getAllGenres } from "./genres";
-import { filterGenres, roundRatingValue } from "helpers";
+import { calcDate, filterGenres, roundRatingValue } from "helpers";
+import { getPopulars } from "./populars";
 
-export const getTrends = async () => {
+export const getTrends = async ( pageNumber = 1 ) => {
   try {
-    const [trends, allGenres] = await Promise.all([
+    const [trends, allGenres, populars] = await Promise.all([
       sendRequest({
         url: apiRequestTrendsUrl,
         params: {
-          page: 1,
+          page: pageNumber,
           language: 'en'
         },
       }),
 
-      getAllGenres()
+      getAllGenres(),
+
+      getPopulars()
     ]);
 
     const movies = trends.results.map( movie => {
@@ -24,8 +27,15 @@ export const getTrends = async () => {
       return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
     } );
 
-    return movies;
+    const popularMovies = populars.map( movie => {
+      const filteredGenres = filterGenres(allGenres, movie.genre_ids);
+      const release_date = calcDate(movie.release_date);
+
+      return { ...movie, release_date, genres: filteredGenres }
+    } );
+
+    return { movies: { movies, page: pageNumber, totalPages: trends.total_pages, totalResults: trends.total_results }, populars: popularMovies };
   } catch (e) {
-    return [];
+    return null;
   }
 }

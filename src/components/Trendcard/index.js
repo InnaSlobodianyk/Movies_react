@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { IoBookmarkOutline } from "react-icons/io5";
 
 import { calcDate, imageFullUrl } from "helpers";
-import Button from "components/Button/Button";
-import Genre from "components/Genre/Genre";
-import Label from "components/Label/Label";
+import Button from "components/Button";
+import Genre from "components/Genre";
+import Label from "components/Label";
 
 import styles from "./Trendcard.module.scss";
 

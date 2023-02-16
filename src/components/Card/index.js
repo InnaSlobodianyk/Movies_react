@@ -8,7 +8,7 @@ import {
   imageFullUrl,
   roundRatingValue
 } from "helpers";
-import Genre from "components/Genre/Genre";
+import Genre from "components/Genre";
 
 import styles from "./Card.module.scss";
 

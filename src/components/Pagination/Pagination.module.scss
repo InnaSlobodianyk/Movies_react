@@ -1,0 +1,69 @@
+@import '../../scss/base';
+
+.pagination {
+  color: $base-dark-grey;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.paginationItem {
+  border-radius: 16px;
+  padding: 0 12px;
+  height: 32px;
+  text-align: center;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  min-width: 32px;
+  cursor: pointer;
+  transition: background-color $animation-speed $animation-effect;
+
+  &:hover {
+    background-color: colorOpacity($base-dark-grey, 0.04);
+    cursor: pointer;
+  }
+}
+
+.paginationItemSelected {
+  color: $white;
+  background: $base-indigo;
+  background: linear-gradient(90deg, colorOpacity($base-indigo, 1) 0%, colorOpacity($base-purple,1) 100%);
+}
+
+.paginationItemDisabled {
+  pointer-events: none;
+
+  .paginationArrow::before {
+    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.43);
+    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.43);
+  }
+
+  &:hover {
+    background-color: transparent;
+    cursor: default;
+  }
+}
+
+.paginationArrow {
+  position: relative;
+
+  &::before {
+    position: relative;
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.87);
+    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.87);
+  }
+}
+
+.paginationArrowLeft {
+  transform: rotate(-135deg);
+}
+
+.paginationArrowRight {
+  transform: rotate(45deg);
+}

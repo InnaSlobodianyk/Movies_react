@@ -1,0 +1,121 @@
+@import '../../scss/base';
+
+.popularMovieItem {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  width: 100%;
+  height: 600px;
+  position: relative;
+  padding: 106px 45px 0;
+
+  @include media(">=tablet") {
+    padding: 106px 70px 0;
+  }
+
+  @include media(">=widescreen") {
+    padding-top: 0;
+    background-position: center -50px;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: colorOpacity($black, 0.5);
+  }
+}
+
+.popularMovieHolder {
+  position: relative;
+  top: 0;
+  color: $white;
+  font-size: 15px;
+  padding-top: 40px;
+
+  @include media(">=tablet") {
+    position: absolute;
+    top: auto;
+    bottom: 85px;
+    font-size: 20px;
+    left: 70px;
+    right: 70px;
+  }
+
+  @include media(">=desktop") {
+    width: 50%;
+    height: auto;
+  }
+}
+
+.popularMovieTitle {
+  color: $white;
+  font-size: 28px;
+  margin-bottom: 20px;
+
+  @include media(">=tablet") {
+    font-size: 45px;
+    margin-bottom: 30px;
+  }
+}
+
+.popularMovieInfo {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.popularMovieRelease {
+  border-right: 2px solid $base-purple;
+  padding: 0 10px 0 0;
+  margin: 0 10px 0 0;
+  display: inline-block;
+}
+
+.popularMovieOverview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.popularMovieRating {
+  margin-bottom: 24px;
+}
+
+.popularMovieBtn {
+  display: inline-block;
+
+  div {
+    position: relative;
+    z-index: 1;
+
+    &:before {
+      border-radius: inherit;
+      background: linear-gradient(-90deg, $base-indigo 0%, $base-purple 100%);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      width: 100%;
+      z-index: -100;
+      transition: all $animation-speed $animation-effect;
+    }
+  }
+
+  &:hover {
+    div {
+      transform: scale(1.05);
+
+      &:before {
+        opacity: 1;
+      }
+    }
+  }
+}

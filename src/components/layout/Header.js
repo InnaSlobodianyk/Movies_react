@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Menu from "components/Menu/Menu";
+import Menu from "components/Menu";
 
 import logo from "assets/images/movierise-logo.png";
 

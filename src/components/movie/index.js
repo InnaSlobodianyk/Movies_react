@@ -1,6 +1,6 @@
 import { imageFullUrl } from "helpers";
 
-import Slider from "components/Slider/Slider";
+import Slider from "components/Slider";
 import MovieDetails from "./MovieDetails";
 import Poster from "./Poster";
 import MoreMovies from "./MoreMovies";
@@ -43,6 +43,7 @@ const Movie = ({ movieDetails }) => (
             className={ styles.movieReview__sliderItem }
             slides={ movieDetails.videos.results }
             navigation
+            videos
           />
         </div>
       ) }
