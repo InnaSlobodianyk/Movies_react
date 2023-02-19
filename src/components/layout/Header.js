@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import Menu from "components/Menu";
+import SearchForm from "components/SearchForm";
 
-import SearchForm from "components/SearchForm/SearchForm";
-
-import { loadingActions, searchActions } from "store";
+import { STORE_ACTIONS } from "store";
 
 import logo from "assets/images/movierise-logo.png";
 
@@ -12,25 +12,20 @@ import styles from './Header.module.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const showSearchResults = useSelector(( state ) => state.search.showSearchResults);
+  const showSearchResults = useSelector(( state ) => state.showSearchResults);
 
   const clickHandler = () => {
-    dispatch(loadingActions.setLoaded(false));
-
-    if(showSearchResults) {
-      dispatch(searchActions.showSearchResults(false));
-      dispatch(searchActions.searchQuery(''));
-      dispatch(searchActions.setSearchResults([]));
-      dispatch(searchActions.setTotalPages(0));
-      dispatch(searchActions.setTotalResults(0));
+    if( showSearchResults ) {
+      dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: false } );
+      dispatch( { type: STORE_ACTIONS.SEARCH_QUERY, payload: '' } );
+      dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
     }
-
   };
 
   return (
     <header className={ styles.header }>
       <div className={ styles.headerContainer }>
-        <Link to="/" className={ styles.headerLogo }>
+        <Link to="/" className={ styles.headerLogo } onClick={ clickHandler }>
           <img src={ logo } alt="logo-movierise"/>
         </Link>
 
