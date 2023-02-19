@@ -217,6 +217,12 @@
   position: absolute;
   left: 20px;
   bottom: 20px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 5px;
+  }
 }
 
 .release {

@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
 import cn from "classnames";
 
 import { Navigation, Pagination, Autoplay, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import PopularMovie from "components/PopularMovie";
+import Loader from "components/Loader";
 
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -30,28 +32,34 @@ const Slider = (
     videos = false,
     autoplay,
     className
-  } ) => (
-  <Swiper
-    navigation={ navigation }
-    pagination={ pagination }
-    modules={ swiperModules }
-    autoplay={ autoplay }
-    className={ cn( styles.slider, className ) }
-  >
-    { slides.map( ( item ) => (
-      <SwiperSlide
-        key={ item.key || item.id }
-        className={ videos ? styles.sliderItemVideo : styles.sliderItem }
-      >
-        { videos ? (
-          <iframe src={`https://www.youtube.com/embed/${ item.key }`} title={ item.name } { ...iframeSettings } />
-        ) : (
-          <PopularMovie movieDetails={ item } />
-        ) }
+  } ) => {
+  const loaded = useSelector( state => state.loaded );
 
-      </SwiperSlide>
-    ) ) }
-  </Swiper>
-);
+  return(
+    <Swiper
+      navigation={ navigation }
+      pagination={ pagination }
+      modules={ swiperModules }
+      autoplay={ autoplay }
+      className={ cn( styles.slider, className ) }
+    >
+      { ! loaded && <Loader /> }
+
+      { loaded && slides.map( ( item ) => (
+        <SwiperSlide
+          key={ item.key || item.id }
+          className={ videos ? styles.sliderItemVideo : styles.sliderItem }
+        >
+          { videos ? (
+            <iframe src={`https://www.youtube.com/embed/${ item.key }`} title={ item.name } { ...iframeSettings } />
+          ) : (
+            <PopularMovie movieDetails={ item } />
+          ) }
+
+        </SwiperSlide>
+      ) ) }
+    </Swiper>
+  );
+};
 
 export default Slider;
