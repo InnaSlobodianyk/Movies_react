@@ -1,53 +1,62 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createStore } from "redux";
 
-const initialSearchState = {
+export const STORE_ACTIONS = {
+  SET_LOADED_STATE: 'SET_LOADED_STATE',
+  SET_DATA: 'SET_DATA',
+  SET_CURRENT_PAGE: 'SET_CURRENT_PAGE',
+  GET_FAILURE: 'GET_FAILURE',
+  SHOW_SEARCH_RESULTS: 'SHOW_SEARCH_RESULTS',
+  SEARCH_QUERY: 'SEARCH_QUERY',
+};
+
+const initialState = {
+  loaded: false,
+  movies: [],
+  totalResults: 0,
+  currentPage: 1,
+  totalPages: 0,
+  popularMovies: [],
   showSearchResults: false,
   searchQuery: '',
-  searchResults: [],
-  totalPages: 0,
-  totalResults: 0
 };
 
-const searchSlice = createSlice({
-  name: 'search',
-  initialState: initialSearchState,
-  reducers: {
-    showSearchResults(state, showSearchResults = true) {
-      state.showSearchResults = showSearchResults;
-    },
-    searchQuery(state, query) {
-      state.searchQuery = query;
-    },
-    setSearchResults(state, results) {
-      state.searchResults = results.payload;
-    },
-    setTotalPages(state, pagesNumber) {
-      state.totalPages = pagesNumber.payload;
-    },
-    setTotalResults(state, totalResults) {
-      state.totalResults = totalResults.payload;
-    }
+const reducer = ( state = initialState, action ) => {
+  switch (action.type) {
+    case STORE_ACTIONS.SET_LOADED_STATE:
+      return {
+        ...state,
+        loaded: action.payload
+      };
+    case STORE_ACTIONS.SET_DATA:
+      return {
+        ...state,
+        movies: action.payload?.movies?.movies || state.movies,
+        totalResults: action.payload?.movies?.totalResults || state.totalResults,
+        currentPage: action.payload?.movies?.page || state.currentPage,
+        totalPages: action.payload?.movies?.totalPages || state.totalPages,
+        popularMovies: action.payload?.populars || state.popularMovies
+      };
+    case STORE_ACTIONS.SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload
+      };
+    case STORE_ACTIONS.SHOW_SEARCH_RESULTS:
+      return {
+        ...state,
+        showSearchResults: action.payload
+      };
+    case STORE_ACTIONS.SEARCH_QUERY:
+      return {
+        ...state,
+        searchQuery: action.payload
+      };
+    case STORE_ACTIONS.GET_FAILURE:
+    default:
+      return state;
   }
-});
-
-const initialLoadingState = {
-  loaded: false,
 };
 
-const loadingSlice = createSlice({
-  name: 'loading',
-  initialState: initialLoadingState,
-  reducers: {
-    setLoaded(state) {
-      state.loaded = ! state.loaded;
-    },
-  }
-});
+const store = createStore(reducer);
 
-let store = configureStore({
-  reducer: { search: searchSlice.reducer, loading: loadingSlice.reducer }
-});
-
-export const searchActions = searchSlice.actions;
-export const loadingActions = loadingSlice.actions;
 export default store;
