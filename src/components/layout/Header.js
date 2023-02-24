@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Menu from "components/Menu";
-import SearchForm from "components/SearchForm";
+import Search from "components/Search";
 
 import { STORE_ACTIONS } from "store";
 
@@ -18,8 +18,9 @@ const Header = () => {
     if( showSearchResults ) {
       dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: false } );
       dispatch( { type: STORE_ACTIONS.SEARCH_QUERY, payload: '' } );
-      dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
     }
+
+    dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
   };
 
   return (
@@ -30,7 +31,7 @@ const Header = () => {
         </Link>
 
         <div className={ styles.headerMenuContainer }>
-          <SearchForm  />
+          <Search  />
 
           <Menu />
         </div>

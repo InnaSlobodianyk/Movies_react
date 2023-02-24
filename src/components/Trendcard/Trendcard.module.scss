@@ -4,7 +4,6 @@
   background: $white;
   margin: 12px 0;
   min-height: 390px;
-  max-height: 415px;
   border-radius: $border-radius;
   box-shadow: 0 2px 10px -2px colorOpacity($black, 0.4);
   display: flex;
@@ -26,7 +25,7 @@
 }
 
 .thumb {
-  height: 300px;
+  height: 450px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -180,7 +179,7 @@
 
 .heading {
   padding: 20px;
-  height: 130px;
+  min-height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

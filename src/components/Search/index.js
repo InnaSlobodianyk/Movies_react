@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 
 import { STORE_ACTIONS } from "store";
 
-import styles from "./SearchForm.module.scss";
+import styles from "./Search.module.scss";
 
-const SearchForm = () => {
+const Search = () => {
   const dispatch = useDispatch();
   const loaded = useSelector( state => state.loaded );
+  const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
 
@@ -28,6 +30,7 @@ const SearchForm = () => {
     dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
     dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: true } );
     setQuery('');
+    navigate('/');
   };
 
   return (
@@ -56,4 +59,4 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm;
+export default Search;
