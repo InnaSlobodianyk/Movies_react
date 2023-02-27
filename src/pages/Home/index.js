@@ -88,10 +88,10 @@ const Home = () => {
 
             { showSearchResults && searchQuery && (
               <Button onClick={ clearSearchResults }>
-                <Label>
+                <Label className={ styles.clearResultsBtn }>
                   Clear search results
                 </Label>
-                </Button>
+              </Button>
             )}
           </div>
 

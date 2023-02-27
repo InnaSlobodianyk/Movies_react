@@ -102,3 +102,31 @@
    padding-top: 48px;
   }
 }
+
+.clearResultsBtn {
+  position: relative;
+  z-index: 1;
+
+  &:before {
+    border-radius: inherit;
+    background: linear-gradient(-90deg, $base-indigo 0%, $base-purple 100%);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    z-index: -100;
+    transition: all $animation-speed $animation-effect;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+
+    &:before {
+      opacity: 1;
+    }
+  }
+}
