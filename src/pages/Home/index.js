@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
-
-import { getTrends } from "services/trends";
-import { getSearchResults } from "services/searchResults";
 
 import Slider from "components/Slider";
 import Trendcard from "components/Trendcard";
@@ -12,7 +9,14 @@ import Button from "components/Button";
 import Loader from "components/Loader";
 import Label from "components/Label";
 
-import { STORE_ACTIONS } from "store";
+import {
+  getMovieSearchResults,
+  getMovieTrends,
+  setCurrentPage,
+  setLoadedState,
+  setSearchResultsShow,
+  setSearchQuery,
+} from "store";
 
 import styles from "components/layout/Layout.module.scss";
 
@@ -41,37 +45,24 @@ const Home = () => {
 
   useEffect(() => {
     if( showSearchResults ) {
-      dispatch( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: false } );
-
-      getSearchResults( searchQuery, currentPage ).then((response) => {
-        response ? dispatch( { type: STORE_ACTIONS.SET_DATA, payload: response } ) : dispatch( { type: STORE_ACTIONS.GET_FAILURE } );
-
-        dispatch( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: true } );
-      });
-
-
+      dispatch( getMovieSearchResults({ searchQuery, currentPage }) );
     } else {
-      getTrends(currentPage).then((response) => {
-        response ? dispatch( { type: STORE_ACTIONS.SET_DATA, payload: response } ) : dispatch( { type: STORE_ACTIONS.GET_FAILURE } );
-
-        dispatch({ type: STORE_ACTIONS.SET_LOADED_STATE, payload: true });
-      });
+      dispatch( getMovieTrends(currentPage) );
     }
   }, [currentPage, dispatch, searchQuery, showSearchResults]);
 
   const paginationClickHandler = ( page ) => {
-    dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: page } );
-
-    dispatch( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: true } );
+    dispatch( setCurrentPage(page) );
+    dispatch( setLoadedState(true) );
   };
 
   const clearSearchResults = ( e ) => {
     e.preventDefault();
-    dispatch( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: false } );
 
-    dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: false } );
-    dispatch( { type: STORE_ACTIONS.SEARCH_QUERY, payload: '' } );
-    dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
+    dispatch( setLoadedState(false) );
+    dispatch( setSearchResultsShow(false) );
+    dispatch( setSearchQuery('') );
+    dispatch( setCurrentPage(1) );
   };
 
   return (
@@ -123,4 +114,18 @@ const Home = () => {
   )
 };
 
-export default Home;
+const mapStateToProps = ( state ) => {
+  return {
+    movies: state.movies,
+    currentPage: state.currentPage,
+    totalPages: state.totalPages,
+    totalResults: state.totalResults,
+    popularMovies: state.popularMovies,
+    loaded: state.loaded
+  };
+};
+
+export default connect(mapStateToProps, {
+  getMovieTrends, getMovieSearchResults, setCurrentPage,
+  setLoadedState, setSearchResultsShow, setSearchQuery
+})(Home);

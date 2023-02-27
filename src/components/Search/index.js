@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 
-import { STORE_ACTIONS } from "store";
+import {
+  getMovieSearchResults,
+  getMovieTrends,
+  setCurrentPage,
+  setLoadedState,
+  setSearchQuery,
+  setSearchResultsShow,
+} from "store";
 
 import styles from "./Search.module.scss";
 
@@ -25,10 +32,11 @@ const Search = () => {
   const onFormSubmit = ( e ) => {
     e.preventDefault();
 
-    dispatch( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: false } );
-    dispatch( { type: STORE_ACTIONS.SEARCH_QUERY, payload: query } );
-    dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
-    dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: true } );
+    dispatch( setLoadedState(false) );
+    dispatch( setSearchQuery(query) );
+    dispatch( setCurrentPage(1) );
+    dispatch( setSearchResultsShow(true) );
+
     setQuery('');
     navigate('/');
   };
@@ -59,4 +67,18 @@ const Search = () => {
   );
 };
 
-export default Search;
+const mapStateToProps = ( state ) => {
+  return {
+    ...state,
+    movies: state.movies,
+    currentPage: state.currentPage,
+    totalPages: state.totalPages,
+    totalResults: state.totalResults,
+    loaded: state.loaded
+  };
+};
+
+export default connect(mapStateToProps, {
+  getMovieTrends, getMovieSearchResults, setCurrentPage,
+  setLoadedState, setSearchQuery, setSearchResultsShow
+})(Search);

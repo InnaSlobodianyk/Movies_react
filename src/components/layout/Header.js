@@ -1,10 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Menu from "components/Menu";
 import Search from "components/Search";
 
-import { STORE_ACTIONS } from "store";
+import {
+  setCurrentPage,
+  setSearchQuery,
+  setSearchResultsShow,
+} from "store";
 
 import logo from "assets/images/movierise-logo.png";
 
@@ -16,11 +20,11 @@ const Header = () => {
 
   const clickHandler = () => {
     if( showSearchResults ) {
-      dispatch( { type: STORE_ACTIONS.SHOW_SEARCH_RESULTS, payload: false } );
-      dispatch( { type: STORE_ACTIONS.SEARCH_QUERY, payload: '' } );
+      dispatch( setSearchResultsShow(false) );
+      dispatch( setSearchQuery('') );
     }
 
-    dispatch( { type: STORE_ACTIONS.SET_CURRENT_PAGE, payload: 1 } );
+    dispatch( setCurrentPage(1) );
   };
 
   return (
@@ -40,4 +44,19 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps = ( state ) => {
+  return {
+    ...state,
+    movies: state.movies,
+    currentPage: state.currentPage,
+    totalPages: state.totalPages,
+    totalResults: state.totalResults,
+    loaded: state.loaded
+  };
+};
+
+export default connect(mapStateToProps, {
+  setCurrentPage,
+  setSearchQuery,
+  setSearchResultsShow,
+})(Header);
