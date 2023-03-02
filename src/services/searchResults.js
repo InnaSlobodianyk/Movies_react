@@ -10,7 +10,7 @@ export const getSearchResults = async ( query, pageNumber = 1 ) => {
         url: apiRequestSearchUrl,
         params: {
           page: pageNumber,
-          query: query,
+          query,
           language: 'en'
         },
       }),
@@ -27,6 +27,6 @@ export const getSearchResults = async ( query, pageNumber = 1 ) => {
 
     return { movies: { movies, page: pageNumber, totalPages: searchResults.total_pages, totalResults: searchResults.total_results } };
   } catch (e) {
-    return [];
+    return null;
   }
 }

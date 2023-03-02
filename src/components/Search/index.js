@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 
 import {
-  getMovieSearchResults,
-  getMovieTrends,
   setCurrentPage,
   setLoadedState,
   setSearchQuery,
   setSearchResultsShow,
-} from "store";
+} from 'store/actions';
+import { selectorMovieLoader } from 'store/selectors';
 
 import styles from "./Search.module.scss";
 
 const Search = () => {
   const dispatch = useDispatch();
-  const loaded = useSelector( state => state.loaded );
+  const loaded = useSelector( selectorMovieLoader );
   const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
@@ -67,18 +66,4 @@ const Search = () => {
   );
 };
 
-const mapStateToProps = ( state ) => {
-  return {
-    ...state,
-    movies: state.movies,
-    currentPage: state.currentPage,
-    totalPages: state.totalPages,
-    totalResults: state.totalResults,
-    loaded: state.loaded
-  };
-};
-
-export default connect(mapStateToProps, {
-  getMovieTrends, getMovieSearchResults, setCurrentPage,
-  setLoadedState, setSearchQuery, setSearchResultsShow
-})(Search);
+export default Search;

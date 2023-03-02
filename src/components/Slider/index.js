@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import PopularMovie from "components/PopularMovie";
 import Loader from "components/Loader";
 
+import { selectorMovieLoader } from 'store/selectors';
+
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
@@ -33,7 +35,7 @@ const Slider = (
     autoplay,
     className
   } ) => {
-  const loaded = useSelector( state => state.loaded );
+  const loaded = useSelector( selectorMovieLoader );
 
   return(
     <Swiper
@@ -45,7 +47,7 @@ const Slider = (
     >
       { ! loaded && <Loader /> }
 
-      { loaded && slides.map( ( item ) => (
+      { loaded && slides?.map( ( item ) => (
         <SwiperSlide
           key={ item.key || item.id }
           className={ videos ? styles.sliderItemVideo : styles.sliderItem }

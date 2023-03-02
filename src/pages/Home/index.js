@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
 
 import Slider from "components/Slider";
@@ -9,14 +9,23 @@ import Button from "components/Button";
 import Loader from "components/Loader";
 import Label from "components/Label";
 
+import { getMovieSearchResults, getMovieTrends } from 'store/effects';
 import {
-  getMovieSearchResults,
-  getMovieTrends,
   setCurrentPage,
   setLoadedState,
   setSearchResultsShow,
-  setSearchQuery,
-} from "store";
+  setSearchQuery
+} from 'store/actions';
+import {
+  selectorMovieLoader,
+  selectorMovies,
+  selectorTotalResults,
+  selectorCurrentPage,
+  selectorTotalPages,
+  selectorPopularMovies,
+  selectorShowSearchResults,
+  selectorQuery,
+} from 'store/selectors';
 
 import styles from "components/layout/Layout.module.scss";
 
@@ -33,14 +42,14 @@ const sliderPaginationSettings = {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const loaded = useSelector( state => state.loaded );
-  const movies = useSelector( state => state.movies );
-  const totalResults = useSelector( state => state.totalResults );
-  const currentPage = useSelector( state => state.currentPage );
-  const totalPages = useSelector( state => state.totalPages );
-  const popularMovies = useSelector( state => state.popularMovies );
-  const showSearchResults = useSelector( state => state.showSearchResults );
-  const searchQuery = useSelector( state => state.searchQuery );
+  const loaded = useSelector( selectorMovieLoader );
+  const movies = useSelector( selectorMovies );
+  const totalResults = useSelector( selectorTotalResults );
+  const currentPage = useSelector( selectorCurrentPage );
+  const totalPages = useSelector( selectorTotalPages );
+  const popularMovies = useSelector( selectorPopularMovies );
+  const showSearchResults = useSelector( selectorShowSearchResults );
+  const searchQuery = useSelector( selectorQuery );
 
 
   useEffect(() => {
@@ -114,18 +123,4 @@ const Home = () => {
   )
 };
 
-const mapStateToProps = ( state ) => {
-  return {
-    movies: state.movies,
-    currentPage: state.currentPage,
-    totalPages: state.totalPages,
-    totalResults: state.totalResults,
-    popularMovies: state.popularMovies,
-    loaded: state.loaded
-  };
-};
-
-export default connect(mapStateToProps, {
-  getMovieTrends, getMovieSearchResults, setCurrentPage,
-  setLoadedState, setSearchResultsShow, setSearchQuery
-})(Home);
+export default Home;
