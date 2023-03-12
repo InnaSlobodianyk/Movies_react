@@ -8,7 +8,7 @@ import ActorsCards from "./ActorsCards";
 
 import styles from "./Movie.module.scss";
 
-const Movie = ({ movieDetails }) => (
+const Movie = ({ movieDetails, loaded }) => (
   <>
     <section className={ styles.movieReview__sectionIntro }>
       <div className={ styles.movieReview__sectionIntroInner }
@@ -44,6 +44,7 @@ const Movie = ({ movieDetails }) => (
             slides={ movieDetails.videos.results }
             navigation
             videos
+            loaded={ loaded }
           />
         </div>
       ) }
@@ -73,6 +74,6 @@ const Movie = ({ movieDetails }) => (
       ) }
     </section>
   </>
-)
+);
 
 export default Movie;

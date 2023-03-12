@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import cn from "classnames";
 
 import { Navigation, Pagination, Autoplay, A11y } from "swiper";
@@ -6,8 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import PopularMovie from "components/PopularMovie";
 import Loader from "components/Loader";
-
-import { selectorMovieLoader } from 'store/selectors';
 
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -33,10 +30,9 @@ const Slider = (
     pagination = false,
     videos = false,
     autoplay,
-    className
+    className,
+    loaded
   } ) => {
-  const loaded = useSelector( selectorMovieLoader );
-
   return(
     <Swiper
       navigation={ navigation }

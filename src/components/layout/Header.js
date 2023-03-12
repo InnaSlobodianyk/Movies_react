@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 
 import Menu from "components/Menu";
 import Search from "components/Search";
 
 import {
-  setCurrentPage,
+  setLoadedState,
   setSearchQuery,
   setSearchResultsShow,
 } from 'store/actions';
-import { selectorShowSearchResults } from 'store/selectors';
+import { selectorMovieLoader, selectorShowSearchResults } from 'store/selectors';
+import { setPagination } from 'store/effects';
 
 import logo from "assets/images/movierise-logo.png";
 
@@ -18,6 +19,9 @@ import styles from './Header.module.scss';
 const Header = () => {
   const dispatch = useDispatch();
   const showSearchResults = useSelector( selectorShowSearchResults );
+  const loaded = useSelector( selectorMovieLoader );
+
+  const navigate = useNavigate();
 
   const clickHandler = () => {
     if( showSearchResults ) {
@@ -25,7 +29,20 @@ const Header = () => {
       dispatch( setSearchQuery('') );
     }
 
-    dispatch( setCurrentPage(1) );
+    dispatch( setPagination( { loaded: true, page: 1 } ) );
+  };
+
+  const submitHandler = ( query ) => {
+
+    dispatch( setPagination( { loaded: false, page: 1 } ) );
+
+    dispatch( setSearchQuery(query) );
+
+    dispatch( setSearchResultsShow(true) );
+
+    dispatch( setLoadedState(true) );
+
+    navigate('/');
   };
 
   return (
@@ -36,7 +53,7 @@ const Header = () => {
         </Link>
 
         <div className={ styles.headerMenuContainer }>
-          <Search  />
+          <Search submitHandler={ submitHandler } loaded={ loaded } />
 
           <Menu />
         </div>

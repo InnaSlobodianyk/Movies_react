@@ -9,6 +9,7 @@ export const initialState = {
   popularMovies: [],
   showSearchResults: false,
   searchQuery: '',
+  movie: {},
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -27,6 +28,14 @@ const reducer = ( state = initialState, action ) => {
         totalPages: action.payload?.movies?.totalPages || state.totalPages,
         popularMovies: action.payload?.populars || state.popularMovies
       };
+    case STORE_ACTIONS.SET_DEFAULT_DATA:
+      return {
+        ...state,
+        loaded: false,
+        currentPage: 1,
+        showSearchResults: false,
+        searchQuery: ''
+      };
     case STORE_ACTIONS.SET_CURRENT_PAGE:
       return {
         ...state,
@@ -42,7 +51,11 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         searchQuery: action.payload
       };
-    case STORE_ACTIONS.GET_FAILURE:
+    case STORE_ACTIONS.SET_MOVIE_DETAILS:
+      return {
+        ...state,
+        movie: action.payload || state.movie
+      };
     default:
       return state;
   }

@@ -9,13 +9,8 @@ import Button from "components/Button";
 import Loader from "components/Loader";
 import Label from "components/Label";
 
-import { getMovieSearchResults, getMovieTrends } from 'store/effects';
-import {
-  setCurrentPage,
-  setLoadedState,
-  setSearchResultsShow,
-  setSearchQuery
-} from 'store/actions';
+import { getMovieSearchResults, getMovieTrends, setPagination } from 'store/effects';
+import { setDefaultData } from 'store/actions';
 import {
   selectorMovieLoader,
   selectorMovies,
@@ -51,7 +46,6 @@ const Home = () => {
   const showSearchResults = useSelector( selectorShowSearchResults );
   const searchQuery = useSelector( selectorQuery );
 
-
   useEffect(() => {
     if( showSearchResults ) {
       dispatch( getMovieSearchResults({ searchQuery, currentPage }) );
@@ -61,17 +55,11 @@ const Home = () => {
   }, [currentPage, dispatch, searchQuery, showSearchResults]);
 
   const paginationClickHandler = ( page ) => {
-    dispatch( setCurrentPage(page) );
-    dispatch( setLoadedState(true) );
+    dispatch( setPagination( { loaded: true, page } ) );
   };
 
-  const clearSearchResults = ( e ) => {
-    e.preventDefault();
-
-    dispatch( setLoadedState(false) );
-    dispatch( setSearchResultsShow(false) );
-    dispatch( setSearchQuery('') );
-    dispatch( setCurrentPage(1) );
+  const clearSearchResults = () => {
+    dispatch( setDefaultData() );
   };
 
   return (
@@ -83,6 +71,7 @@ const Home = () => {
           autoplay={ sliderAutoplaySettings }
           pagination={ sliderPaginationSettings }
           className={ styles.sliderPopular }
+          loaded
         />
       ) }
 

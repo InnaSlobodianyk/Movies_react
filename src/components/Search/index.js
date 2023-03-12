@@ -1,50 +1,30 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 
-import {
-  setCurrentPage,
-  setLoadedState,
-  setSearchQuery,
-  setSearchResultsShow,
-} from 'store/actions';
-import { selectorMovieLoader } from 'store/selectors';
-
 import styles from "./Search.module.scss";
 
-const Search = () => {
-  const dispatch = useDispatch();
-  const loaded = useSelector( selectorMovieLoader );
-  const navigate = useNavigate();
-
+const Search = ( { submitHandler, loaded } ) => {
   const [query, setQuery] = useState('');
 
   const onSearchInputChange = ( e ) => {
-    const queryValue = e.target.value.toLowerCase();
+    if (e.key === 'Enter') {
+      handlesSubmit();
+    } else {
+      const queryValue = e.target.value.toLowerCase();
 
-    setQuery(queryValue);
+      setQuery( queryValue );
+    }
   };
 
-  const onFormSubmit = ( e ) => {
-    e.preventDefault();
-
-    dispatch( setLoadedState(false) );
-    dispatch( setSearchQuery(query) );
-    dispatch( setCurrentPage(1) );
-    dispatch( setSearchResultsShow(true) );
-
+  const handlesSubmit = () => {
+    submitHandler( query );
     setQuery('');
-    navigate('/');
   };
 
   return (
-    <form
-      className={ styles.searchForm }
-      onSubmit={ onFormSubmit }
-    >
+    <>
       <input
         className={ styles.searchFormInput }
         type="text"
@@ -52,17 +32,17 @@ const Search = () => {
         aria-label="Search"
         value={ query }
         onChange={ onSearchInputChange }
+        onKeyDown={ onSearchInputChange }
         disabled={ ! loaded }
       />
       <Button
-        type="submit"
         className={ styles.searchFormBtn }
         disabled={ ! query || ! loaded }
-        onClick={ onFormSubmit }
+        onClick={ handlesSubmit }
       >
         <IoSearch className={ styles.searchFormIcon } />
       </Button>
-    </form>
+    </>
   );
 };
 
