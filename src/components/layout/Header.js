@@ -6,7 +6,6 @@ import Search from "components/Search";
 
 import {
   setLoadedState,
-  setSearchQuery,
   setSearchResultsShow,
 } from 'store/actions';
 import { selectorMovieLoader, selectorShowSearchResults } from 'store/selectors';
@@ -16,7 +15,7 @@ import logo from "assets/images/movierise-logo.png";
 
 import styles from './Header.module.scss';
 
-const Header = () => {
+const Header = ( { searchHandler } ) => {
   const dispatch = useDispatch();
   const showSearchResults = useSelector( selectorShowSearchResults );
   const loaded = useSelector( selectorMovieLoader );
@@ -26,7 +25,6 @@ const Header = () => {
   const clickHandler = () => {
     if( showSearchResults ) {
       dispatch( setSearchResultsShow(false) );
-      dispatch( setSearchQuery('') );
     }
 
     dispatch( setPagination( { loaded: true, page: 1 } ) );
@@ -36,7 +34,7 @@ const Header = () => {
 
     dispatch( setPagination( { loaded: false, page: 1 } ) );
 
-    dispatch( setSearchQuery(query) );
+    searchHandler( query );
 
     dispatch( setSearchResultsShow(true) );
 

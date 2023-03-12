@@ -5,5 +5,4 @@ export const selectorCurrentPage = state => state.currentPage;
 export const selectorTotalPages = state => state.totalPages;
 export const selectorPopularMovies = state => state.popularMovies;
 export const selectorShowSearchResults = state => state.showSearchResults;
-export const selectorQuery = state => state.searchQuery;
 export const selectorMovie = state => state.movie;

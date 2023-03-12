@@ -8,7 +8,6 @@ export const initialState = {
   totalPages: 0,
   popularMovies: [],
   showSearchResults: false,
-  searchQuery: '',
   movie: {},
 };
 
@@ -34,7 +33,6 @@ const reducer = ( state = initialState, action ) => {
         loaded: false,
         currentPage: 1,
         showSearchResults: false,
-        searchQuery: ''
       };
     case STORE_ACTIONS.SET_CURRENT_PAGE:
       return {
@@ -45,11 +43,6 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         showSearchResults: action.payload
-      };
-    case STORE_ACTIONS.SET_SEARCH_QUERY:
-      return {
-        ...state,
-        searchQuery: action.payload
       };
     case STORE_ACTIONS.SET_MOVIE_DETAILS:
       return {

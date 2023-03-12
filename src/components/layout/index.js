@@ -4,12 +4,15 @@ import Header from "./Header";
 
 import styles from "./Layout.module.scss";
 
-const Layout = ( props ) => {
+const Layout = ( { searchQueryHandler, ...props } ) => {
   const location = useLocation();
+  const searchHandler = ( query ) => {
+    searchQueryHandler( query );
+  };
 
   return (
     <>
-      <Header />
+      <Header searchHandler={ searchHandler } />
       <main className={ location.pathname !== '/' ? styles.pageContainer : '' }>
         {props.children}
       </main>

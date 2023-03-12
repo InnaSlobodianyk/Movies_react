@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
 
@@ -18,8 +18,7 @@ import {
   selectorCurrentPage,
   selectorTotalPages,
   selectorPopularMovies,
-  selectorShowSearchResults,
-  selectorQuery,
+  selectorShowSearchResults
 } from 'store/selectors';
 
 import styles from "components/layout/Layout.module.scss";
@@ -35,7 +34,7 @@ const sliderPaginationSettings = {
   bulletClass: 'swiper-pagination-bullet'
 }
 
-const Home = () => {
+const Home = ( { searchQuery } ) => {
   const dispatch = useDispatch();
   const loaded = useSelector( selectorMovieLoader );
   const movies = useSelector( selectorMovies );
@@ -44,7 +43,6 @@ const Home = () => {
   const totalPages = useSelector( selectorTotalPages );
   const popularMovies = useSelector( selectorPopularMovies );
   const showSearchResults = useSelector( selectorShowSearchResults );
-  const searchQuery = useSelector( selectorQuery );
 
   useEffect(() => {
     if( showSearchResults ) {
