@@ -34,12 +34,18 @@ export const getMovieTrends = ( currentPage ) =>
         return { ...movie, release_date, genres: filteredGenres }
       } );
 
-      const trendsData = { movies: { movies, page: currentPage, totalPages: trends.total_pages, totalResults: trends.total_results }, populars: popularMovies };
+      const trendsData = {
+        movies,
+        page: currentPage,
+        totalPages: trends.total_pages,
+        totalResults: trends.total_results,
+        populars: popularMovies
+      };
 
       dispatch( setMoviesData( trendsData ) );
-      dispatch( setLoadedState(true) );
     } catch (e) {
       dispatch( setMoviesData( null ) );
+    } finally {
       dispatch( setLoadedState(true) );
     }
   };
@@ -62,13 +68,17 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
         return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
       } );
 
-      const moviesData = { movies: { movies, page: currentPage, totalPages: searchResults.total_pages, totalResults: searchResults.total_results } };
-      dispatch( setMoviesData( moviesData ) );
+      const moviesData = {
+          movies,
+          page: currentPage,
+          totalPages: searchResults.total_pages,
+          totalResults: searchResults.total_results
+      };
 
-      dispatch( setLoadedState(true) );
+      dispatch( setMoviesData( moviesData ) );
     } catch(e) {
       dispatch( setMoviesData( null ) );
-
+    } finally {
       dispatch( setLoadedState(true) );
     }
   };
@@ -87,14 +97,13 @@ export const getMovieDetails = ( id ) =>
       const movie = { ...response, runtime, budget, release_date };
 
       dispatch( setMovieDetails( movie ) );
-      dispatch( setLoadedState(true) );
     } catch ( e ) {
       dispatch( setMovieDetails( null ) );
+    } finally {
       dispatch( setLoadedState(true) );
     }
   };
 
 export const setPagination = ( { loaded, page = 1 } ) => ( dispatch ) => {
-  dispatch( setLoadedState( loaded ) );
-  dispatch( setCurrentPage( page ) );
+  dispatch( setCurrentPage( { loaded, page } ) );
 };

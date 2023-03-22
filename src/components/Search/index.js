@@ -9,13 +9,9 @@ const Search = ( { submitHandler, loaded } ) => {
   const [query, setQuery] = useState('');
 
   const onSearchInputChange = ( e ) => {
-    if (e.key === 'Enter') {
-      handlesSubmit();
-    } else {
-      const queryValue = e.target.value.toLowerCase();
+    const queryValue = e.target.value.toLowerCase();
 
-      setQuery( queryValue );
-    }
+    setQuery( queryValue );
   };
 
   const handlesSubmit = () => {
@@ -24,7 +20,10 @@ const Search = ( { submitHandler, loaded } ) => {
   };
 
   return (
-    <>
+    <form
+      className={ styles.searchForm }
+      onSubmit={ handlesSubmit }
+    >
       <input
         className={ styles.searchFormInput }
         type="text"
@@ -32,17 +31,17 @@ const Search = ( { submitHandler, loaded } ) => {
         aria-label="Search"
         value={ query }
         onChange={ onSearchInputChange }
-        onKeyDown={ onSearchInputChange }
         disabled={ ! loaded }
       />
       <Button
+        type="submit"
         className={ styles.searchFormBtn }
         disabled={ ! query || ! loaded }
         onClick={ handlesSubmit }
       >
         <IoSearch className={ styles.searchFormIcon } />
       </Button>
-    </>
+    </form>
   );
 };
 

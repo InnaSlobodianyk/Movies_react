@@ -8,6 +8,7 @@ export const initialState = {
   totalPages: 0,
   popularMovies: [],
   showSearchResults: false,
+  searchQuery: '',
   movie: {},
 };
 
@@ -21,10 +22,10 @@ const reducer = ( state = initialState, action ) => {
     case STORE_ACTIONS.SET_DATA:
       return {
         ...state,
-        movies: action.payload?.movies?.movies || state.movies,
-        totalResults: action.payload?.movies?.totalResults || state.totalResults,
-        currentPage: action.payload?.movies?.page || state.currentPage,
-        totalPages: action.payload?.movies?.totalPages || state.totalPages,
+        movies: action.payload?.movies || state.movies,
+        totalResults: action.payload?.totalResults || state.totalResults,
+        currentPage: action.payload?.page || state.currentPage,
+        totalPages: action.payload?.totalPages || state.totalPages,
         popularMovies: action.payload?.populars || state.popularMovies
       };
     case STORE_ACTIONS.SET_DEFAULT_DATA:
@@ -33,16 +34,21 @@ const reducer = ( state = initialState, action ) => {
         loaded: false,
         currentPage: 1,
         showSearchResults: false,
+        searchQuery: ''
       };
     case STORE_ACTIONS.SET_CURRENT_PAGE:
       return {
         ...state,
-        currentPage: action.payload
+        loaded: action.payload?.loaded || state.loaded,
+        currentPage: action.payload?.page || 1
       };
-    case STORE_ACTIONS.SHOW_SEARCH_RESULTS:
+    case STORE_ACTIONS.SET_SEARCH:
       return {
         ...state,
-        showSearchResults: action.payload
+        loaded: action.payload?.loaded || true,
+        showSearchResults: action.payload?.showSearchRes || false,
+        searchQuery: action.payload?.query || '',
+        currentPage: action.payload?.page || 1
       };
     case STORE_ACTIONS.SET_MOVIE_DETAILS:
       return {

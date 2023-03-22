@@ -4,41 +4,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import Menu from "components/Menu";
 import Search from "components/Search";
 
-import {
-  setLoadedState,
-  setSearchResultsShow,
-} from 'store/actions';
-import { selectorMovieLoader, selectorShowSearchResults } from 'store/selectors';
+import { setSearch, setDefaultData } from 'store/actions';
+import { selectorSearchStatus } from 'store/selectors';
 import { setPagination } from 'store/effects';
 
 import logo from "assets/images/movierise-logo.png";
 
 import styles from './Header.module.scss';
 
-const Header = ( { searchHandler } ) => {
+const Header = () => {
   const dispatch = useDispatch();
-  const showSearchResults = useSelector( selectorShowSearchResults );
-  const loaded = useSelector( selectorMovieLoader );
+  const searchData = useSelector( selectorSearchStatus );
 
   const navigate = useNavigate();
 
-  const clickHandler = () => {
-    if( showSearchResults ) {
-      dispatch( setSearchResultsShow(false) );
+  const logoClickHandler = () => {
+    if( searchData?.showSearchResults ) {
+      dispatch( setDefaultData() );
     }
 
     dispatch( setPagination( { loaded: true, page: 1 } ) );
   };
 
   const submitHandler = ( query ) => {
-
-    dispatch( setPagination( { loaded: false, page: 1 } ) );
-
-    searchHandler( query );
-
-    dispatch( setSearchResultsShow(true) );
-
-    dispatch( setLoadedState(true) );
+    dispatch( setSearch( { loaded: true, showSearchRes: true, query, page: 1 } ) );
 
     navigate('/');
   };
@@ -46,12 +35,12 @@ const Header = ( { searchHandler } ) => {
   return (
     <header className={ styles.header }>
       <div className={ styles.headerContainer }>
-        <Link to="/" className={ styles.headerLogo } onClick={ clickHandler }>
+        <Link to="/" className={ styles.headerLogo } onClick={ logoClickHandler }>
           <img src={ logo } alt="logo-movierise"/>
         </Link>
 
         <div className={ styles.headerMenuContainer }>
-          <Search submitHandler={ submitHandler } loaded={ loaded } />
+          <Search submitHandler={ submitHandler } loaded={ searchData?.loaded } />
 
           <Menu />
         </div>

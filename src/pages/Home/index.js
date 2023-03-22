@@ -11,15 +11,7 @@ import Label from "components/Label";
 
 import { getMovieSearchResults, getMovieTrends, setPagination } from 'store/effects';
 import { setDefaultData } from 'store/actions';
-import {
-  selectorMovieLoader,
-  selectorMovies,
-  selectorTotalResults,
-  selectorCurrentPage,
-  selectorTotalPages,
-  selectorPopularMovies,
-  selectorShowSearchResults
-} from 'store/selectors';
+import { selectorState } from 'store/selectors';
 
 import styles from "components/layout/Layout.module.scss";
 
@@ -34,21 +26,24 @@ const sliderPaginationSettings = {
   bulletClass: 'swiper-pagination-bullet'
 }
 
-const Home = ( { searchQuery } ) => {
+const Home = () => {
   const dispatch = useDispatch();
-  const loaded = useSelector( selectorMovieLoader );
-  const movies = useSelector( selectorMovies );
-  const totalResults = useSelector( selectorTotalResults );
-  const currentPage = useSelector( selectorCurrentPage );
-  const totalPages = useSelector( selectorTotalPages );
-  const popularMovies = useSelector( selectorPopularMovies );
-  const showSearchResults = useSelector( selectorShowSearchResults );
+  const state = useSelector( selectorState );
+
+  const loaded = state.loaded;
+  const movies = state.movies;
+  const totalResults = state.totalResults;
+  const currentPage = state.currentPage;
+  const totalPages = state.totalPages;
+  const popularMovies = state.popularMovies;
+  const showSearchResults = state.showSearchResults;
+  const searchQuery = state.searchQuery;
 
   useEffect(() => {
     if( showSearchResults ) {
       dispatch( getMovieSearchResults({ searchQuery, currentPage }) );
     } else {
-      dispatch( getMovieTrends(currentPage) );
+      dispatch( getMovieTrends( currentPage ) );
     }
   }, [currentPage, dispatch, searchQuery, showSearchResults]);
 

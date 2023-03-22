@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Movie from 'components/movie';
 import { getMovieDetails } from 'store/effects';
-import { selectorMovie, selectorMovieLoader } from 'store/selectors';
+import { selectorMovie } from 'store/selectors';
 
 const MoviePage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
 
-  const movieDetails = useSelector( selectorMovie );
-  const loaded = useSelector( selectorMovieLoader );
+  const movie = useSelector( selectorMovie );
+  const movieDetails = movie?.movie;
+  const loaded = movie?.loaded;
+
 
   useEffect(() => {
     dispatch( getMovieDetails( movieId ) );
