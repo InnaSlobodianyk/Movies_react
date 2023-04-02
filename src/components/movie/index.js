@@ -1,78 +1,85 @@
-import { imageFullUrl } from "helpers";
+import { imageFullUrl } from 'helpers';
 
-import Slider from "components/Slider";
-import MovieDetails from "./MovieDetails";
-import Poster from "./Poster";
-import MoreMovies from "./MoreMovies";
-import ActorsCards from "./ActorsCards";
+import Slider from 'components/Slider';
+import Loader from 'components/Loader';
+import MovieDetails from './MovieDetails';
+import Poster from './Poster';
+import MoreMovies from './MoreMovies';
+import ActorsCards from './ActorsCards';
 
-import styles from "./Movie.module.scss";
+import styles from './Movie.module.scss';
 
-const Movie = ({ movieDetails, loaded }) => (
+const Movie = ( { movieDetails, fetching } ) => (
   <>
-    <section className={ styles.movieReview__sectionIntro }>
-      <div className={ styles.movieReview__sectionIntroInner }
-           style={ movieDetails.backdrop_path
-             ? { backgroundImage: `url(${ imageFullUrl({ imagePath: movieDetails.backdrop_path }) }` }
-             : { backgroundColor: '#f5f6f6' } }></div>
-    </section>
+    { fetching && <Loader /> }
 
-    <section className={ styles.movieReview }>
-      <div className={ styles.movieReview__poster }>
+    { ! fetching && (
+      <>
+        <section className={ styles.movieReview__sectionIntro }>
+          <div className={ styles.movieReview__sectionIntroInner }
+               style={ movieDetails.backdrop_path
+                 ? { backgroundImage: `url(${ imageFullUrl({ imagePath: movieDetails.backdrop_path }) }` }
+                 : { backgroundColor: '#f5f6f6' } }></div>
+        </section>
 
-        <Poster
-          posterPath={ movieDetails.poster_path }
-          movieTitle={ movieDetails.title }
-        />
+        <section className={ styles.movieReview }>
+          <div className={ styles.movieReview__poster }>
 
-      </div>
+            <Poster
+              posterPath={ movieDetails.poster_path }
+              movieTitle={ movieDetails.title }
+            />
 
-      <div className={ styles.movieReview__content }>
+          </div>
 
-        <MovieDetails movieDetails={ movieDetails } />
+          <div className={ styles.movieReview__content }>
 
-      </div>
-    </section>
+            <MovieDetails movieDetails={ movieDetails } />
 
-    <section>
-      { movieDetails.videos?.results?.length > 0 && (
-        <div className={styles.movieReview__section}>
-          <h2 className={styles.movieReview__titleSecond}>Watch trailer</h2>
+          </div>
+        </section>
 
-          <Slider
-            className={ styles.movieReview__sliderItem }
-            slides={ movieDetails.videos.results }
-            navigation
-            videos
-            loaded={ loaded }
-          />
-        </div>
-      ) }
+        <section>
+          { movieDetails.videos?.results?.length > 0 && (
+            <div className={styles.movieReview__section}>
+              <h2 className={styles.movieReview__titleSecond}>Watch trailer</h2>
 
-      { movieDetails.credits?.cast?.length > 0 && (
-        <div className={ styles.movieReview__section }>
-          <h2 className={ styles.movieReview__titleSecond }>Actors</h2>
+              <Slider
+                className={ styles.movieReview__sliderItem }
+                slides={ movieDetails.videos.results }
+                navigation
+                videos
+                fetching={ fetching }
+              />
+            </div>
+          ) }
 
-          <ActorsCards cast={ movieDetails.credits.cast } />
-        </div>
-      ) }
+          { movieDetails.credits?.cast?.length > 0 && (
+            <div className={ styles.movieReview__section }>
+              <h2 className={ styles.movieReview__titleSecond }>Actors</h2>
 
-      { movieDetails.similar?.results?.length > 0 && (
-        <div className={ styles.movieReview__section }>
-          <h2 className={ styles.movieReview__titleSecond }>More similar movies</h2>
+              <ActorsCards cast={ movieDetails.credits.cast } />
+            </div>
+          ) }
 
-          <MoreMovies movies={ movieDetails.similar.results } />
-        </div>
-      ) }
+          { movieDetails.similar?.results?.length > 0 && (
+            <div className={ styles.movieReview__section }>
+              <h2 className={ styles.movieReview__titleSecond }>More similar movies</h2>
 
-      { movieDetails.recommendations?.results?.length > 0 && (
-        <div className={ styles.movieReview__section }>
-          <h2 className={ styles.movieReview__titleSecond }>Recommended movies</h2>
+              <MoreMovies movies={ movieDetails.similar.results } />
+            </div>
+          ) }
 
-          <MoreMovies movies={ movieDetails.recommendations.results } />
-        </div>
-      ) }
-    </section>
+          { movieDetails.recommendations?.results?.length > 0 && (
+            <div className={ styles.movieReview__section }>
+              <h2 className={ styles.movieReview__titleSecond }>Recommended movies</h2>
+
+              <MoreMovies movies={ movieDetails.recommendations.results } />
+            </div>
+          ) }
+        </section>
+      </>
+    ) }
   </>
 );
 

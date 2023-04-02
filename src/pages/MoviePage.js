@@ -5,22 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Movie from 'components/movie';
 import { getMovieDetails } from 'store/effects';
-import { selectorMovie } from 'store/selectors';
+import { selectorMovieState } from 'store/selectors';
 
 const MoviePage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
 
-  const movie = useSelector( selectorMovie );
-  const movieDetails = movie?.movie;
-  const loaded = movie?.loaded;
+  const movieState = useSelector( selectorMovieState );
+  const movieDetails = movieState.movie;
+  const movieFetching = movieState.fetching;
 
 
   useEffect(() => {
     dispatch( getMovieDetails( movieId ) );
-  }, [dispatch, movieId]);
+    // eslint-disable-next-line
+  }, [movieId]);
 
-  return  movieDetails && <Movie movieDetails={ movieDetails } loaded={ loaded } />;
+  return movieDetails && <Movie movieDetails={ movieDetails } fetching={ movieFetching } />;
 }
 
 export default MoviePage;

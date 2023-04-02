@@ -1,19 +1,28 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import cn from "classnames";
+import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
 
-import Slider from "components/Slider";
-import Trendcard from "components/Trendcard";
-import Pagination from "components/Pagination";
-import Button from "components/Button";
-import Loader from "components/Loader";
-import Label from "components/Label";
+import Slider from 'components/Slider';
+import Pagination from 'components/Pagination';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Label from 'components/Label';
+import TrendcardsContainer from './TrendcardsContainer';
 
-import { getMovieSearchResults, getMovieTrends, setPagination } from 'store/effects';
-import { setDefaultData } from 'store/actions';
-import { selectorState } from 'store/selectors';
+import {
+  getMovieSearchResults,
+  getMovieTrends,
+  resetSearchAndTrends,
+  setPagination
+} from 'store/effects';
 
-import styles from "components/layout/Layout.module.scss";
+import {
+  selectorPopularsState,
+  selectorTrendsState,
+  selectorSearchState
+} from 'store/selectors';
+
+import styles from 'components/layout/Layout.module.scss';
 
 const sliderAutoplaySettings = {
   delay: 5000,
@@ -28,56 +37,67 @@ const sliderPaginationSettings = {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const state = useSelector( selectorState );
 
-  const loaded = state.loaded;
-  const movies = state.movies;
-  const totalResults = state.totalResults;
-  const currentPage = state.currentPage;
-  const totalPages = state.totalPages;
-  const popularMovies = state.popularMovies;
-  const showSearchResults = state.showSearchResults;
-  const searchQuery = state.searchQuery;
+  const popularsState = useSelector( selectorPopularsState );
+  const popularsFetching = popularsState.fetching;
+  const popularMovies = popularsState.popularMovies;
+
+  const trendsState = useSelector( selectorTrendsState );
+  const trendsFetching = trendsState.fetching;
+  const trends = trendsState.trends;
+  const trendsCurrentPage = trendsState.currentPage;
+  const trendsTotalResults = trendsState.totalResults;
+  const trendsTotalPages = trendsState.totalPages;
+
+  const searchState = useSelector( selectorSearchState );
+  const searchCurrentPage = searchState.currentPage;
+  const searchQuery = searchState.searchQuery;
+  const isSearch = searchState.searchQuery?.length > 0;
+
+
 
   useEffect(() => {
-    if( showSearchResults ) {
-      dispatch( getMovieSearchResults({ searchQuery, currentPage }) );
+    if( ! isSearch ) {
+      dispatch( getMovieTrends( trendsCurrentPage ) );
     } else {
-      dispatch( getMovieTrends( currentPage ) );
+      dispatch( getMovieSearchResults({ searchQuery, currentPage: searchCurrentPage }) );
     }
-  }, [currentPage, dispatch, searchQuery, showSearchResults]);
+    // eslint-disable-next-line
+  }, [isSearch, searchCurrentPage, searchQuery, trendsCurrentPage]);
 
   const paginationClickHandler = ( page ) => {
-    dispatch( setPagination( { loaded: true, page } ) );
+    dispatch( setPagination( { isSearch, fetching: false, page } ) );
   };
 
   const clearSearchResults = () => {
-    dispatch( setDefaultData() );
+    dispatch( resetSearchAndTrends( { isSearch, fetching: false, page: 1 } ) );
   };
 
   return (
     <>
-      { popularMovies && (
+      { popularsFetching && <Loader /> }
+
+      { ! popularsFetching && popularMovies && (
         <Slider
           slides={ popularMovies }
           navigation
           autoplay={ sliderAutoplaySettings }
           pagination={ sliderPaginationSettings }
           className={ styles.sliderPopular }
-          loaded
+          fetching={ popularsFetching }
         />
       ) }
 
-      { ! loaded && <Loader /> }
+      { ( trendsFetching || searchState.fetching ) && <Loader /> }
 
-      { loaded && (
+      { ! trendsFetching && ! searchState.fetching && (
         <div className={ styles.pageContainer }>
           <div className={ styles.headingContainer }>
             <h2 className={ cn( styles.pageHeading, styles['pageHeading--2'] ) }>
-              { showSearchResults && searchQuery ? `Search results for "${ searchQuery }"` : 'Trending movies' }
+              { searchState.searchQuery?.length > 0 ? `Search results for "${ searchState.searchQuery }"` : 'Trending movies' }
             </h2>
 
-            { showSearchResults && searchQuery && (
+            { searchState.searchedMovies?.length > 0 && searchState.searchQuery && (
               <Button onClick={ clearSearchResults }>
                 <Label className={ styles.clearResultsBtn }>
                   Clear search results
@@ -86,16 +106,18 @@ const Home = () => {
             )}
           </div>
 
-          { movies && (
+          { ( ( isSearch && searchState?.searchedMovies?.length > 0 ) || trends ) && (
             <div className={styles.container}>
-              { movies.map( movie => <Trendcard key={ movie.id } movie={ movie } /> ) }
+              <TrendcardsContainer
+                movies={ ( isSearch && searchState?.searchedMovies ) ? searchState.searchedMovies : !isSearch && trends && trends }
+              />
             </div>
           ) }
 
-          { totalResults > 20 && (
+          { ( trendsTotalResults > 20 || ( isSearch && searchState.totalResults > 20 ) ) && (
             <Pagination
-              totalPages={ totalPages }
-              currentPage={ currentPage }
+              totalPages={ isSearch ? searchState.totalPages : trendsTotalPages }
+              currentPage={ isSearch ? searchState.currentPage : trendsCurrentPage }
               onPageChange={ paginationClickHandler }
             />
           ) }

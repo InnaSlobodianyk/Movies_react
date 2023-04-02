@@ -1,34 +1,35 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import Menu from "components/Menu";
-import Search from "components/Search";
+import Menu from 'components/Menu';
+import Search from 'components/Search';
 
 import { setSearch, setDefaultData } from 'store/actions';
-import { selectorSearchStatus } from 'store/selectors';
+import { selectorSearchState } from 'store/selectors';
 import { setPagination } from 'store/effects';
 
-import logo from "assets/images/movierise-logo.png";
+import logo from 'assets/images/movierise-logo.png';
 
 import styles from './Header.module.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const searchData = useSelector( selectorSearchStatus );
-
   const navigate = useNavigate();
 
+  const searchState = useSelector( selectorSearchState );
+  const isSearch = searchState?.searchedMovies?.length > 0;
+  const searchFetching = searchState?.fetching;
+
   const logoClickHandler = () => {
-    if( searchData?.showSearchResults ) {
+    if( isSearch ) {
       dispatch( setDefaultData() );
     }
 
-    dispatch( setPagination( { loaded: true, page: 1 } ) );
+    dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );
   };
 
   const submitHandler = ( query ) => {
-    dispatch( setSearch( { loaded: true, showSearchRes: true, query, page: 1 } ) );
-
+    dispatch( setSearch( { fetching: true, page: 1, searchQuery: query } ) );
     navigate('/');
   };
 
@@ -40,7 +41,7 @@ const Header = () => {
         </Link>
 
         <div className={ styles.headerMenuContainer }>
-          <Search submitHandler={ submitHandler } loaded={ searchData?.loaded } />
+          <Search submitHandler={ submitHandler } fetching={ searchFetching } />
 
           <Menu />
         </div>

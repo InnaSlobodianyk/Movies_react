@@ -5,7 +5,7 @@ import Button from "components/Button";
 
 import styles from "./Search.module.scss";
 
-const Search = ( { submitHandler, loaded } ) => {
+const Search = ( { submitHandler, fetching } ) => {
   const [query, setQuery] = useState('');
 
   const onSearchInputChange = ( e ) => {
@@ -31,12 +31,12 @@ const Search = ( { submitHandler, loaded } ) => {
         aria-label="Search"
         value={ query }
         onChange={ onSearchInputChange }
-        disabled={ ! loaded }
+        disabled={ fetching }
       />
       <Button
         type="submit"
         className={ styles.searchFormBtn }
-        disabled={ ! query || ! loaded }
+        disabled={ ! query || fetching }
         onClick={ handlesSubmit }
       >
         <IoSearch className={ styles.searchFormIcon } />

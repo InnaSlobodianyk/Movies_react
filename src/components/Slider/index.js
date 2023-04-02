@@ -31,9 +31,8 @@ const Slider = (
     videos = false,
     autoplay,
     className,
-    loaded
-  } ) => {
-  return(
+    fetching
+  } ) => (
     <Swiper
       navigation={ navigation }
       pagination={ pagination }
@@ -41,9 +40,9 @@ const Slider = (
       autoplay={ autoplay }
       className={ cn( styles.slider, className ) }
     >
-      { ! loaded && <Loader /> }
+      { fetching && <Loader /> }
 
-      { loaded && slides?.map( ( item ) => (
+      { ! fetching && slides?.map( ( item ) => (
         <SwiperSlide
           key={ item.key || item.id }
           className={ videos ? styles.sliderItemVideo : styles.sliderItem }
@@ -58,6 +57,5 @@ const Slider = (
       ) ) }
     </Swiper>
   );
-};
 
 export default Slider;
