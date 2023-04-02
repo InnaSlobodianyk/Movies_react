@@ -4,12 +4,28 @@ import { getPopulars } from 'services/populars';
 import { getMovie } from 'services/movie';
 import { getSearchResults } from 'services/searchResults';
 
-import { setCurrentPage, setLoadedState, setMovieDetails, setMoviesData } from '../actions';
-import { calcDate, filterGenres, formatBudget, formatRuntime, roundRatingValue } from 'helpers';
+import {
+  setCurrentPage,
+  setDefaultData,
+  setFetchingState,
+  setMovieDetails,
+  setMovieFetchingState,
+  setPopularMoviesData,
+  setSearchMoviesData,
+  setTrendsData
+} from 'store/actions';
+
+import {
+  calcDate,
+  filterGenres,
+  formatBudget,
+  formatRuntime,
+  roundRatingValue
+} from 'helpers';
 
 export const getMovieTrends = ( currentPage ) =>
   async ( dispatch ) => {
-    dispatch( setLoadedState(false) );
+    dispatch( setFetchingState( { isSearch: false, isFetching: true } ) );
 
     try {
       const [trends, allGenres, populars] = await Promise.all([
@@ -27,7 +43,7 @@ export const getMovieTrends = ( currentPage ) =>
         return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
       } );
 
-      const popularMovies = populars.map( movie => {
+      const popularMovies = populars.map( movie  => {
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const release_date = calcDate(movie.release_date);
 
@@ -35,24 +51,25 @@ export const getMovieTrends = ( currentPage ) =>
       } );
 
       const trendsData = {
-        movies,
+        trends: movies,
         page: currentPage,
         totalPages: trends.total_pages,
-        totalResults: trends.total_results,
-        populars: popularMovies
+        totalResults: trends.total_results
       };
 
-      dispatch( setMoviesData( trendsData ) );
+      dispatch( setPopularMoviesData( { movies: popularMovies, fetching: false } ) );
+
+      dispatch( setTrendsData( trendsData ) );
     } catch (e) {
-      dispatch( setMoviesData( null ) );
+      dispatch( setTrendsData( null ) );
     } finally {
-      dispatch( setLoadedState(true) );
+      dispatch( setFetchingState( { isSearch: false, isFetching: false } ) );
     }
   };
 
 export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
   async ( dispatch ) => {
-    dispatch( setLoadedState(false) );
+    dispatch( setFetchingState( { isSearch: true, isFetching: true } ) );
 
     try {
       const [searchResults, allGenres] = await Promise.all([
@@ -69,23 +86,24 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
       } );
 
       const moviesData = {
-          movies,
-          page: currentPage,
-          totalPages: searchResults.total_pages,
-          totalResults: searchResults.total_results
+        searchQuery,
+        searchedMovies: movies,
+        page: searchResults.page,
+        totalPages: searchResults.total_pages,
+        totalResults: searchResults.total_results
       };
 
-      dispatch( setMoviesData( moviesData ) );
+      dispatch( setSearchMoviesData( moviesData ) );
     } catch(e) {
-      dispatch( setMoviesData( null ) );
+      dispatch( setSearchMoviesData( null ) );
     } finally {
-      dispatch( setLoadedState(true) );
+      dispatch( setFetchingState( { isSearch: true, isFetching: false } ) );
     }
   };
 
 export const getMovieDetails = ( id ) =>
   async ( dispatch ) => {
-    dispatch( setLoadedState(false) );
+    dispatch( setMovieFetchingState( true ) );
 
     try {
       const response = await getMovie( id );
@@ -100,10 +118,17 @@ export const getMovieDetails = ( id ) =>
     } catch ( e ) {
       dispatch( setMovieDetails( null ) );
     } finally {
-      dispatch( setLoadedState(true) );
+      dispatch( setMovieFetchingState( false ) );
     }
   };
 
-export const setPagination = ( { loaded, page = 1 } ) => ( dispatch ) => {
-  dispatch( setCurrentPage( { loaded, page } ) );
+export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch ) => {
+  dispatch( setCurrentPage( { isSearch, fetching, page } ) );
 };
+
+export const resetSearchAndTrends = ( { isSearch, fetching, page = 1 } ) => {
+  return dispatch => {
+    dispatch( setDefaultData() );
+    dispatch( setCurrentPage( { isSearch, fetching, page } ) );
+  }
+}

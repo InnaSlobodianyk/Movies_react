@@ -1,35 +1,56 @@
-export const STORE_ACTIONS = {
-  SET_LOADED_STATE: 'SET_LOADED_STATE',
-  SET_DATA: 'SET_DATA',
+export const POPULARS_STORE_ACTIONS = {
+  SET_FETCHING_STATE: 'SET_FETCHING_STATE',
+  SET_POPULARS: 'SET_POPULARS'
+};
+
+export const TRENDS_STORE_ACTIONS = {
+  SET_TRENDS_FETCHING: 'SET_TRENDS_FETCHING',
+  SET_TRENDS: 'SET_TRENDS',
   SET_CURRENT_PAGE: 'SET_CURRENT_PAGE',
+};
+
+export const SEARCH_STORE_ACTIONS = {
+  SET_SEARCH_FETCHING: 'SET_SEARCH_FETCHING',
   SET_SEARCH: 'SET_SEARCH',
-  RESET_SEARCH: 'RESET_SEARCH',
-  SET_MOVIE_DETAILS: 'SET_MOVIE_DETAILS',
+  SET_SEARCH_MOVIES: 'SET_SEARCH_MOVIES',
+  SET_CURRENT_PAGE: 'SET_CURRENT_PAGE',
   SET_DEFAULT_DATA: 'SET_DEFAULT_DATA',
 };
 
-export const setMoviesData = ( data ) => ( { type: STORE_ACTIONS.SET_DATA, payload: data } );
+export const MOVIE_STORE_ACTION = {
+  SET_MOVIE_FETCHING: 'SET_MOVIE_FETCHING',
+  SET_MOVIE: 'SET_MOVIE'
+};
 
-export const setLoadedState = ( isLoaded ) => ( { type: STORE_ACTIONS.SET_LOADED_STATE, payload: isLoaded } );
+export const setPopularMoviesData = ( { movies, fetching } ) => ( { type: POPULARS_STORE_ACTIONS.SET_POPULARS, payload: { movies, fetching } } );
 
-export const setCurrentPage = ( { loaded, page } ) => ( {
-  type: STORE_ACTIONS.SET_CURRENT_PAGE,
+export const setTrendsData = ( data ) => ( { type: TRENDS_STORE_ACTIONS.SET_TRENDS, payload: data } );
+
+export const setSearchMoviesData = ( data ) => ( { type: SEARCH_STORE_ACTIONS.SET_SEARCH_MOVIES, payload: data } );
+
+export const setFetchingState = ( { isSearch, isFetching } ) => (
+  isSearch
+    ? { type: SEARCH_STORE_ACTIONS.SET_SEARCH_FETCHING, payload: isFetching }
+    : { type: TRENDS_STORE_ACTIONS.SET_TRENDS_FETCHING, payload: isFetching }
+);
+
+export const setCurrentPage = ( { isSearch, fetching, page } ) => (
+  isSearch
+    ? { type: SEARCH_STORE_ACTIONS.SET_CURRENT_PAGE, payload: { fetching, page } }
+    : { type: TRENDS_STORE_ACTIONS.SET_CURRENT_PAGE, payload: { fetching, page } }
+);
+
+export const setSearch = ( { fetching, page, searchQuery } ) => ( {
+  type: SEARCH_STORE_ACTIONS.SET_SEARCH,
   payload: {
-    loaded,
-    page
+    fetching,
+    page,
+    searchQuery
   }
 } );
 
-export const setSearch = ( { loaded, showSearchRes, query, page } ) => ( {
-  type: STORE_ACTIONS.SET_SEARCH,
-  payload: {
-    loaded,
-    showSearchRes,
-    query,
-    page
-  }
-} );
+export const setMovieDetails = ( data ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE, payload: data } );
 
-export const setMovieDetails = ( data ) => ( { type: STORE_ACTIONS.SET_MOVIE_DETAILS, payload: data } );
+export const setMovieFetchingState = ( isFetching ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE_FETCHING, payload: isFetching } );
 
-export const setDefaultData = () => ( { type: STORE_ACTIONS.SET_DEFAULT_DATA } );
+export const setDefaultData = () => ( { type: SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA } );

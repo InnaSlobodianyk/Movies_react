@@ -1,11 +1,7 @@
-export const selectorSearchStatus = state => ( {
-  showSearchResults: state.showSearchResults,
-  loaded: state.loaded
-} );
+export const selectorPopularsState = state => state.popular;
 
-export const selectorMovie = state => ( {
-  movie: state.movie,
-  loaded: state.loaded
-} );
+export const selectorTrendsState = state => state.trends;
 
-export const selectorState = state => state;
+export const selectorSearchState = state => state.search;
+
+export const selectorMovieState = state => state.movie;
