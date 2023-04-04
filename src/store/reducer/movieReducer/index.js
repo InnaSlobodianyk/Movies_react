@@ -1,6 +1,6 @@
 import { MOVIE_STORE_ACTION } from 'store/actions';
 
-export const movieInitialState = {
+const movieInitialState = {
   fetching: false,
   movie: []
 };

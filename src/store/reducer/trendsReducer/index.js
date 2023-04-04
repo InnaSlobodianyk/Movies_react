@@ -1,6 +1,6 @@
 import { TRENDS_STORE_ACTIONS } from 'store/actions';
 
-export const trendsInitialState = {
+const trendsInitialState = {
   fetching: true,
   trends: [],
   totalResults: 0,
@@ -19,7 +19,7 @@ const trendsReducer = ( state = trendsInitialState, action ) => {
       return {
         ...state,
         trends: action.payload?.trends,
-        currentPage: action.payload?.page,
+        currentPage: action.payload?.currentPage,
         totalPages: action.payload?.totalPages,
         totalResults: action.payload?.totalResults
       };

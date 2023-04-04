@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Menu from 'components/Menu';
 import Search from 'components/Search';
 
-import { setSearch, setDefaultData } from 'store/actions';
+import { setSearchDefaultData } from 'store/actions';
 import { selectorSearchState } from 'store/selectors';
-import { setPagination } from 'store/effects';
+import { getMovieSearchResults, setPagination } from 'store/effects';
 
 import logo from 'assets/images/movierise-logo.png';
 
@@ -16,20 +16,19 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const searchState = useSelector( selectorSearchState );
-  const isSearch = searchState?.searchedMovies?.length > 0;
-  const searchFetching = searchState?.fetching;
+  const { fetching: searchFetching, searchedMovies } = useSelector( selectorSearchState );
+  const isSearch = searchedMovies.length > 0;
 
   const logoClickHandler = () => {
     if( isSearch ) {
-      dispatch( setDefaultData() );
+      dispatch( setSearchDefaultData() );
     }
 
     dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );
   };
 
   const submitHandler = ( query ) => {
-    dispatch( setSearch( { fetching: true, page: 1, searchQuery: query } ) );
+    dispatch( getMovieSearchResults({ searchQuery: query, currentPage: 1 }) );
     navigate('/');
   };
 

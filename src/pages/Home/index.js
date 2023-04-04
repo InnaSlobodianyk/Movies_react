@@ -38,39 +38,41 @@ const sliderPaginationSettings = {
 const Home = () => {
   const dispatch = useDispatch();
 
-  const popularsState = useSelector( selectorPopularsState );
-  const popularsFetching = popularsState.fetching;
-  const popularMovies = popularsState.popularMovies;
+  const { fetching: popularsFetching, popularMovies } = useSelector( selectorPopularsState );
 
-  const trendsState = useSelector( selectorTrendsState );
-  const trendsFetching = trendsState.fetching;
-  const trends = trendsState.trends;
-  const trendsCurrentPage = trendsState.currentPage;
-  const trendsTotalResults = trendsState.totalResults;
-  const trendsTotalPages = trendsState.totalPages;
+  const  {
+    currentPage: trendsCurrentPage,
+    fetching: trendsFetching,
+    totalPages: trendsTotalPages,
+    totalResults: trendsTotalResults,
+    trends
+  } = useSelector( selectorTrendsState );
 
-  const searchState = useSelector( selectorSearchState );
-  const searchCurrentPage = searchState.currentPage;
-  const searchQuery = searchState.searchQuery;
-  const isSearch = searchState.searchQuery?.length > 0;
+  const {
+    fetching: searchFetching,
+    currentPage: searchCurrentPage,
+    totalPages: searchTotalPages,
+    totalResults: searchTotalResults,
+    searchedMovies,
+    searchQuery
+  } = useSelector( selectorSearchState );
 
-
+  const isSearch = searchQuery?.length > 0;
 
   useEffect(() => {
-    if( ! isSearch ) {
-      dispatch( getMovieTrends( trendsCurrentPage ) );
-    } else {
-      dispatch( getMovieSearchResults({ searchQuery, currentPage: searchCurrentPage }) );
-    }
+    dispatch( getMovieTrends( trendsCurrentPage || 1 ) );
     // eslint-disable-next-line
-  }, [isSearch, searchCurrentPage, searchQuery, trendsCurrentPage]);
+  }, [trendsCurrentPage]);
+
 
   const paginationClickHandler = ( page ) => {
     dispatch( setPagination( { isSearch, fetching: false, page } ) );
+
+    isSearch && dispatch( getMovieSearchResults({ searchQuery, currentPage: page }) );
   };
 
   const clearSearchResults = () => {
-    dispatch( resetSearchAndTrends( { isSearch, fetching: false, page: 1 } ) );
+    dispatch( resetSearchAndTrends() );
   };
 
   return (
@@ -88,16 +90,16 @@ const Home = () => {
         />
       ) }
 
-      { ( trendsFetching || searchState.fetching ) && <Loader /> }
+      { ( trendsFetching || searchFetching ) && <Loader /> }
 
-      { ! trendsFetching && ! searchState.fetching && (
+      { ! trendsFetching && ! searchFetching && (
         <div className={ styles.pageContainer }>
           <div className={ styles.headingContainer }>
             <h2 className={ cn( styles.pageHeading, styles['pageHeading--2'] ) }>
-              { searchState.searchQuery?.length > 0 ? `Search results for "${ searchState.searchQuery }"` : 'Trending movies' }
+              { isSearch ? `Search results for "${ searchQuery }"` : 'Trending movies' }
             </h2>
 
-            { searchState.searchedMovies?.length > 0 && searchState.searchQuery && (
+            { searchedMovies?.length > 0 && searchQuery && (
               <Button onClick={ clearSearchResults }>
                 <Label className={ styles.clearResultsBtn }>
                   Clear search results
@@ -106,18 +108,18 @@ const Home = () => {
             )}
           </div>
 
-          { ( ( isSearch && searchState?.searchedMovies?.length > 0 ) || trends ) && (
+          { ( ( isSearch && searchedMovies?.length > 0 ) || trends ) && (
             <div className={styles.container}>
               <TrendcardsContainer
-                movies={ ( isSearch && searchState?.searchedMovies ) ? searchState.searchedMovies : !isSearch && trends && trends }
+                movies={ ( isSearch && searchedMovies ) ? searchedMovies : !isSearch && trends && trends }
               />
             </div>
           ) }
 
-          { ( trendsTotalResults > 20 || ( isSearch && searchState.totalResults > 20 ) ) && (
+          { ( trendsTotalResults > 20 || ( isSearch && searchTotalResults > 20 ) ) && (
             <Pagination
-              totalPages={ isSearch ? searchState.totalPages : trendsTotalPages }
-              currentPage={ isSearch ? searchState.currentPage : trendsCurrentPage }
+              totalPages={ isSearch ? searchTotalPages : trendsTotalPages }
+              currentPage={ isSearch ? searchCurrentPage : trendsCurrentPage }
               onPageChange={ paginationClickHandler }
             />
           ) }

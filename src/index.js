@@ -7,6 +7,11 @@ import store from './store';
 
 import App from './App';
 
+import "swiper/scss";
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
+import "swiper/scss/autoplay";
+
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

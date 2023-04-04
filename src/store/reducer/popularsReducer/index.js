@@ -1,6 +1,6 @@
 import { POPULARS_STORE_ACTIONS } from 'store/actions';
 
-export const popularsInitialState = {
+const popularsInitialState = {
   fetching: true,
   popularMovies: []
 };

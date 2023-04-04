@@ -1,11 +1,12 @@
 import { SEARCH_STORE_ACTIONS } from 'store/actions';
 
-export const searchInitialState = {
+const searchInitialState = {
   fetching: false,
   searchedMovies: [],
   totalResults: 0,
   currentPage: 1,
-  totalPages: 0
+  totalPages: 0,
+  searchQuery: ''
 };
 
 const searchReducer = ( state = searchInitialState, action ) => {
@@ -14,14 +15,6 @@ const searchReducer = ( state = searchInitialState, action ) => {
       return {
         ...state,
         fetching: action.payload
-      };
-
-    case SEARCH_STORE_ACTIONS.SET_SEARCH:
-      return {
-        ...state,
-        fetching: action.payload?.fetching,
-        currentPage: action.payload?.page,
-        searchQuery: action.payload?.searchQuery
       };
 
     case SEARCH_STORE_ACTIONS.SET_SEARCH_MOVIES:

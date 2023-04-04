@@ -5,14 +5,16 @@ import { getMovie } from 'services/movie';
 import { getSearchResults } from 'services/searchResults';
 
 import {
-  setCurrentPage,
-  setDefaultData,
-  setFetchingState,
+  setSearchDefaultData,
   setMovieDetails,
   setMovieFetchingState,
   setPopularMoviesData,
+  setSearchCurrentPage,
+  setSearchFetchingState,
   setSearchMoviesData,
-  setTrendsData
+  setTrendsCurrentPage,
+  setTrendsData,
+  setTrendsFetchingState
 } from 'store/actions';
 
 import {
@@ -25,7 +27,7 @@ import {
 
 export const getMovieTrends = ( currentPage ) =>
   async ( dispatch ) => {
-    dispatch( setFetchingState( { isSearch: false, isFetching: true } ) );
+    dispatch( setTrendsFetchingState( true ) );
 
     try {
       const [trends, allGenres, populars] = await Promise.all([
@@ -52,7 +54,7 @@ export const getMovieTrends = ( currentPage ) =>
 
       const trendsData = {
         trends: movies,
-        page: currentPage,
+        currentPage,
         totalPages: trends.total_pages,
         totalResults: trends.total_results
       };
@@ -61,15 +63,21 @@ export const getMovieTrends = ( currentPage ) =>
 
       dispatch( setTrendsData( trendsData ) );
     } catch (e) {
-      dispatch( setTrendsData( null ) );
+      dispatch( setTrendsData({
+        trends: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalResults: 0
+      }) );
+
     } finally {
-      dispatch( setFetchingState( { isSearch: false, isFetching: false } ) );
+      dispatch( setTrendsFetchingState( false ) );
     }
   };
 
 export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
   async ( dispatch ) => {
-    dispatch( setFetchingState( { isSearch: true, isFetching: true } ) );
+    dispatch( setSearchFetchingState( true ) );
 
     try {
       const [searchResults, allGenres] = await Promise.all([
@@ -95,9 +103,15 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
 
       dispatch( setSearchMoviesData( moviesData ) );
     } catch(e) {
-      dispatch( setSearchMoviesData( null ) );
+      dispatch( setSearchMoviesData( {
+        searchQuery: '',
+        searchedMovies: [],
+        page: 0,
+        totalPages: 0,
+        totalResults: 0
+      } ) );
     } finally {
-      dispatch( setFetchingState( { isSearch: true, isFetching: false } ) );
+      dispatch( setSearchFetchingState( false ) );
     }
   };
 
@@ -123,12 +137,14 @@ export const getMovieDetails = ( id ) =>
   };
 
 export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch ) => {
-  dispatch( setCurrentPage( { isSearch, fetching, page } ) );
+  isSearch
+    ? dispatch( setSearchCurrentPage( { fetching, page } ) )
+    : dispatch( setTrendsCurrentPage( { fetching, page } ) );
 };
 
-export const resetSearchAndTrends = ( { isSearch, fetching, page = 1 } ) => {
+export const resetSearchAndTrends = () => {
   return dispatch => {
-    dispatch( setDefaultData() );
-    dispatch( setCurrentPage( { isSearch, fetching, page } ) );
+    dispatch( setSearchDefaultData() );
+    dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
   }
 }

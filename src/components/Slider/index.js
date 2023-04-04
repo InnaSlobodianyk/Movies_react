@@ -6,11 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import PopularMovie from "components/PopularMovie";
 import Loader from "components/Loader";
 
-import "swiper/scss";
-import "swiper/scss/navigation";
-import "swiper/scss/pagination";
-import "swiper/scss/autoplay";
-
 import styles from "./Slider.module.scss";
 
 const iframeSettings = {
