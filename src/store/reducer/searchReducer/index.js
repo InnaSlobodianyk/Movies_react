@@ -20,18 +20,18 @@ const searchReducer = ( state = searchInitialState, action ) => {
     case SEARCH_STORE_ACTIONS.SET_SEARCH_MOVIES:
       return {
         ...state,
-        searchQuery: action.payload?.searchQuery,
-        searchedMovies: action.payload?.searchedMovies,
-        totalResults: action.payload?.totalResults,
-        currentPage: action.payload?.page,
-        totalPages: action.payload?.totalPages,
+        searchQuery: action.payload.searchQuery,
+        searchedMovies: action.payload.searchedMovies,
+        totalResults: action.payload.totalResults,
+        currentPage: action.payload.page,
+        totalPages: action.payload.totalPages,
       };
 
     case SEARCH_STORE_ACTIONS.SET_CURRENT_PAGE:
       return {
         ...state,
-        fetching: action.payload?.fetching,
-        currentPage: action.payload?.page || 1
+        fetching: action.payload.fetching,
+        currentPage: action.payload.page || 1
       };
 
     case SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA:

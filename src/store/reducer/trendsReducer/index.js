@@ -18,16 +18,16 @@ const trendsReducer = ( state = trendsInitialState, action ) => {
     case TRENDS_STORE_ACTIONS.SET_TRENDS:
       return {
         ...state,
-        trends: action.payload?.trends,
-        currentPage: action.payload?.currentPage,
-        totalPages: action.payload?.totalPages,
-        totalResults: action.payload?.totalResults
+        trends: action.payload.trends,
+        currentPage: action.payload.currentPage,
+        totalPages: action.payload.totalPages,
+        totalResults: action.payload.totalResults
       };
     case TRENDS_STORE_ACTIONS.SET_CURRENT_PAGE:
       return {
         ...state,
-        fetching: action.payload?.fetching,
-        currentPage: action.payload?.page || 1
+        fetching: action.payload.fetching,
+        currentPage: action.payload.page || 1
       };
     default:
       return state;
