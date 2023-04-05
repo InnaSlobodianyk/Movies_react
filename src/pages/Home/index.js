@@ -11,9 +11,7 @@ import TrendcardsContainer from './TrendcardsContainer';
 
 import {
   getMovieSearchResults,
-  getMovieTrends,
-  resetSearchAndTrends,
-  setPagination
+  getMovieTrends
 } from 'store/effects';
 
 import {
@@ -21,6 +19,11 @@ import {
   selectorTrendsState,
   selectorSearchState
 } from 'store/selectors';
+
+import {
+  resetSearchAndTrends,
+  setPagination
+} from 'store/actions';
 
 import styles from 'components/layout/Layout.module.scss';
 
@@ -57,18 +60,21 @@ const Home = () => {
     searchQuery
   } = useSelector( selectorSearchState );
 
-  const isSearch = searchQuery?.length > 0;
+  const isSearch = searchQuery.length > 0;
 
   useEffect(() => {
     dispatch( getMovieTrends( trendsCurrentPage || 1 ) );
     // eslint-disable-next-line
   }, [trendsCurrentPage]);
 
+  const isPaginationVisible = isSearch ? searchTotalResults > 20 : trendsTotalResults > 20;
 
-  const paginationClickHandler = ( page ) => {
+  const trendsPaginationClickHandler = ( page ) => {
     dispatch( setPagination( { isSearch, fetching: false, page } ) );
+  };
 
-    isSearch && dispatch( getMovieSearchResults({ searchQuery, currentPage: page }) );
+  const searchPaginationClickHandler = ( page ) => {
+    dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
   };
 
   const clearSearchResults = () => {
@@ -99,28 +105,30 @@ const Home = () => {
               { isSearch ? `Search results for "${ searchQuery }"` : 'Trending movies' }
             </h2>
 
-            { searchedMovies?.length > 0 && searchQuery && (
+            { searchQuery && (
               <Button onClick={ clearSearchResults }>
                 <Label className={ styles.clearResultsBtn }>
                   Clear search results
                 </Label>
               </Button>
-            )}
+            ) }
           </div>
 
-          { ( ( isSearch && searchedMovies?.length > 0 ) || trends ) && (
-            <div className={styles.container}>
-              <TrendcardsContainer
-                movies={ ( isSearch && searchedMovies ) ? searchedMovies : !isSearch && trends && trends }
-              />
-            </div>
-          ) }
+          {
+            isSearch && ! searchedMovies.length
+              ? <div>Nothing was found for your request</div>
+              : (
+                <div className={styles.container}>
+                  <TrendcardsContainer movies={ isSearch ? searchedMovies : trends } />
+                </div>
+              )
+          }
 
-          { ( trendsTotalResults > 20 || ( isSearch && searchTotalResults > 20 ) ) && (
+          { isPaginationVisible && (
             <Pagination
               totalPages={ isSearch ? searchTotalPages : trendsTotalPages }
               currentPage={ isSearch ? searchCurrentPage : trendsCurrentPage }
-              onPageChange={ paginationClickHandler }
+              onPageChange={ isSearch ? searchPaginationClickHandler : trendsPaginationClickHandler }
             />
           ) }
         </div>

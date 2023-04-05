@@ -135,16 +135,3 @@ export const getMovieDetails = ( id ) =>
       dispatch( setMovieFetchingState( false ) );
     }
   };
-
-export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch ) => {
-  isSearch
-    ? dispatch( setSearchCurrentPage( { fetching, page } ) )
-    : dispatch( setTrendsCurrentPage( { fetching, page } ) );
-};
-
-export const resetSearchAndTrends = () => {
-  return dispatch => {
-    dispatch( setSearchDefaultData() );
-    dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
-  }
-}

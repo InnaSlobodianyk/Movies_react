@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Menu from 'components/Menu';
 import Search from 'components/Search';
 
-import { setSearchDefaultData } from 'store/actions';
+import { setSearchDefaultData, setPagination } from 'store/actions';
 import { selectorSearchState } from 'store/selectors';
-import { getMovieSearchResults, setPagination } from 'store/effects';
+import { getMovieSearchResults } from 'store/effects';
 
 import logo from 'assets/images/movierise-logo.png';
 

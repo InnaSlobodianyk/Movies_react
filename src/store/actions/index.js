@@ -40,3 +40,14 @@ export const setSearchDefaultData = () => ( { type: SEARCH_STORE_ACTIONS.SET_DEF
 export const setMovieDetails = ( data ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE, payload: data } );
 
 export const setMovieFetchingState = ( isFetching ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE_FETCHING, payload: isFetching } );
+
+export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch ) => {
+  isSearch
+    ? dispatch( setSearchCurrentPage( { fetching, page } ) )
+    : dispatch( setTrendsCurrentPage( { fetching, page } ) );
+};
+
+export const resetSearchAndTrends = () => ( dispatch ) => {
+  dispatch( setSearchDefaultData() );
+  dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
+}
