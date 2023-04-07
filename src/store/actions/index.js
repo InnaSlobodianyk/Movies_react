@@ -21,25 +21,27 @@ export const MOVIE_STORE_ACTION = {
   SET_MOVIE: 'SET_MOVIE'
 };
 
-export const setPopularMoviesData = ( { movies, fetching } ) => ( { type: POPULARS_STORE_ACTIONS.SET_POPULARS, payload: { movies, fetching } } );
+const makeActionCreator = ( type, data ) => ( { type, payload: data } );
 
-export const setTrendsData = ( data ) => ( { type: TRENDS_STORE_ACTIONS.SET_TRENDS, payload: data } );
+export const setPopularMoviesData = ( payload ) => makeActionCreator( POPULARS_STORE_ACTIONS.SET_POPULARS, payload );
 
-export const setTrendsFetchingState = ( isFetching ) => ( { type: TRENDS_STORE_ACTIONS.SET_TRENDS_FETCHING, payload: isFetching } );
+export const setTrendsData = ( payload ) => makeActionCreator( TRENDS_STORE_ACTIONS.SET_TRENDS, payload );
 
-export const setTrendsCurrentPage = ( { fetching, page } ) => ( { type: TRENDS_STORE_ACTIONS.SET_CURRENT_PAGE, payload: { fetching, page } } );
+export const setTrendsFetchingState = ( payload ) => makeActionCreator( TRENDS_STORE_ACTIONS.SET_TRENDS_FETCHING, payload );
 
-export const setSearchMoviesData = ( data ) => ( { type: SEARCH_STORE_ACTIONS.SET_SEARCH_MOVIES, payload: data } );
+export const setTrendsCurrentPage = ( payload ) => makeActionCreator( TRENDS_STORE_ACTIONS.SET_CURRENT_PAGE, payload );
 
-export const setSearchFetchingState = ( isFetching ) => ( { type: SEARCH_STORE_ACTIONS.SET_SEARCH_FETCHING, payload: isFetching } );
+export const setSearchMoviesData = ( payload ) => makeActionCreator( SEARCH_STORE_ACTIONS.SET_SEARCH_MOVIES, payload );
 
-export const setSearchCurrentPage = ( { fetching, page } ) => ( { type: SEARCH_STORE_ACTIONS.SET_CURRENT_PAGE, payload: { fetching, page } } );
+export const setSearchFetchingState = ( payload ) => makeActionCreator( SEARCH_STORE_ACTIONS.SET_SEARCH_FETCHING, payload );
 
-export const setSearchDefaultData = () => ( { type: SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA } );
+export const setSearchCurrentPage = ( payload ) => makeActionCreator( SEARCH_STORE_ACTIONS.SET_CURRENT_PAGE, payload );
 
-export const setMovieDetails = ( data ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE, payload: data } );
+export const setSearchDefaultData = makeActionCreator( SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA );
 
-export const setMovieFetchingState = ( isFetching ) => ( { type: MOVIE_STORE_ACTION.SET_MOVIE_FETCHING, payload: isFetching } );
+export const setMovieDetails = ( payload ) => makeActionCreator( MOVIE_STORE_ACTION.SET_MOVIE, payload );
+
+export const setMovieFetchingState = ( payload ) => makeActionCreator( MOVIE_STORE_ACTION.SET_MOVIE_FETCHING, payload );
 
 export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch ) => {
   isSearch
@@ -48,6 +50,6 @@ export const setPagination = ( { isSearch, fetching, page = 1 } ) => ( dispatch 
 };
 
 export const resetSearchAndTrends = () => ( dispatch ) => {
-  dispatch( setSearchDefaultData() );
+  dispatch( setSearchDefaultData );
   dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
 }

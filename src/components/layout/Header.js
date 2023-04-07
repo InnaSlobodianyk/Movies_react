@@ -21,7 +21,7 @@ const Header = () => {
 
   const logoClickHandler = () => {
     if( isSearch ) {
-      dispatch( setSearchDefaultData() );
+      dispatch( setSearchDefaultData );
     }
 
     dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );

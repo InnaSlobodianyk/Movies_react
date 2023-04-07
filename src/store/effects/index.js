@@ -5,14 +5,11 @@ import { getMovie } from 'services/movie';
 import { getSearchResults } from 'services/searchResults';
 
 import {
-  setSearchDefaultData,
   setMovieDetails,
   setMovieFetchingState,
   setPopularMoviesData,
-  setSearchCurrentPage,
   setSearchFetchingState,
   setSearchMoviesData,
-  setTrendsCurrentPage,
   setTrendsData,
   setTrendsFetchingState
 } from 'store/actions';
