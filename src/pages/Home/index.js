@@ -1,15 +1,31 @@
-import React, { useEffect, useReducer } from "react";
-import cn from "classnames";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
 
-import { getTrends } from "services/trends";
+import Slider from 'components/Slider';
+import Pagination from 'components/Pagination';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Label from 'components/Label';
+import TrendcardsContainer from './TrendcardsContainer';
 
-import Slider from "components/Slider";
-import Trendcard from "components/Trendcard";
-import Pagination from "components/Pagination";
+import {
+  getMovieSearchResults,
+  getMovieTrends
+} from 'store/effects';
 
-import { reducer, initialState, ACTIONS } from "./state";
+import {
+  selectorPopularsState,
+  selectorTrendsState,
+  selectorSearchState
+} from 'store/selectors';
 
-import styles from "components/layout/Layout.module.scss";
+import {
+  resetSearchAndTrends,
+  setPagination
+} from 'store/actions';
+
+import styles from 'components/layout/Layout.module.scss';
 
 const sliderAutoplaySettings = {
   delay: 5000,
@@ -23,44 +39,100 @@ const sliderPaginationSettings = {
 }
 
 const Home = () => {
-  const [state, dispatch] = useReducer( reducer, initialState );
-  const { movies, totalResults, currentPage, totalPages, popularMovies } = state;
+  const dispatch = useDispatch();
+
+  const { fetching: popularsFetching, popularMovies } = useSelector( selectorPopularsState );
+
+  const  {
+    currentPage: trendsCurrentPage,
+    fetching: trendsFetching,
+    totalPages: trendsTotalPages,
+    totalResults: trendsTotalResults,
+    trends
+  } = useSelector( selectorTrendsState );
+
+  const {
+    fetching: searchFetching,
+    currentPage: searchCurrentPage,
+    totalPages: searchTotalPages,
+    totalResults: searchTotalResults,
+    searchedMovies,
+    searchQuery
+  } = useSelector( selectorSearchState );
+
+  const isSearch = searchQuery.length > 0;
 
   useEffect(() => {
-    getTrends(currentPage).then((response) => {
-      response ? dispatch( { type: ACTIONS.SET_DATA, payload: response } ) : dispatch( { type:ACTIONS.GET_FAILURE } );
-    });
-  }, [currentPage]);
+    dispatch( getMovieTrends( trendsCurrentPage || 1 ) );
+    // eslint-disable-next-line
+  }, [trendsCurrentPage]);
+
+  const isPaginationVisible = isSearch ? searchTotalResults > 20 : trendsTotalResults > 20;
+
+  const trendsPaginationClickHandler = ( page ) => {
+    dispatch( setPagination( { isSearch, fetching: false, page } ) );
+  };
+
+  const searchPaginationClickHandler = ( page ) => {
+    dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
+  };
+
+  const clearSearchResults = () => {
+    dispatch( resetSearchAndTrends() );
+  };
 
   return (
     <>
-      { popularMovies && (
+      { popularsFetching && <Loader /> }
+
+      { ! popularsFetching && popularMovies && (
         <Slider
           slides={ popularMovies }
           navigation
           autoplay={ sliderAutoplaySettings }
           pagination={ sliderPaginationSettings }
           className={ styles.sliderPopular }
+          fetching={ popularsFetching }
         />
       ) }
 
-      <div className={ styles.pageContainer }>
-        <h2 className={ cn( styles.pageHeading, styles['pageHeading--2'] ) }>Trending movies</h2>
+      { ( trendsFetching || searchFetching ) && <Loader /> }
 
-        { movies && (
-          <div className={styles.container}>
-            { movies.map( movie => <Trendcard key={ movie.id } movie={ movie } /> ) }
+      { ! trendsFetching && ! searchFetching && (
+        <div className={ styles.pageContainer }>
+          <div className={ styles.headingContainer }>
+            <h2 className={ cn( styles.pageHeading, styles['pageHeading--2'] ) }>
+              { isSearch ? `Search results for "${ searchQuery }"` : 'Trending movies' }
+            </h2>
+
+            { searchQuery && (
+              <Button onClick={ clearSearchResults }>
+                <Label className={ styles.clearResultsBtn }>
+                  Clear search results
+                </Label>
+              </Button>
+            ) }
           </div>
-        ) }
 
-        { totalResults > 20 && (
-          <Pagination
-            totalPages={ totalPages }
-            currentPage={ currentPage }
-            onPageChange={ page => dispatch( { type: ACTIONS.SET_CURRENT_PAGE, payload: page } ) }
-          />
-        ) }
-      </div>
+          {
+            isSearch && ! searchedMovies.length
+              ? <div>Nothing was found for your request</div>
+              : (
+                <div className={styles.container}>
+                  <TrendcardsContainer movies={ isSearch ? searchedMovies : trends } />
+                </div>
+              )
+          }
+
+          { isPaginationVisible && (
+            <Pagination
+              totalPages={ isSearch ? searchTotalPages : trendsTotalPages }
+              currentPage={ isSearch ? searchCurrentPage : trendsCurrentPage }
+              onPageChange={ isSearch ? searchPaginationClickHandler : trendsPaginationClickHandler }
+            />
+          ) }
+        </div>
+      ) }
     </>
   )
 };

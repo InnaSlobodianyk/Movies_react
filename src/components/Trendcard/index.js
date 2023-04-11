@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoBookmarkOutline, IoStar } from "react-icons/io5";
 
 import { calcDate, imageFullUrl } from "helpers";
 import Button from "components/Button";
@@ -17,6 +17,7 @@ const Trendcard = ( { movie } ) => (
             ) }
 
             <Label className={styles.rating}>
+                <IoStar />
                 { movie.vote_average }
             </Label>
 

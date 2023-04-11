@@ -1,0 +1,45 @@
+@import '../../scss/base';
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+
+  @include media(">=tablet") {
+    width: auto;
+  }
+}
+
+.searchFormInput {
+  padding: 5px 10px;
+  border-radius: $border-radius / 2 $border-radius / 2 0 0;
+  background: transparent;
+  border-bottom-color: $base-purple;
+  color: $white;
+
+  &:focus {
+    color: $white;
+    background-color: rgba($base-indigo, .2);
+    border-color: transparent transparent $base-indigo transparent;
+  }
+}
+
+.searchFormBtn {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color $animation-speed $animation-effect;
+
+  &:not(:disabled):hover {
+    .searchFormIcon {
+      color: $base-indigo;
+    }
+  }
+}
+
+.searchFormIcon {
+  color: $base-purple;
+  font-size: 20px;
+}

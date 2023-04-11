@@ -11,7 +11,7 @@ const Layout = ( props ) => {
     <>
       <Header />
       <main className={ location.pathname !== '/' ? styles.pageContainer : '' }>
-        {props.children}
+        { props.children }
       </main>
     </>
   );

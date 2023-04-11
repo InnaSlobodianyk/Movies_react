@@ -10,7 +10,7 @@ export const calcDate = releaseDate => {
 };
 
 export const roundRatingValue = ( rating ) => {
-  return parseFloat(rating.toFixed(1));
+  return parseFloat(rating?.toFixed(1));
 };
 
 export const formatRuntime = ( time ) => {
