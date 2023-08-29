@@ -1,0 +1,22 @@
+@import '../../scss/base';
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  margin: 0 auto;
+}
+
+.signUpFormHeading {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.signUpFormSubHeading {
+  text-align: center;
+  font-size: $base-font-size;
+}
+
+.signUpFormBtn {
+  padding: 10px 0;
+}

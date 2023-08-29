@@ -21,6 +21,10 @@ export const MOVIE_STORE_ACTION = {
   SET_MOVIE: 'SET_MOVIE'
 };
 
+export const USER_STORE_ACTIONS = {
+  SET_CURRENT_USER: 'SET_CURRENT_USER'
+};
+
 const makeActionCreator = ( type, data ) => ( { type, payload: data } );
 
 export const setPopularMoviesData = ( payload ) => makeActionCreator( POPULARS_STORE_ACTIONS.SET_POPULARS, payload );
@@ -53,3 +57,5 @@ export const resetSearchAndTrends = () => ( dispatch ) => {
   dispatch( setSearchDefaultData );
   dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
 }
+
+export const setCurrentUser = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_CURRENT_USER, payload );

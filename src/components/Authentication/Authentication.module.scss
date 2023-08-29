@@ -1,0 +1,53 @@
+@import '../../scss/base';
+
+.authMenu {
+  display: flex;
+  align-items: center;
+}
+
+.authMenuItem {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.authMenuLink {
+  color: $base-purple;
+  transition: color $animation-speed $animation-effect;
+  font-size: 17px;
+  display: flex;
+  padding: 5px;
+
+  &:hover {
+    color: darken($base-indigo, 15%);
+
+    .menuNum {
+      background-color: transparent;
+      color: $base-purple;
+    }
+  }
+
+  &[aria-current="page"] {
+    color: $base-blue-violet;
+  }
+
+  .fa {
+    font-size: 22px;
+  }
+
+  button {
+    padding: 0;
+  }
+}
+
+.authMenuLinkName {
+  display: none;
+
+  @include media(">=tablet") {
+    display: block;
+  }
+}

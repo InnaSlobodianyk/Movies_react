@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
+import { selectorUserState } from 'store/selectors';
 import styles from "./Menu.module.scss";
 
 const menu = [
@@ -14,6 +16,11 @@ const menu = [
 ];
 
 const Menu = () => {
+  const userState = useSelector( selectorUserState );
+  const currentUser = userState.currentUser;
+
+  if( !currentUser ) return;
+
   return (
     <nav className={styles.menuNav} role="navigation">
       <ul className={styles.menu}>

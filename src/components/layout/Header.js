@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Menu from 'components/Menu';
 import Search from 'components/Search';
+import Authentication from 'components/Authentication';
 
 import { setSearchDefaultData, setPagination } from 'store/actions';
 import { selectorSearchState } from 'store/selectors';
@@ -43,6 +44,8 @@ const Header = () => {
           <Search submitHandler={ submitHandler } fetching={ searchFetching } />
 
           <Menu />
+
+          <Authentication />
         </div>
       </div>
     </header>

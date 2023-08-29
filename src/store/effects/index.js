@@ -14,13 +14,7 @@ import {
   setTrendsFetchingState
 } from 'store/actions';
 
-import {
-  calcDate,
-  filterGenres,
-  formatBudget,
-  formatRuntime,
-  roundRatingValue
-} from 'helpers';
+import { calcDate, filterGenres, formatBudget, formatRuntime, roundRatingValue } from 'helpers';
 
 export const getMovieTrends = ( currentPage ) =>
   async ( dispatch ) => {
