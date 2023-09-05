@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { setSearchDefaultData, setPagination } from 'store/actions';
+import { selectorSearchState, selectorUserState } from 'store/selectors';
+import { getMovieSearchResults } from 'store/effects';
+
 import Menu from 'components/Menu';
 import Search from 'components/Search';
 import Authentication from 'components/Authentication';
-
-import { setSearchDefaultData, setPagination } from 'store/actions';
-import { selectorSearchState } from 'store/selectors';
-import { getMovieSearchResults } from 'store/effects';
 
 import logo from 'assets/images/movierise-logo.png';
 
@@ -18,6 +18,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const { fetching: searchFetching, searchedMovies } = useSelector( selectorSearchState );
+  const { fetching: currentUserFetching } = useSelector( selectorUserState );
   const isSearch = searchedMovies.length > 0;
 
   const logoClickHandler = () => {
@@ -43,9 +44,13 @@ const Header = () => {
         <div className={ styles.headerMenuContainer }>
           <Search submitHandler={ submitHandler } fetching={ searchFetching } />
 
-          <Menu />
+          { !currentUserFetching && (
+            <>
+              <Menu />
 
-          <Authentication />
+              <Authentication />
+            </>
+          ) }
         </div>
       </div>
     </header>

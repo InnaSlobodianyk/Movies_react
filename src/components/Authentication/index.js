@@ -19,20 +19,12 @@ const auth = [
 ];
 
 const Authentication = () => {
-  const userState = useSelector( selectorUserState );
-  const currentUser = userState.currentUser;
-  console.log('%c user', 'background: #222; color: #bada55');
-  console.log(currentUser);
+  const { fetching: currentUserFetching, currentUser } = useSelector( selectorUserState );
 
   return(
     <>
-      { currentUser
-        ? <div className={styles.authMenuItem}>
-            <div className={ styles.authMenuLink }>
-              <Button className={styles.authMenuLinkName} onClick={ signOutUser }>Log Out</Button>
-            </div>
-          </div>
-        : <ul className={ styles.authMenu }>
+      { !currentUserFetching && !currentUser && (
+        <ul className={ styles.authMenu }>
           { auth.map((authItem) => (
             <li key={authItem.title} className={styles.authMenuItem}>
               <NavLink to={authItem.url} className={styles.authMenuLink}>
@@ -41,7 +33,15 @@ const Authentication = () => {
             </li>
           )) }
         </ul>
-      }
+      ) }
+
+      { !currentUserFetching && currentUser && (
+        <div className={styles.authMenuItem}>
+          <div className={ styles.authMenuLink }>
+            <Button className={styles.authMenuLinkName} onClick={ signOutUser }>Log Out</Button>
+          </div>
+        </div>
+      ) }
     </>
   );
 };

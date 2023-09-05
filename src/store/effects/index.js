@@ -5,13 +5,15 @@ import { getMovie } from 'services/movie';
 import { getSearchResults } from 'services/searchResults';
 
 import {
+  setCurrentUser,
   setMovieDetails,
   setMovieFetchingState,
   setPopularMoviesData,
   setSearchFetchingState,
   setSearchMoviesData,
   setTrendsData,
-  setTrendsFetchingState
+  setTrendsFetchingState,
+  setUserFetching
 } from 'store/actions';
 
 import { calcDate, filterGenres, formatBudget, formatRuntime, roundRatingValue } from 'helpers';
@@ -124,5 +126,18 @@ export const getMovieDetails = ( id ) =>
       dispatch( setMovieDetails( null ) );
     } finally {
       dispatch( setMovieFetchingState( false ) );
+    }
+  };
+
+export const getCurrentUser = ( user ) =>
+  async ( dispatch ) => {
+    dispatch( setUserFetching( true ) );
+
+    try {
+      dispatch( setCurrentUser( user ) );
+    } catch ( e ) {
+      dispatch( setCurrentUser( null ) );
+    } finally {
+      dispatch( setUserFetching( false ) );
     }
   };

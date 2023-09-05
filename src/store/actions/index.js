@@ -22,7 +22,8 @@ export const MOVIE_STORE_ACTION = {
 };
 
 export const USER_STORE_ACTIONS = {
-  SET_CURRENT_USER: 'SET_CURRENT_USER'
+  SET_CURRENT_USER: 'SET_CURRENT_USER',
+  SET_USER_FETCHING: 'SET_USER_FETCHING'
 };
 
 const makeActionCreator = ( type, data ) => ( { type, payload: data } );
@@ -59,3 +60,5 @@ export const resetSearchAndTrends = () => ( dispatch ) => {
 }
 
 export const setCurrentUser = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_CURRENT_USER, payload );
+
+export const setUserFetching = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_USER_FETCHING, payload );
