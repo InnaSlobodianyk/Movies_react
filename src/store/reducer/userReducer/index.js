@@ -1,4 +1,4 @@
-import { USER_STORE_ACTIONS } from 'store/actions';
+import { USER_STORE_ACTIONS } from 'store/actions/userActions';
 
 const userInitialState = {
   fetching: true,

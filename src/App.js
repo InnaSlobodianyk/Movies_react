@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from 'services/firebase';
-import { getCurrentUser } from 'store/effects';
+import { getCurrentUser } from 'store/effects/userEffects';
+import { setUserFetching } from 'store/actions/userActions';
 
 import Layout from 'components/layout';
 import Lists from 'pages/Lists';
@@ -12,8 +13,7 @@ import NotFound from 'pages/NotFound';
 import Home from 'pages/Home';
 import MoviePage from 'pages/MoviePage';
 import SignUpPage from 'pages/SignUpPage';
-import SignInPage from './pages/SignInPage';
-import { setUserFetching } from './store/actions';
+import SignInPage from 'pages/SignInPage';
 
 const App = () => {
   const dispatch = useDispatch();

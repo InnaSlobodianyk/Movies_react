@@ -1,0 +1,1 @@
+export const selectorTrendsState = state => state.trends;

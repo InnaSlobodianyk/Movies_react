@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
-import { selectorUserState } from 'store/selectors';
+import { selectorUserState } from 'store/selectors/userSelectors';
 
 import styles from "./Menu.module.scss";
 

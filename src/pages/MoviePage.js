@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Movie from 'components/movie';
-import { getMovieDetails } from 'store/effects';
-import { selectorMovieState } from 'store/selectors';
+import { getMovieDetails } from 'store/effects/movieEffects';
+import { selectorMovieState } from 'store/selectors/movieSelectors';
 
 const MoviePage = () => {
   const { movieId } = useParams();

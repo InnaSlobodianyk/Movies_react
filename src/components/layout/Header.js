@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { setSearchDefaultData, setPagination } from 'store/actions';
-import { selectorSearchState, selectorUserState } from 'store/selectors';
-import { getMovieSearchResults } from 'store/effects';
+import { setPagination } from 'store/actions';
+import { setSearchDefaultData } from 'store/actions/searchActions';
+import { selectorSearchState } from 'store/selectors/searchSelectors';
+import { selectorUserState } from 'store/selectors/userSelectors';
+import { getMovieSearchResults } from 'store/effects/searchEffects';
 
 import Menu from 'components/Menu';
 import Search from 'components/Search';

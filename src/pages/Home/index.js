@@ -9,16 +9,12 @@ import Loader from 'components/Loader';
 import Label from 'components/Label';
 import TrendcardsContainer from './TrendcardsContainer';
 
-import {
-  getMovieSearchResults,
-  getMovieTrends
-} from 'store/effects';
+import { getMovieSearchResults } from 'store/effects/searchEffects';
+import { getMovieTrends } from 'store/effects/trendsEffects';
 
-import {
-  selectorPopularsState,
-  selectorTrendsState,
-  selectorSearchState
-} from 'store/selectors';
+import { selectorPopularsState } from 'store/selectors/popularsSelectors';
+import { selectorTrendsState } from 'store/selectors/trendsSelectors';
+import { selectorSearchState } from 'store/selectors/searchSelectors';
 
 import {
   resetSearchAndTrends,

@@ -1,4 +1,4 @@
-import { POPULARS_STORE_ACTIONS } from 'store/actions';
+import { POPULARS_STORE_ACTIONS } from 'store/actions/popularsActions';
 
 const popularsInitialState = {
   fetching: true,

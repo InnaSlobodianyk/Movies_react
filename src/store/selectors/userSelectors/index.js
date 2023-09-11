@@ -1,0 +1,1 @@
+export const selectorUserState = state => state.user;

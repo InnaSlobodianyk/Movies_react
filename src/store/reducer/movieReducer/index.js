@@ -1,4 +1,4 @@
-import { MOVIE_STORE_ACTION } from 'store/actions';
+import { MOVIE_STORE_ACTION } from 'store/actions/movieActions';
 
 const movieInitialState = {
   fetching: false,
