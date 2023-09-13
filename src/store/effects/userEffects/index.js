@@ -8,20 +8,27 @@ import {
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
+  onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword
 } from 'services/firebase';
 
-export const getCurrentUser = ( user ) =>
+export const getCurrentUser = () =>
   async ( dispatch ) => {
-    dispatch( setUserFetching( true ) );
+    onAuthStateChangedListener( async ( user ) => {
+      dispatch( setUserFetching( true ) );
 
-    try {
-      dispatch( setCurrentUser( user ) );
-    } catch ( e ) {
-      dispatch( setCurrentUser( null ) );
-    } finally {
-      dispatch( setUserFetching( false ) );
-    }
+      if ( user ) {
+        await createUserDocumentFromAuth( user );
+      }
+
+      try {
+        dispatch( setCurrentUser( user ) );
+      } catch ( e ) {
+        dispatch( setCurrentUser( null ) );
+      } finally {
+        dispatch( setUserFetching( false ) );
+      }
+    } );
   };
 
 export const signIn = ( { formFields, navigate } ) =>

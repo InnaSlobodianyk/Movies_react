@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from 'services/firebase';
 import { getCurrentUser } from 'store/effects/userEffects';
-import { setUserFetching } from 'store/actions/userActions';
 
 import Layout from 'components/layout';
 import Lists from 'pages/Lists';
@@ -19,15 +17,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect( () => {
-    return onAuthStateChangedListener( async ( user ) => {
-      if ( user ) {
-        dispatch( setUserFetching( true ) );
-        await createUserDocumentFromAuth( user );
-        dispatch( setUserFetching ( false ) );
-      }
-
-      dispatch( getCurrentUser( user ) );
-    } );
+    dispatch( getCurrentUser() );
   }, [] );
 
   return (
