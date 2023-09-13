@@ -52,6 +52,11 @@
   transition: 300ms ease all;
 }
 
+.formErrorMessage {
+  color: $base-purple;
+  margin-top: 5px;
+}
+
 .shrink {
   @include shrinkLabel();
 }

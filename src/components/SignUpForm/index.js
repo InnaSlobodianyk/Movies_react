@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from 'services/firebase';
 import cn from 'classnames';
+
+import { signUp } from 'store/effects/userEffects';
+import { selectorUserState } from 'store/selectors/userSelectors';
+import { resetSignInErrorMessage } from 'store/actions/userActions';
 
 import Button from 'components/Button';
 import FormInput from 'components/FormInput';
@@ -19,44 +23,19 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
   const [ formFields, setFormFields ] = useState( defaultFormFields );
-  const { displayName, email, password, confirmPassword } = formFields;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector( selectorUserState );
 
-  const resetFormFields = () => {
-    setFormFields( defaultFormFields );
-  };
-
-  const submitHandler = async ( event ) => {
+  const submitHandler = ( event ) => {
     event.preventDefault();
 
-    if( password !== confirmPassword ) {
-      alert('Passwords do not match');
-      return;
-    }
+    dispatch( signUp( { formFields, navigate } ) );
+  }
 
-    try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      await createUserDocumentFromAuth( user, { displayName } );
-      resetFormFields();
-
-      navigate('/');
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        alert('Cannot create user, email already in use');
-      } else {
-        console.log('User creation encountered an error', error);
-      }
-    }
-  };
-
-  const formInputChangeHandler = (event) => {
-    const { name, value } = event.target;
-
-    setFormFields({ ...formFields, [name]: value });
+  const formInputChangeHandler = ( e ) => {
+    setFormFields({ ...formFields, [e.name]: e.value });
+    dispatch( resetSignInErrorMessage() );
   };
 
   return(
@@ -72,7 +51,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='displayName'
-          value={displayName}
+          error={ userState?.errorDisplayNameMessage }
         />
 
         <FormInput
@@ -81,7 +60,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='email'
-          value={email}
+          error={ userState?.errorEmailMessage }
         />
 
         <FormInput
@@ -90,7 +69,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='password'
-          value={password}
+          error={ userState?.errorPasswordMessage }
         />
 
         <FormInput
@@ -99,7 +78,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='confirmPassword'
-          value={confirmPassword}
+          error={ userState?.errorConfirmPasswordMessage }
         />
 
         <Label className={ styles.signUpFormBtn }>

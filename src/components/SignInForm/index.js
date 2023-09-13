@@ -1,15 +1,20 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signInAuthUserWithEmailAndPassword, signInWithGoogleRedirect } from 'services/firebase';
 import cn from 'classnames';
+
+import { signInWithGoogleRedirect } from 'services/firebase';
+
+import { signIn } from 'store/effects/userEffects';
+import { selectorUserState } from 'store/selectors/userSelectors';
+import { resetSignInErrorMessage } from 'store/actions/userActions';
 
 import Button from 'components/Button';
 import FormInput from 'components/FormInput';
 import Label from 'components/Label';
 
 import layoutStyles from 'components/layout/Layout.module.scss';
-import styles from "./SignInForm.module.scss";
-
+import styles from './SignInForm.module.scss';
 
 const defaultFormFields = {
   email: '',
@@ -18,50 +23,22 @@ const defaultFormFields = {
 
 const SignInForm = () => {
   const [ formFields, setFormFields ] = useState( defaultFormFields );
-  const { email, password } = formFields;
   const navigate = useNavigate();
+  const userState = useSelector( selectorUserState );
+  const dispatch = useDispatch();
 
-  const resetFormFields = () => {
-    setFormFields( defaultFormFields );
-  };
-
-  const submitHandler = async ( event ) => {
+  const submitHandler = ( event ) => {
     event.preventDefault();
 
-    try {
-      await signInAuthUserWithEmailAndPassword( email, password );
-
-      resetFormFields();
-
-      navigate('/');
-    } catch ( error ) {
-      switch( error.code ) {
-        case 'auth/wrong-password':
-          alert('Incorrect password');
-          break;
-        case 'auth/user-not-found':
-          alert('No user associated with this email');
-          break;
-        default:
-          console.log( error );
-      }
-    }
+    dispatch( signIn( { formFields, navigate } ) );
   };
 
-  const formInputChangeHandler = (event) => {
-    const { name, value } = event.target;
-
-    setFormFields({ ...formFields, [name]: value });
+  const formInputChangeHandler = ( e ) => {
+    setFormFields({ ...formFields, [e.name]: e.value });
+    dispatch( resetSignInErrorMessage() );
   };
 
-  const signInWithGoogleHandler = () => {
-    signInWithGoogleRedirect().then( () => {
-      console.log('%c logged', 'background: #222; color: #bada55');
-      navigate('/');
-    });
-
-    // navigate('/');
-  };
+  const signInWithGoogleHandler = () => signInWithGoogleRedirect().then( () => navigate('/') );
 
   return(
     <div className={ layoutStyles.pageContainer }>
@@ -78,7 +55,7 @@ const SignInForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='email'
-          value={email}
+          error={ userState?.errorEmailMessage }
         />
 
         <FormInput
@@ -87,7 +64,7 @@ const SignInForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='password'
-          value={password}
+          error={ userState?.errorPasswordMessage }
         />
 
         <div className={ styles.signInFormButtonsContainer }>
