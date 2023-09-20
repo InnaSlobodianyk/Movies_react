@@ -9,6 +9,7 @@ export const USER_STORE_ACTIONS = {
   SET_ERROR_MATCH_PASSWORD_MESSAGE: 'SET_ERROR_MATCH_PASSWORD_MESSAGE',
   SET_ERROR_EMAIL_IN_USE_MESSAGE: 'SET_ERROR_EMAIL_IN_USE_MESSAGE',
   RESET_ERROR_MESSAGE: 'RESET_ERROR_MESSAGE',
+  SET_AUTHENTICATED_USER: 'SET_AUTHENTICATED_USER'
 };
 
 export const setCurrentUser = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_CURRENT_USER, payload );
@@ -38,3 +39,5 @@ export const setSignUpErrorMessage = ( error ) => {
       return makeActionCreator( USER_STORE_ACTIONS.SET_ERROR_DEFAULT_MESSAGE, 'User creation encountered an error' );
   }
 };
+
+export const setAuthenticatedUser = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_AUTHENTICATED_USER, payload );

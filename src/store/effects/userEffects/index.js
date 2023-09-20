@@ -1,4 +1,5 @@
 import {
+  setAuthenticatedUser,
   setCurrentUser,
   setSignInErrorMessage,
   setSignUpErrorMatchPasswordMessage,
@@ -9,10 +10,11 @@ import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
-  signInAuthUserWithEmailAndPassword
+  signInAuthUserWithEmailAndPassword,
+  signOutUser
 } from 'services/firebase';
 
-export const getCurrentUser = () =>
+export const getCurrentUser = ( isLoggedIn ) =>
   async ( dispatch ) => {
     onAuthStateChangedListener( async ( user ) => {
       dispatch( setUserFetching( true ) );
@@ -36,6 +38,7 @@ export const signIn = ( { formFields, navigate } ) =>
 
   try {
     await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
+    localStorage.setItem('user', 'loggedIn');
     navigate('/');
   } catch ( error ) {
     dispatch( setSignInErrorMessage( error ) );
@@ -55,8 +58,16 @@ export const signUp = ( { formFields, navigate } ) =>
     const { displayName } = formFields;
 
     await createUserDocumentFromAuth( user, { displayName } );
+    localStorage.setItem('user', 'loggedIn');
     navigate('/');
   } catch (error) {
     dispatch( setSignUpErrorMessage( error ) );
   }
 };
+
+export const signOut = () =>
+  async ( dispatch ) => {
+    await signOutUser();
+    localStorage.removeItem('user');
+    dispatch( setAuthenticatedUser( false ) );
+  };
