@@ -40,4 +40,6 @@ export const setSignUpErrorMessage = ( error ) => {
   }
 };
 
+export const setLogOutError = ( error ) => makeActionCreator( USER_STORE_ACTIONS.SET_ERROR_DEFAULT_MESSAGE, error.message );
+
 export const setAuthenticatedUser = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_AUTHENTICATED_USER, payload );

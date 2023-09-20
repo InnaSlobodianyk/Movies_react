@@ -1,6 +1,7 @@
 import {
   setAuthenticatedUser,
   setCurrentUser,
+  setLogOutError,
   setSignInErrorMessage,
   setSignUpErrorMatchPasswordMessage,
   setSignUpErrorMessage,
@@ -14,7 +15,7 @@ import {
   signOutUser
 } from 'services/firebase';
 
-export const getCurrentUser = ( isLoggedIn ) =>
+export const getCurrentUser = () =>
   async ( dispatch ) => {
     onAuthStateChangedListener( async ( user ) => {
       dispatch( setUserFetching( true ) );
@@ -39,6 +40,7 @@ export const signIn = ( { formFields, navigate } ) =>
   try {
     await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
     localStorage.setItem('user', 'loggedIn');
+    dispatch( setAuthenticatedUser( true ) );
     navigate('/');
   } catch ( error ) {
     dispatch( setSignInErrorMessage( error ) );
@@ -59,6 +61,7 @@ export const signUp = ( { formFields, navigate } ) =>
 
     await createUserDocumentFromAuth( user, { displayName } );
     localStorage.setItem('user', 'loggedIn');
+    dispatch( setAuthenticatedUser( true ) );
     navigate('/');
   } catch (error) {
     dispatch( setSignUpErrorMessage( error ) );
@@ -67,7 +70,12 @@ export const signUp = ( { formFields, navigate } ) =>
 
 export const signOut = () =>
   async ( dispatch ) => {
-    await signOutUser();
-    localStorage.removeItem('user');
-    dispatch( setAuthenticatedUser( false ) );
+
+    try {
+      await signOutUser();
+      localStorage.removeItem('user');
+      dispatch( setAuthenticatedUser( false ) );
+    } catch ( error ) {
+      dispatch( setLogOutError( error ) );
+    }
   };

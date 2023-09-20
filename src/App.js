@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect( () => {
     dispatch( getCurrentUser( sessionUserStatus === 'loggedIn' ) );
-  }, [] );
+  }, [userState.authenticatedUser] );
 
   return (
     <Routes>
@@ -35,7 +35,6 @@ const App = () => {
         <Route element={ <PublicLayout /> }>
           <Route path='/sign-up/' element={ <SignUpPage user={ sessionUserStatus === 'loggedIn' } /> } />
           <Route path='/sign-in/' element={ <SignInPage user={ sessionUserStatus === 'loggedIn' } /> } />
-          <Route path='*' element={ <NotFound /> }/>
         </Route>
       </Route>
 
@@ -45,6 +44,7 @@ const App = () => {
           <Route path='/movie/:movieId' element={ <MoviePage /> } />
           <Route path='/favorites/' element={ <Favorites /> } />
           <Route path='/lists/' element={ <Lists /> } />
+          <Route path='*' element={ <NotFound /> } />
         </Route>
       </Route>
     </Routes>
