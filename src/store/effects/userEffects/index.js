@@ -8,12 +8,14 @@ import {
   setUserFetching
 } from 'store/actions/userActions';
 import {
+  auth,
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword,
   signOutUser
 } from 'services/firebase';
+import { getRedirectResult } from 'firebase/auth';
 
 export const getCurrentUser = () =>
   async ( dispatch ) => {
@@ -33,6 +35,20 @@ export const getCurrentUser = () =>
       }
     } );
   };
+
+export const checkAuth = () =>
+ async ( dispatch ) => {
+
+  try {
+    const response = await getRedirectResult( auth );
+
+    if( response ) {
+      await createUserDocumentFromAuth( response.user );
+    }
+  } catch ( e ) {
+    dispatch( setSignUpErrorMessage( e ) );
+  }
+}
 
 export const signIn = ( { formFields, navigate } ) =>
   async ( dispatch ) => {

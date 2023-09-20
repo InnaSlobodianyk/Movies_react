@@ -1,23 +1,16 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { getRedirectResult } from 'firebase/auth';
-
-import { createUserDocumentFromAuth, auth } from 'services/firebase';
+import { checkAuth } from 'store/effects/userEffects';
 
 import SignUpForm from 'components/SignUpForm';
 
 const SignUpPage = ( { user } ) => {
+  const dispatch = useDispatch();
+
   useEffect( () => {
-    const checkAuth = async () => {
-      const response = await getRedirectResult( auth );
-
-      if( response ) {
-        await createUserDocumentFromAuth( response.user );
-      }
-    }
-
-    checkAuth();
+    dispatch( checkAuth() );
   }, []);
 
   return user ? <Navigate to='/' /> : <SignUpForm />;
