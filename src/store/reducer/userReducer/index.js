@@ -1,14 +1,13 @@
 import { USER_STORE_ACTIONS } from 'store/actions/userActions';
 
 const userInitialState = {
-  fetching: true,
-  currentUser: null,
+  fetching: false,
+  currentUser: undefined,
   errorDefaultMessage: '',
   errorDisplayNameMessage: '',
   errorEmailMessage: '',
   errorPasswordMessage: '',
   errorConfirmPasswordMessage: '',
-  authenticatedUser: false
 };
 
 const userReducer = ( state = userInitialState, action ) => {
@@ -57,11 +56,6 @@ const userReducer = ( state = userInitialState, action ) => {
       return {
         ...state,
         errorEmailMessage: payload
-      };
-    case USER_STORE_ACTIONS.SET_AUTHENTICATED_USER:
-      return {
-        ...state,
-        authenticatedUser: payload
       };
     default:
       return state;

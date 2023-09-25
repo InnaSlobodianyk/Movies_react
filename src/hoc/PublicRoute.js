@@ -1,22 +1,14 @@
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { selectorUserState } from 'store/selectors/userSelectors';
 
 import Loader from 'components/Loader';
 
 const PublicRoute = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState( false );
-  const [isUserLoggedInFetching, setIsUserLoggedInFetching] = useState( true );
-  const navigate = useNavigate();
-  const sessionUserStatus = localStorage.getItem('user');
-  const path = window.location.pathname;
+  const { currentUser: user } = useSelector( selectorUserState );
 
-  useEffect( () => {
-    setIsUserLoggedIn( sessionUserStatus === 'loggedIn' );
-    setIsUserLoggedInFetching( false );
-    isUserLoggedIn && navigate( path );
-  }, [isUserLoggedIn, path, sessionUserStatus] );
-
-  return isUserLoggedInFetching ? <Loader /> : !isUserLoggedIn ? <Outlet /> : <Navigate to='/' replace />;
+  return user === undefined ? <Loader /> : user ? <Navigate to='/' replace /> : <Outlet />;
 };
 
 export default PublicRoute;

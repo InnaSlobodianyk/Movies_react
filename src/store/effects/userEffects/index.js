@@ -1,5 +1,4 @@
 import {
-  setAuthenticatedUser,
   setCurrentUser,
   setLogOutError,
   setSignInErrorMessage,
@@ -19,7 +18,7 @@ import { getRedirectResult } from 'firebase/auth';
 
 export const getCurrentUser = () =>
   async ( dispatch ) => {
-    onAuthStateChangedListener( async ( user ) => {
+    await onAuthStateChangedListener( async ( user ) => {
       dispatch( setUserFetching( true ) );
 
       if ( user ) {
@@ -55,8 +54,6 @@ export const signIn = ( { formFields, navigate } ) =>
 
   try {
     await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
-    localStorage.setItem('user', 'loggedIn');
-    dispatch( setAuthenticatedUser( true ) );
     navigate('/');
   } catch ( error ) {
     dispatch( setSignInErrorMessage( error ) );
@@ -76,8 +73,6 @@ export const signUp = ( { formFields, navigate } ) =>
     const { displayName } = formFields;
 
     await createUserDocumentFromAuth( user, { displayName } );
-    localStorage.setItem('user', 'loggedIn');
-    dispatch( setAuthenticatedUser( true ) );
     navigate('/');
   } catch (error) {
     dispatch( setSignUpErrorMessage( error ) );
@@ -89,8 +84,6 @@ export const signOut = () =>
 
     try {
       await signOutUser();
-      localStorage.removeItem('user');
-      dispatch( setAuthenticatedUser( false ) );
     } catch ( error ) {
       dispatch( setLogOutError( error ) );
     }
