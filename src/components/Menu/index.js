@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Menu.module.scss";
@@ -27,4 +28,4 @@ const Menu = () => (
   </nav>
 );
 
-export default Menu;
+export default React.memo(Menu);

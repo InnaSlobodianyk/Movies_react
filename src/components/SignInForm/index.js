@@ -12,7 +12,6 @@ import { resetSignInErrorMessage } from 'store/actions/userActions';
 import Button from 'components/Button';
 import FormInput from 'components/FormInput';
 import Label from 'components/Label';
-
 import layoutStyles from 'components/layout/Layout.module.scss';
 import styles from './SignInForm.module.scss';
 
@@ -40,9 +39,11 @@ const SignInForm = () => {
 
   const signInWithGoogleHandler = () => signInWithGoogleRedirect().then( () => navigate('/') );
 
+  const headingClassName = cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signInFormHeading );
+
   return(
     <div className={ layoutStyles.pageContainer }>
-      <h1 className={ cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signInFormHeading ) }>
+      <h1 className={ headingClassName }>
         Already have an account?
       </h1>
 
@@ -55,6 +56,7 @@ const SignInForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='email'
+          value={ formFields.email }
           error={ userState?.errorEmailMessage }
         />
 
@@ -64,6 +66,7 @@ const SignInForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='password'
+          value={ formFields.password }
           error={ userState?.errorPasswordMessage }
         />
 

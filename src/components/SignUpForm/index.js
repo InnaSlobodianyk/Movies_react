@@ -38,9 +38,11 @@ const SignUpForm = () => {
     dispatch( resetSignInErrorMessage() );
   };
 
+  const headingClassName = cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signUpFormHeading );
+
   return(
     <div className={ layoutStyles.pageContainer }>
-      <h1 className={ cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signUpFormHeading ) }>Don't have an account?</h1>
+      <h1 className={ headingClassName }>Don't have an account?</h1>
 
       <p className={ styles.signUpFormSubHeading }>Sign up with your email and password</p>
 
@@ -51,6 +53,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='displayName'
+          value={ formFields.displayName }
           error={ userState?.errorDisplayNameMessage }
         />
 
@@ -60,6 +63,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='email'
+          value={ formFields.email }
           error={ userState?.errorEmailMessage }
         />
 
@@ -69,6 +73,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='password'
+          value={ formFields.password }
           error={ userState?.errorPasswordMessage }
         />
 
@@ -78,6 +83,7 @@ const SignUpForm = () => {
           required
           onChange={ formInputChangeHandler }
           name='confirmPassword'
+          value={ formFields.confirmPassword }
           error={ userState?.errorConfirmPasswordMessage }
         />
 

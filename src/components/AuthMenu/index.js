@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import styles from './AuthMenu.module.scss';
@@ -25,4 +26,4 @@ const AuthMenu = () => (
   </ul>
 );
 
-export default AuthMenu;
+export default React.memo(AuthMenu);
