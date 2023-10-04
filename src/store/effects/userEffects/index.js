@@ -7,58 +7,52 @@ import {
   setUserFetching
 } from 'store/actions/userActions';
 import {
-  auth,
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword,
+  signInWithGoogleRedirect,
   signOutUser
 } from 'services/firebase';
-import { getRedirectResult } from 'firebase/auth';
 
 export const getCurrentUser = () =>
   async ( dispatch ) => {
-    await onAuthStateChangedListener( async ( user ) => {
-      dispatch( setUserFetching( true ) );
+    dispatch( setUserFetching( true ) );
 
-      if ( user ) {
-        await createUserDocumentFromAuth( user );
-      }
+    try {
+      await onAuthStateChangedListener( async ( user ) => {
+        if ( user ) {
+          await createUserDocumentFromAuth( user );
+        }
 
-      try {
         dispatch( setCurrentUser( user ) );
-      } catch ( e ) {
-        dispatch( setCurrentUser( null ) );
-      } finally {
-        dispatch( setUserFetching( false ) );
-      }
-    } );
+      } );
+    } catch ( e ) {
+      dispatch( setCurrentUser( null ) );
+    } finally {
+      dispatch( setUserFetching( false ) );
+    }
   };
 
-export const checkAuth = () =>
- async ( dispatch ) => {
-
-  try {
-    const response = await getRedirectResult( auth );
-
-    if( response ) {
-      await createUserDocumentFromAuth( response.user );
-    }
-  } catch ( e ) {
-    dispatch( setSignUpErrorMessage( e ) );
-  }
-}
-
-export const signIn = ( { formFields, navigate } ) =>
+export const signIn = ( formFields ) =>
   async ( dispatch ) => {
 
   try {
     await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
-    navigate('/');
   } catch ( error ) {
     dispatch( setSignInErrorMessage( error ) );
   }
 };
+
+export const signInWithGoogle = () =>
+  async ( dispatch ) => {
+
+    try {
+      await signInWithGoogleRedirect();
+    } catch ( error ) {
+      dispatch( setSignInErrorMessage( error ) );
+    }
+  };
 
 export const signUp = ( { formFields, navigate } ) =>
   async ( dispatch ) => {

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import cn from 'classnames';
 
-import { checkAuth, signUp } from 'store/effects/userEffects';
+import { signUp } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
 import { resetSignInErrorMessage } from 'store/actions/userActions';
 
@@ -27,10 +27,6 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector( selectorUserState );
-
-  useEffect( () => {
-    dispatch( checkAuth() );
-  }, []);
 
   const submitHandler = ( event ) => {
     event.preventDefault();

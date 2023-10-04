@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 
-import { signInWithGoogleRedirect } from 'services/firebase';
-
-import { signIn } from 'store/effects/userEffects';
+import { signIn, signInWithGoogle } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
 import { resetSignInErrorMessage } from 'store/actions/userActions';
 
@@ -22,14 +19,13 @@ const defaultFormFields = {
 
 const SignInPage = () => {
   const [ formFields, setFormFields ] = useState( defaultFormFields );
-  const navigate = useNavigate();
   const userState = useSelector( selectorUserState );
   const dispatch = useDispatch();
 
   const submitHandler = ( event ) => {
     event.preventDefault();
 
-    dispatch( signIn( { formFields, navigate } ) );
+    dispatch( signIn( formFields ) );
   };
 
   const formInputChangeHandler = ( e ) => {
@@ -37,7 +33,7 @@ const SignInPage = () => {
     dispatch( resetSignInErrorMessage() );
   };
 
-  const signInWithGoogleHandler = () => signInWithGoogleRedirect().then( () => navigate('/') );
+  const signInWithGoogleHandler = () => dispatch( signInWithGoogle() );
 
   const headingClassName = cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signInFormHeading );
 

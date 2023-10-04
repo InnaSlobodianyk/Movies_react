@@ -2,18 +2,15 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Movie from 'components/movie';
 import { getMovieDetails } from 'store/effects/movieEffects';
 import { selectorMovieState } from 'store/selectors/movieSelectors';
+
+import Movie from 'components/movie';
 
 const MoviePage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
-
-  const movieState = useSelector( selectorMovieState );
-  const movieDetails = movieState.movie;
-  const movieFetching = movieState.fetching;
-
+  const { fetching: movieFetching, movie: movieDetails } = useSelector( selectorMovieState );
 
   useEffect(() => {
     dispatch( getMovieDetails( movieId ) );
