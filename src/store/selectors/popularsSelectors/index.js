@@ -1,0 +1,1 @@
+export const selectorPopularsState = state => state.popular;

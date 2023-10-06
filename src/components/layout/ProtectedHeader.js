@@ -1,18 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Menu from 'components/Menu';
+import { selectorSearchState } from 'store/selectors/searchSelectors';
+import { setSearchDefaultData } from 'store/actions/searchActions';
+import { setPagination } from 'store/actions';
+import { getMovieSearchResults } from 'store/effects/searchEffects';
+import { signOut } from 'store/effects/userEffects';
+
 import Search from 'components/Search';
-
-import { setSearchDefaultData, setPagination } from 'store/actions';
-import { selectorSearchState } from 'store/selectors';
-import { getMovieSearchResults } from 'store/effects';
-
-import logo from 'assets/images/movierise-logo.png';
+import Menu from 'components/Menu';
+import Button from 'components/Button';
 
 import styles from './Header.module.scss';
+import logo from 'assets/images/movierise-logo.png';
 
-const Header = () => {
+const ProtectedHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,6 +34,11 @@ const Header = () => {
     navigate('/');
   };
 
+  const signOutHandler = () => {
+    dispatch( signOut( false ) );
+    navigate('/sign-in/');
+  };
+
   return (
     <header className={ styles.header }>
       <div className={ styles.headerContainer }>
@@ -43,10 +50,16 @@ const Header = () => {
           <Search submitHandler={ submitHandler } fetching={ searchFetching } />
 
           <Menu />
+
+          <div className={styles.headerMenuItem}>
+            <div className={ styles.headerMenuLink }>
+              <Button className={styles.headerMenuLinkName} onClick={ signOutHandler }>Log Out</Button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
   );
 };
 
-export default Header;
+export default ProtectedHeader;

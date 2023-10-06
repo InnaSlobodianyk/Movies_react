@@ -1,4 +1,4 @@
-import { SEARCH_STORE_ACTIONS } from 'store/actions';
+import { SEARCH_STORE_ACTIONS } from 'store/actions/searchActions';
 
 const searchInitialState = {
   fetching: false,

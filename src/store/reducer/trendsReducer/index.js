@@ -1,4 +1,4 @@
-import { TRENDS_STORE_ACTIONS } from 'store/actions';
+import { TRENDS_STORE_ACTIONS } from 'store/actions/trendsActions';
 
 const trendsInitialState = {
   fetching: true,

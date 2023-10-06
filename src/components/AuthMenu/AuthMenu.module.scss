@@ -1,38 +1,11 @@
 @import '../../scss/base';
 
-.header {
-  background-color: $base-grey;
+.authMenu {
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
-.headerContainer {
-  width: 100%;
-  max-width: 1400px;
-  padding: 20px 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  @include media(">=tablet") {
-    flex-direction: row;
-  }
-}
-
-.headerLogo {
-  max-height: 64px;
-  margin-bottom: 15px;
-
-  @include media(">=tablet") {
-    margin-bottom: 0;
-  }
-}
-
-.headerMenuContainer {
-  display: flex;
-}
-
-.headerMenuItem {
+.authMenuItem {
   display: flex;
   align-items: center;
   margin-left: 20px;
@@ -42,7 +15,7 @@
   }
 }
 
-.headerMenuLink {
+.authMenuLink {
   color: $base-purple;
   transition: color $animation-speed $animation-effect;
   font-size: 17px;
@@ -71,7 +44,7 @@
   }
 }
 
-.headerMenuLinkName {
+.authMenuLinkName {
   display: none;
 
   @include media(">=tablet") {

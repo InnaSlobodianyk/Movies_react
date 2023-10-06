@@ -1,0 +1,19 @@
+@import '../../scss/base';
+
+.signInForm {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.signInFormButtonsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.signInFormBtn {
+  padding: 10px 0;
+}
