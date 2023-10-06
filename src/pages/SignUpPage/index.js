@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import cn from 'classnames';
-
 import { signUp } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
 import { resetSignInErrorMessage } from 'store/actions/userActions';
@@ -11,6 +9,8 @@ import { resetSignInErrorMessage } from 'store/actions/userActions';
 import Button from 'components/Button';
 import FormInput from 'components/FormInput';
 import Label from 'components/Label';
+import PageHeading from 'components/PageHeading';
+import PageSubHeading from 'components/PageSubHeading';
 
 import layoutStyles from 'components/layout/Layout.module.scss';
 import styles from './SignUpPage.module.scss';
@@ -39,13 +39,11 @@ const SignUpPage = () => {
     dispatch( resetSignInErrorMessage() );
   };
 
-  const headingClassName = cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signUpFormHeading );
-
   return (
     <div className={ layoutStyles.pageContainer }>
-      <h1 className={ headingClassName }>Don't have an account?</h1>
+      <PageHeading>Don't have an account?</PageHeading>
 
-      <p className={ styles.signUpFormSubHeading }>Sign up with your email and password</p>
+      <PageSubHeading>Sign up with your email and password</PageSubHeading>
 
       <form onSubmit={ submitHandler } className={ styles.signUpForm }>
         <FormInput

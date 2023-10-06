@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
 
 import { signIn, signInWithGoogle } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
@@ -9,6 +8,8 @@ import { resetSignInErrorMessage } from 'store/actions/userActions';
 import Button from 'components/Button';
 import FormInput from 'components/FormInput';
 import Label from 'components/Label';
+import PageHeading from 'components/PageHeading';
+import PageSubHeading from 'components/PageSubHeading';
 import layoutStyles from 'components/layout/Layout.module.scss';
 import styles from './SignInPage.module.scss';
 
@@ -35,15 +36,11 @@ const SignInPage = () => {
 
   const signInWithGoogleHandler = () => dispatch( signInWithGoogle() );
 
-  const headingClassName = cn( layoutStyles.pageHeading, layoutStyles['pageHeading--1'], styles.signInFormHeading );
-
   return (
     <div className={ layoutStyles.pageContainer }>
-      <h1 className={ headingClassName }>
-        Already have an account?
-      </h1>
+      <PageHeading>Already have an account?</PageHeading>
 
-      <p className={ styles.signInFormSubHeading }>Sign in with your email and password</p>
+      <PageSubHeading>Sign in with your email and password</PageSubHeading>
 
       <form onSubmit={ submitHandler } className={ styles.signInForm }>
         <FormInput
