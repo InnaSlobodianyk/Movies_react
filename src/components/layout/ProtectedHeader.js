@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectorSearchState } from 'store/selectors/searchSelectors';
+import { selectorFavoritesState } from 'store/selectors/favoritesSelectors';
 import { setSearchDefaultData } from 'store/actions/searchActions';
 import { setPagination } from 'store/actions';
 import { getMovieSearchResults } from 'store/effects/searchEffects';
@@ -19,18 +20,17 @@ const ProtectedHeader = () => {
   const navigate = useNavigate();
 
   const { fetching: searchFetching, searchedMovies } = useSelector( selectorSearchState );
+  const { favoriteMovies } = useSelector( selectorFavoritesState );
   const isSearch = searchedMovies.length > 0;
 
   const logoClickHandler = () => {
-    if( isSearch ) {
-      dispatch( setSearchDefaultData );
-    }
+    isSearch && dispatch( setSearchDefaultData() );
 
     dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );
   };
 
   const submitHandler = ( query ) => {
-    dispatch( getMovieSearchResults({ searchQuery: query, currentPage: 1 }) );
+    dispatch( getMovieSearchResults({ searchQuery: query, currentPage: 1, favoriteMovies }) );
     navigate('/');
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 
@@ -15,11 +15,14 @@ import { getMovieTrends } from 'store/effects/trendsEffects';
 import { selectorPopularsState } from 'store/selectors/popularsSelectors';
 import { selectorTrendsState } from 'store/selectors/trendsSelectors';
 import { selectorSearchState } from 'store/selectors/searchSelectors';
+import { selectorFavoritesState } from 'store/selectors/favoritesSelectors';
 
 import {
+  PAGINATION_TYPE,
   resetSearchAndTrends,
   setPagination
 } from 'store/actions';
+import { isFavoriteMovie } from 'helpers';
 
 import styles from 'components/layout/Layout.module.scss';
 
@@ -56,7 +59,15 @@ const Home = () => {
     searchQuery
   } = useSelector( selectorSearchState );
 
+  const { favoriteMovies } = useSelector( selectorFavoritesState );
+
+  const newTrends = trends.map(trend => {
+    const isFavorite = isFavoriteMovie( favoriteMovies, trend );
+    return { ...trend, favorite: isFavorite };
+  });
+
   const isSearch = searchQuery.length > 0;
+  const paginationType = searchQuery.length ? PAGINATION_TYPE.SEARCH : PAGINATION_TYPE.TRENDS;
 
   useEffect(() => {
     dispatch( getMovieTrends( trendsCurrentPage || 1 ) );
@@ -65,17 +76,11 @@ const Home = () => {
 
   const isPaginationVisible = isSearch ? searchTotalResults > 20 : trendsTotalResults > 20;
 
-  const trendsPaginationClickHandler = ( page ) => {
-    dispatch( setPagination( { isSearch, fetching: false, page } ) );
-  };
+  const trendsPaginationClickHandler = ( page ) => dispatch( setPagination( { paginationType, fetching: false, page } ) );
 
-  const searchPaginationClickHandler = ( page ) => {
-    dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
-  };
+  const searchPaginationClickHandler = ( page ) => dispatch( getMovieSearchResults( { searchQuery, currentPage: page, favoriteMovies } ) );
 
-  const clearSearchResults = () => {
-    dispatch( resetSearchAndTrends() );
-  };
+  const clearSearchResults = () => dispatch( resetSearchAndTrends() );
 
   return (
     <>
@@ -114,8 +119,8 @@ const Home = () => {
             isSearch && ! searchedMovies.length
               ? <div>Nothing was found for your request</div>
               : (
-                <div className={styles.container}>
-                  <TrendcardsContainer movies={ isSearch ? searchedMovies : trends } />
+                <div className={ styles.container }>
+                  <TrendcardsContainer movies={ isSearch ? searchedMovies : newTrends } />
                 </div>
               )
           }

@@ -24,7 +24,7 @@ export const getMovieTrends = ( currentPage ) =>
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const ratingRounded = roundRatingValue(movie.vote_average);
 
-        return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
+        return { ...movie, vote_average: ratingRounded, genres: filteredGenres, favorite: false }
       } );
 
       const popularMovies = populars.map( movie  => {
@@ -37,7 +37,7 @@ export const getMovieTrends = ( currentPage ) =>
       const trendsData = {
         trends: movies,
         currentPage,
-        totalPages: trends.total_pages,
+        totalPages: trends.total_pages <= 500 ? trends.total_pages : 500,
         totalResults: trends.total_results
       };
 

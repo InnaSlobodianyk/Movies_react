@@ -47,3 +47,15 @@ export const imageFullUrl = ( { imagePath, imgUrl = imageUrl } ) => {
 };
 
 export const filterGenres = (allGenres, genres) => allGenres.filter(el => genres.some(item => item === el.id));
+
+export const isFavoriteMovie = ( favoriteMovies, movie ) => favoriteMovies?.filter( el => el.id === movie?.id )[0]?.favorite || false;
+
+export const getSlicedFavorites = ( { favorites, pageSize } ) => {
+  let favoriteMoviesFormatted = [];
+
+  for ( let i = 0; i < favorites?.length; i += pageSize ) {
+    favoriteMoviesFormatted = [ ...favoriteMoviesFormatted, favorites?.slice( i, i + pageSize ) ];
+  }
+
+  return favoriteMoviesFormatted;
+};

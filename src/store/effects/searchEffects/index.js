@@ -2,9 +2,13 @@ import { getSearchResults } from 'services/searchResults';
 import { getAllGenres } from 'services/genres';
 import { setSearchFetchingState, setSearchMoviesData } from 'store/actions/searchActions';
 
-import { filterGenres, roundRatingValue } from 'helpers';
+import {
+  filterGenres,
+  isFavoriteMovie,
+  roundRatingValue
+} from 'helpers';
 
-export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
+export const getMovieSearchResults = ( { searchQuery, currentPage, favoriteMovies } ) =>
   async ( dispatch ) => {
     dispatch( setSearchFetchingState( true ) );
 
@@ -18,8 +22,9 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
       const movies = searchResults.results.map( movie => {
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const ratingRounded = roundRatingValue(movie.vote_average);
+        const isFavorite = isFavoriteMovie( favoriteMovies, movie );
 
-        return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
+        return { ...movie, vote_average: ratingRounded, genres: filteredGenres, favorite: isFavorite }
       } );
 
       const moviesData = {

@@ -13,4 +13,4 @@ export const setSearchFetchingState = ( payload ) => makeActionCreator( SEARCH_S
 
 export const setSearchCurrentPage = ( payload ) => makeActionCreator( SEARCH_STORE_ACTIONS.SET_CURRENT_PAGE, payload );
 
-export const setSearchDefaultData = makeActionCreator( SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA );
+export const setSearchDefaultData = () => makeActionCreator( SEARCH_STORE_ACTIONS.SET_DEFAULT_DATA );

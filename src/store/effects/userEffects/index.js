@@ -15,6 +15,8 @@ import {
   signOutUser
 } from 'services/firebase';
 
+import { getFavoriteMovies } from 'store/effects/favoritesEffects';
+
 export const getCurrentUser = () =>
   async ( dispatch ) => {
     dispatch( setUserFetching( true ) );
@@ -26,6 +28,7 @@ export const getCurrentUser = () =>
         }
 
         dispatch( setCurrentUser( user ) );
+        dispatch( getFavoriteMovies() );
       } );
     } catch ( e ) {
       dispatch( setCurrentUser( null ) );

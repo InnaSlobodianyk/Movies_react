@@ -8,16 +8,25 @@ import {
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs
+} from 'firebase/firestore';
 
 // App's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBgTI0l4WZbfZ6nyMcxyWQrkQlmjzA1rq8",
-  authDomain: "movies-db-60fae.firebaseapp.com",
-  projectId: "movies-db-60fae",
-  storageBucket: "movies-db-60fae.appspot.com",
-  messagingSenderId: "29484899128",
-  appId: "1:29484899128:web:310ea68813831d4890ffcd"
+  apiKey: 'AIzaSyBgTI0l4WZbfZ6nyMcxyWQrkQlmjzA1rq8',
+  authDomain: 'movies-db-60fae.firebaseapp.com',
+  projectId: 'movies-db-60fae',
+  storageBucket: 'movies-db-60fae.appspot.com',
+  messagingSenderId: '29484899128',
+  appId: '1:29484899128:web:310ea68813831d4890ffcd'
 };
 
 // Initialize Firebase
@@ -32,6 +41,65 @@ export const auth = getAuth();
 export const signInWithGoogleRedirect = () => signInWithRedirect( auth, googleProvider );
 
 export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  userId,
+  movieId
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+  const docRef = doc(collectionRef, userId);
+  const favoritesData = {
+    userId,
+    favoriteMovies: [ movieId ]
+  };
+
+  const userFavoritesSnapshot = await getDoc( docRef );
+
+  if ( !userFavoritesSnapshot.exists() ) {
+    batch.set(docRef, favoritesData);
+  } else {
+    const userFavoritesSnapshotData = await userFavoritesSnapshot.data();
+    const favoriteMoviesUpdated = (userFavoritesSnapshotData.favoriteMovies.length && userFavoritesSnapshotData.favoriteMovies.indexOf( movieId ) >= 0)
+      ? userFavoritesSnapshotData.favoriteMovies
+      : [movieId, ...userFavoritesSnapshotData.favoriteMovies];
+    batch.update(docRef, 'favoriteMovies', favoriteMoviesUpdated);
+  }
+
+  await batch.commit();
+};
+
+export const removeFromDocument = async (
+  collectionKey,
+  userId,
+  movieId
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+  const docRef = doc(collectionRef, userId);
+  const userFavoritesSnapshot = await getDoc( docRef );
+
+  if ( userFavoritesSnapshot.exists() ) {
+    const userFavoritesSnapshotData = await userFavoritesSnapshot.data();
+    const favoriteMoviesUpdated = (userFavoritesSnapshotData.favoriteMovies.length && userFavoritesSnapshotData.favoriteMovies.indexOf( movieId ) >= 0)
+      ? userFavoritesSnapshotData.favoriteMovies.filter( ( movie ) => movie !== movieId )
+      : userFavoritesSnapshotData.favoriteMovies;
+    batch.update( docRef, 'favoriteMovies', favoriteMoviesUpdated );
+  }
+
+  await batch.commit();
+};
+
+export const getFavoritesAndDocuments = async () => {
+  const collectionRef = collection(db, 'favorites');
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+  const userFavoritesSnapshot = querySnapshot.docs.filter( ( docSnapshot ) => docSnapshot.id === auth.currentUser.uid )[0];
+  const userFavoritesSnapshotData = await userFavoritesSnapshot.data();
+
+  return userFavoritesSnapshotData.favoriteMovies;
+};
 
 export const createUserDocumentFromAuth = async ( userAuth, additionalInformation = {} ) => {
   if( !userAuth ) return;
