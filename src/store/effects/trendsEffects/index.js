@@ -12,7 +12,7 @@ export const getMovieTrends = ( currentPage ) =>
     dispatch( setTrendsFetchingState( true ) );
 
     try {
-      const [trends, allGenres, populars] = await Promise.all([
+      const [{ results: trends }, allGenres, populars] = await Promise.all([
         getTrends( currentPage ),
 
         getAllGenres(),
@@ -20,11 +20,11 @@ export const getMovieTrends = ( currentPage ) =>
         getPopulars()
       ]);
 
-      const movies = trends.results.map( movie => {
+      const movies = trends.map( movie => {
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const ratingRounded = roundRatingValue(movie.vote_average);
 
-        return { ...movie, vote_average: ratingRounded, genres: filteredGenres, favorite: false }
+        return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
       } );
 
       const popularMovies = populars.map( movie  => {
@@ -51,7 +51,6 @@ export const getMovieTrends = ( currentPage ) =>
         totalPages: 0,
         totalResults: 0
       }) );
-
     } finally {
       dispatch( setTrendsFetchingState( false ) );
     }

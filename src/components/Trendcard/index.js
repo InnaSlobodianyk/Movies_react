@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { IoBookmark, IoBookmarkOutline, IoStar } from 'react-icons/io5';
 
-import { selectorFavoritesState } from 'store/selectors/favoritesSelectors';
-import { selectorUserState } from 'store/selectors/userSelectors';
 import { addToFavorites, removeFromFavorites } from 'store/effects';
 
 import { calcDate, imageFullUrl } from 'helpers';
+
 import Button from 'components/Button';
 import Genre from 'components/Genre';
 import Label from 'components/Label';
@@ -15,15 +14,11 @@ import styles from './Trendcard.module.scss';
 
 const Trendcard = ( { movie } ) => {
     const dispatch = useDispatch();
-    const { favoriteMovies } = useSelector( selectorFavoritesState );
-    const { currentUser } = useSelector( selectorUserState );
-    const { uid: currentUserId } = currentUser;
-    const movieId = movie?.id;
-    const isFavorite = movie?.favorite;
+    const { id: movieId, isFavorite } = movie;
 
-    const addToFavoriteClickHandler = () => dispatch( addToFavorites( { favoriteMovies, movie, currentUserId } ) );
+    const addToFavoriteClickHandler = () => dispatch( addToFavorites( { movie } ) );
 
-    const removeFromFavoriteClickHandler = () => dispatch( removeFromFavorites( { favoriteMovies, movieId, currentUserId } ) );
+    const removeFromFavoriteClickHandler = () => dispatch( removeFromFavorites( { movieId } ) );
 
     return (
       <figure className={ styles.item } id={`trendcard-${ movieId }`}>

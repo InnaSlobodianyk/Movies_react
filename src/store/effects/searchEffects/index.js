@@ -4,7 +4,6 @@ import { setSearchFetchingState, setSearchMoviesData } from 'store/actions/searc
 
 import {
   filterGenres,
-  isFavoriteMovie,
   roundRatingValue
 } from 'helpers';
 
@@ -13,18 +12,17 @@ export const getMovieSearchResults = ( { searchQuery, currentPage, favoriteMovie
     dispatch( setSearchFetchingState( true ) );
 
     try {
-      const [searchResults, allGenres] = await Promise.all([
+      const [ { results: searchResults }, allGenres] = await Promise.all([
         getSearchResults( searchQuery, currentPage ),
 
         getAllGenres()
       ]);
 
-      const movies = searchResults.results.map( movie => {
+      const movies = searchResults?.map( movie => {
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const ratingRounded = roundRatingValue(movie.vote_average);
-        const isFavorite = isFavoriteMovie( favoriteMovies, movie );
 
-        return { ...movie, vote_average: ratingRounded, genres: filteredGenres, favorite: isFavorite }
+        return { ...movie, vote_average: ratingRounded, genres: filteredGenres }
       } );
 
       const moviesData = {

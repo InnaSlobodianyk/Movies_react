@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectorFavoritesState } from 'store/selectors/favoritesSelectors';
@@ -18,7 +19,7 @@ import styles from 'components/layout/Layout.module.scss';
 const Favorites = () => {
   const dispatch = useDispatch();
   const { fetching: favoritesFetching, favoriteMovies, currentPage } = useSelector( selectorFavoritesState );
-  const pageSize = 5;
+  const pageSize = 20;
   const isPaginationVisible = favoriteMovies?.length > pageSize;
   const totalPages = Math.ceil( favoriteMovies?.length / pageSize );
   const moviesList = getSlicedFavorites( { favorites: favoriteMovies, pageSize } );
@@ -37,7 +38,13 @@ const Favorites = () => {
             <div className={ styles.container }>
               { favoriteMovies?.length
                 ? <TrendcardsContainer movies={ moviesList[currentPage - 1] } />
-                : <PageSubHeading>You didn't mark any movie as favorite</PageSubHeading>
+                : (
+                  <div className={ styles.contentCentered }>
+                    <PageSubHeading>You didn't mark any movie as favorite</PageSubHeading>
+                    <p>Start reviewing movies:</p>
+                    <Link to='/'>Trending movies of the day</Link>
+                  </div>
+                )
               }
             </div>
 

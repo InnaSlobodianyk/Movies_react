@@ -10,18 +10,23 @@ export const getFavoriteMovies = () =>
     dispatch( setFavoritesFetchingState( true ) );
 
     try {
-      const favorites = await getFavoritesAndDocuments();
+      const favoriteMoviesIDs = await getFavoritesAndDocuments();
 
-      const favoriteMovies = favorites?.map( async ( id ) => {
+      const favoriteMoviesArr = favoriteMoviesIDs?.map( async ( id ) => {
         const response = await getMovie( id );
-        const ratingRounded = roundRatingValue( response.vote_average );
 
-        return { ...response, vote_average: ratingRounded, favorite: true };
+        return { ...response, isFavorite: true };
       } );
 
-      const movies = await Promise.all( favoriteMovies );
+      const movies = await Promise.all( favoriteMoviesArr );
+
+      const favoriteMovies = movies?.map( movie => {
+        const ratingRounded = roundRatingValue( movie.vote_average );
+        return { ...movie, vote_average: ratingRounded };
+      } );
+
       const favoritesData = {
-        favoriteMovies: movies,
+        favoriteMovies,
         currentPage: 1
       };
 

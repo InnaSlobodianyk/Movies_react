@@ -3,7 +3,8 @@ import { FAVORITES_STORE_ACTIONS } from 'store/actions/favoritesActions';
 const favoritesInitialState = {
   fetching: false,
   favoriteMovies: [],
-  currentPage: 1
+  currentPage: 1,
+  errorMessage: '',
 };
 
 const favoritesReducer = ( state = favoritesInitialState, action ) => {
@@ -16,12 +17,12 @@ const favoritesReducer = ( state = favoritesInitialState, action ) => {
     case FAVORITES_STORE_ACTIONS.ADD_TO_FAVORITES:
       return {
         ...state,
-        favoriteMovies: action.payload
+        favoriteMovies: [ { ...action.payload }, ...state.favoriteMovies ]
       };
     case FAVORITES_STORE_ACTIONS.REMOVE_FROM_FAVORITES:
       return {
         ...state,
-        favoriteMovies: action.payload
+        favoriteMovies: state.favoriteMovies.filter( ( favoriteMovie ) => favoriteMovie.id !== action.payload )
       };
     case FAVORITES_STORE_ACTIONS.SET_FAVORITES:
       return {
@@ -34,6 +35,11 @@ const favoritesReducer = ( state = favoritesInitialState, action ) => {
         ...state,
         fetching: action.payload.fetching,
         currentPage: action.payload.page || 1
+      };
+    case FAVORITES_STORE_ACTIONS.SET_FAVORITES_ERROR:
+      return {
+        ...state,
+        errorMessage: action.payload
       };
     default:
       return state;
