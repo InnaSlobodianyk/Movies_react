@@ -12,18 +12,15 @@ export const getFavoriteMovies = () =>
     try {
       const favoriteMoviesIDs = await getFavoritesAndDocuments();
 
-      const favoriteMoviesArr = favoriteMoviesIDs?.map( async ( id ) => {
-        const response = await getMovie( id );
+      const favorites = favoriteMoviesIDs.map( getMovie );
 
-        return { ...response, isFavorite: true };
-      } );
+      const movies = await Promise.all( favorites );
 
-      const movies = await Promise.all( favoriteMoviesArr );
-
-      const favoriteMovies = movies?.map( movie => {
-        const ratingRounded = roundRatingValue( movie.vote_average );
-        return { ...movie, vote_average: ratingRounded };
-      } );
+      const favoriteMovies = movies.map( movie => ({
+        ...movie,
+        isFavorite: true,
+        vote_average: roundRatingValue( movie.vote_average )
+      }));
 
       const favoritesData = {
         favoriteMovies,

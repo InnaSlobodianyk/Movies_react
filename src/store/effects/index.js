@@ -8,16 +8,13 @@ import {
 
 export const addToFavorites = ( { movie } ) =>
   async ( dispatch, getState ) => {
-    const { favorites, user } = getState();
-    const { favoriteMovies } = favorites;
+    const { user } = getState();
     const { uid: currentUserId } = user?.currentUser;
-    const movieId = movie?.id;
+    const movieId = movie.id;
 
     try {
-      if ( favoriteMovies?.indexOf( movieId ) === -1 ) {
-        await addCollectionAndDocuments( 'favorites', currentUserId, movieId );
-        dispatch( addMovieToFavorites( { ...movie, isFavorite: true } ) );
-      }
+      await addCollectionAndDocuments( 'favorites', currentUserId, movieId );
+      dispatch( addMovieToFavorites( { ...movie, isFavorite: true } ) );
     } catch ( error ) {
       dispatch( seFavoritesError( error.message ) );
     }

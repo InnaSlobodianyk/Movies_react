@@ -6,9 +6,9 @@ export const selectorSearchStateWithFavorites = ( state ) => {
   const { searchedMovies, ...rest } = selectorSearchState( state );
   const favoriteMovieIDs = selectorFavoriteMovieIDs( state );
 
-  const modifiedSearchedMovies = searchedMovies?.map( movie => ( {
+  const modifiedSearchedMovies = searchedMovies.map( movie => ( {
     ...movie,
-    isFavorite: favoriteMovieIDs?.includes( movie.id )
+    isFavorite: favoriteMovieIDs.includes( movie.id )
   } ) );
 
   return {

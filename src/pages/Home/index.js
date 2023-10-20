@@ -8,7 +8,6 @@ import { getMovieTrends } from 'store/effects/trendsEffects';
 import { selectorPopularsState } from 'store/selectors/popularsSelectors';
 import { selectorTrendsStateWithFavorites } from 'store/selectors/trendsSelectors';
 import { selectorSearchStateWithFavorites } from 'store/selectors/searchSelectors';
-import { selectorFavoritesState } from 'store/selectors/favoritesSelectors';
 import {
   PAGINATION_TYPE,
   resetSearchAndTrends,
@@ -57,8 +56,6 @@ const Home = () => {
     searchQuery
   } = useSelector( selectorSearchStateWithFavorites );
 
-  const { favoriteMovies } = useSelector( selectorFavoritesState );
-
   const isSearch = searchQuery.length > 0;
   const paginationType = searchQuery.length ? PAGINATION_TYPE.SEARCH : PAGINATION_TYPE.TRENDS;
 
@@ -71,7 +68,7 @@ const Home = () => {
 
   const trendsPaginationClickHandler = ( page ) => dispatch( setPagination( { paginationType, fetching: false, page } ) );
 
-  const searchPaginationClickHandler = ( page ) => dispatch( getMovieSearchResults( { searchQuery, currentPage: page, favoriteMovies } ) );
+  const searchPaginationClickHandler = ( page ) => dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
 
   const clearSearchResults = () => dispatch( resetSearchAndTrends() );
 

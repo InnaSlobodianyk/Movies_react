@@ -6,9 +6,9 @@ export const selectorTrendsStateWithFavorites = ( state ) => {
   const { trends, ...rest } = selectorTrendsState( state );
   const favoriteMoviesIDs = selectorFavoriteMovieIDs( state );
 
-  const modifiedTrends = trends?.map( movie => ( {
+  const modifiedTrends = trends.map( movie => ( {
     ...movie,
-    isFavorite: favoriteMoviesIDs?.includes( movie.id )
+    isFavorite: favoriteMoviesIDs.includes( movie.id )
   } ) );
 
   return {

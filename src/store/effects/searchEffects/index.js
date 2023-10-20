@@ -7,7 +7,7 @@ import {
   roundRatingValue
 } from 'helpers';
 
-export const getMovieSearchResults = ( { searchQuery, currentPage, favoriteMovies } ) =>
+export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
   async ( dispatch ) => {
     dispatch( setSearchFetchingState( true ) );
 

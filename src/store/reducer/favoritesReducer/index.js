@@ -17,7 +17,7 @@ const favoritesReducer = ( state = favoritesInitialState, action ) => {
     case FAVORITES_STORE_ACTIONS.ADD_TO_FAVORITES:
       return {
         ...state,
-        favoriteMovies: [ { ...action.payload }, ...state.favoriteMovies ]
+        favoriteMovies: !state.favoriteMovies.some( movie => movie.id === action.payload.id ) ? [ action.payload, ...state.favoriteMovies ] : state.favoriteMovies
       };
     case FAVORITES_STORE_ACTIONS.REMOVE_FROM_FAVORITES:
       return {
