@@ -22,7 +22,9 @@ const ProtectedHeader = () => {
   const isSearch = searchedMovies.length > 0;
 
   const logoClickHandler = () => {
-    isSearch && dispatch( setSearchDefaultData() );
+    if ( isSearch ) {
+      dispatch( setSearchDefaultData() );
+    }
 
     dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );
   };

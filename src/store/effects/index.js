@@ -9,7 +9,7 @@ import {
 export const addToFavorites = ( { movie } ) =>
   async ( dispatch, getState ) => {
     const { user } = getState();
-    const { uid: currentUserId } = user?.currentUser;
+    const { uid: currentUserId } = user.currentUser;
     const movieId = movie.id;
 
     try {
@@ -23,7 +23,7 @@ export const addToFavorites = ( { movie } ) =>
 export const removeFromFavorites = ( { movieId } ) =>
   async ( dispatch, getState ) => {
     const { user } = getState();
-    const { uid: currentUserId } = user?.currentUser;
+    const { uid: currentUserId } = user.currentUser;
 
     try {
       await removeFromDocument( 'favorites', currentUserId, movieId );

@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 
 import { getFavoriteMovies } from 'store/effects/favoritesEffects';
 
-const InnerService = ( user ) => {
+const InnerService = () => {
   const dispatch = useDispatch();
 
   useEffect( () => {
-    if ( user ) dispatch( getFavoriteMovies() );
-  }, [ user ] );
+    dispatch( getFavoriteMovies() );
+  }, [] );
 
   return null;
 }

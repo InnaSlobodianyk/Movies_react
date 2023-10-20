@@ -6,5 +6,5 @@ export const selectorMovieStateWithFavorites = ( state ) => {
   const { movie } = selectorMovieState( state );
   const favoriteMoviesIDs = selectorFavoriteMovieIDs( state );
 
-  return { ...movie, isFavorite: favoriteMoviesIDs.includes( movie?.id ) };
+  return { ...movie, isFavorite: favoriteMoviesIDs.includes( movie.id ) };
 };
