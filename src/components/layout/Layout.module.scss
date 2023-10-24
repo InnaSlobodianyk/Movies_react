@@ -1,7 +1,7 @@
 @import '../../scss/base';
 
 .pageContainer {
-  padding: 0 12px 24px;
+  padding: 0 4% 24px;
   clear: both;
   box-sizing: border-box;
 
@@ -10,8 +10,7 @@
   }
 
   @include media(">=desktop") {
-    padding: 0 0 48px;
-    max-width: 888px;
+    max-width: 1340px;
     margin: 0 auto;
   }
 
@@ -129,4 +128,9 @@
       opacity: 1;
     }
   }
+}
+
+.contentCentered {
+  width: 100%;
+  text-align: center;
 }

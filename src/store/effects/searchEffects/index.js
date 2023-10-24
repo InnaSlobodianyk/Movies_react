@@ -2,20 +2,23 @@ import { getSearchResults } from 'services/searchResults';
 import { getAllGenres } from 'services/genres';
 import { setSearchFetchingState, setSearchMoviesData } from 'store/actions/searchActions';
 
-import { filterGenres, roundRatingValue } from 'helpers';
+import {
+  filterGenres,
+  roundRatingValue
+} from 'helpers';
 
 export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
   async ( dispatch ) => {
     dispatch( setSearchFetchingState( true ) );
 
     try {
-      const [searchResults, allGenres] = await Promise.all([
+      const [ { results: searchResults }, allGenres] = await Promise.all([
         getSearchResults( searchQuery, currentPage ),
 
         getAllGenres()
       ]);
 
-      const movies = searchResults.results.map( movie => {
+      const movies = searchResults?.map( movie => {
         const filteredGenres = filterGenres(allGenres, movie.genre_ids);
         const ratingRounded = roundRatingValue(movie.vote_average);
 

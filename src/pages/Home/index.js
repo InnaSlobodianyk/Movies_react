@@ -1,6 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
+
+import { getMovieSearchResults } from 'store/effects/searchEffects';
+import { getMovieTrends } from 'store/effects/trendsEffects';
+
+import { selectorPopularsState } from 'store/selectors/popularsSelectors';
+import { selectorTrendsStateWithFavorites } from 'store/selectors/trendsSelectors';
+import { selectorSearchStateWithFavorites } from 'store/selectors/searchSelectors';
+import {
+  PAGINATION_TYPE,
+  resetSearchAndTrends,
+  setPagination
+} from 'store/actions';
 
 import Slider from 'components/Slider';
 import Pagination from 'components/Pagination';
@@ -8,18 +20,6 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import Label from 'components/Label';
 import TrendcardsContainer from './TrendcardsContainer';
-
-import { getMovieSearchResults } from 'store/effects/searchEffects';
-import { getMovieTrends } from 'store/effects/trendsEffects';
-
-import { selectorPopularsState } from 'store/selectors/popularsSelectors';
-import { selectorTrendsState } from 'store/selectors/trendsSelectors';
-import { selectorSearchState } from 'store/selectors/searchSelectors';
-
-import {
-  resetSearchAndTrends,
-  setPagination
-} from 'store/actions';
 
 import styles from 'components/layout/Layout.module.scss';
 
@@ -39,13 +39,13 @@ const Home = () => {
 
   const { fetching: popularsFetching, popularMovies } = useSelector( selectorPopularsState );
 
-  const  {
+  const {
     currentPage: trendsCurrentPage,
     fetching: trendsFetching,
     totalPages: trendsTotalPages,
     totalResults: trendsTotalResults,
     trends
-  } = useSelector( selectorTrendsState );
+  } = useSelector( selectorTrendsStateWithFavorites );
 
   const {
     fetching: searchFetching,
@@ -54,9 +54,10 @@ const Home = () => {
     totalResults: searchTotalResults,
     searchedMovies,
     searchQuery
-  } = useSelector( selectorSearchState );
+  } = useSelector( selectorSearchStateWithFavorites );
 
   const isSearch = searchQuery.length > 0;
+  const paginationType = searchQuery.length ? PAGINATION_TYPE.SEARCH : PAGINATION_TYPE.TRENDS;
 
   useEffect(() => {
     dispatch( getMovieTrends( trendsCurrentPage || 1 ) );
@@ -65,17 +66,11 @@ const Home = () => {
 
   const isPaginationVisible = isSearch ? searchTotalResults > 20 : trendsTotalResults > 20;
 
-  const trendsPaginationClickHandler = ( page ) => {
-    dispatch( setPagination( { isSearch, fetching: false, page } ) );
-  };
+  const trendsPaginationClickHandler = ( page ) => dispatch( setPagination( { paginationType, fetching: false, page } ) );
 
-  const searchPaginationClickHandler = ( page ) => {
-    dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
-  };
+  const searchPaginationClickHandler = ( page ) => dispatch( getMovieSearchResults( { searchQuery, currentPage: page } ) );
 
-  const clearSearchResults = () => {
-    dispatch( resetSearchAndTrends() );
-  };
+  const clearSearchResults = () => dispatch( resetSearchAndTrends() );
 
   return (
     <>
@@ -114,7 +109,7 @@ const Home = () => {
             isSearch && ! searchedMovies.length
               ? <div>Nothing was found for your request</div>
               : (
-                <div className={styles.container}>
+                <div className={ styles.container }>
                   <TrendcardsContainer movies={ isSearch ? searchedMovies : trends } />
                 </div>
               )
