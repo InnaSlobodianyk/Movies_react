@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import { signIn, signInWithGoogle } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
@@ -22,16 +23,37 @@ const SignInPage = () => {
   const [ formFields, setFormFields ] = useState( defaultFormFields );
   const userState = useSelector( selectorUserState );
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    setError,
+    clearErrors
+  } = useForm( {
+    defaultValues: defaultFormFields,
+    mode: 'onChange'
+  } );
 
-  const submitHandler = ( event ) => {
-    event.preventDefault();
+  useEffect( () => {
+    if ( userState?.errorEmailMessage ) {
+      setError( 'email', { type: 'custom', message: userState?.errorEmailMessage }, { shouldFocus: true } );
+    }
 
-    dispatch( signIn( formFields ) );
-  };
+    if ( userState?.errorPasswordMessage ) {
+      setError( 'password', { type: 'custom', message: userState?.errorPasswordMessage }, { shouldFocus: true } );
+    }
+
+    if ( userState?.errorDefaultMessage ) {
+      setError( 'default', { type: 'custom', message: userState?.errorDefaultMessage } );
+    }
+  }, [ setError, userState ] );
+
+  const submitHandler = ( data ) => dispatch( signIn( data ) );
 
   const formInputChangeHandler = ( e ) => {
-    setFormFields({ ...formFields, [e.name]: e.value });
+    setFormFields({ ...formFields, [e.target?.name]: e.target?.value });
     dispatch( resetSignInErrorMessage() );
+    clearErrors( 'default' );
   };
 
   const signInWithGoogleHandler = () => dispatch( signInWithGoogle() );
@@ -42,30 +64,49 @@ const SignInPage = () => {
 
       <PageSubHeading>Sign in with your email and password</PageSubHeading>
 
-      <form onSubmit={ submitHandler } className={ styles.signInForm }>
+      <form onSubmit={ handleSubmit( submitHandler ) } className={ styles.signInForm }>
         <FormInput
           label='Email'
           type='email'
-          required
-          onChange={ formInputChangeHandler }
           name='email'
+          required
+          errors={ errors }
           value={ formFields.email }
-          error={ userState?.errorEmailMessage }
+          register={ register }
+          validationSchema={ {
+            required: `Email field is required!`,
+            validate: {
+              matchPattern: (v) =>
+                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+                'Email address must be a valid address'
+            },
+            onChange: formInputChangeHandler
+          } }
         />
 
         <FormInput
           label='Password'
           type='password'
-          required
-          onChange={ formInputChangeHandler }
           name='password'
+          required
+          errors={ errors }
+          register={ register }
+          validationSchema={ {
+            required: `Password field is required!`,
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters'
+            },
+            onChange: formInputChangeHandler
+          } }
           value={ formFields.password }
-          error={ userState?.errorPasswordMessage }
         />
+
+        { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
 
         <div className={ styles.signInFormButtonsContainer }>
           <Label className={ styles.signInFormBtn }>
-            <Button type='submit'>Sign In</Button>
+            <Button type='submit' disabled={ !isValid }>Sign In</Button>
           </Label>
 
           <Label variant='plain' className={ styles.signInFormBtn }>

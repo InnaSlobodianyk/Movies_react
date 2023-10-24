@@ -2,7 +2,6 @@ import {
   setCurrentUser,
   setLogOutError,
   setSignInErrorMessage,
-  setSignUpErrorMatchPasswordMessage,
   setSignUpErrorMessage,
   setUserFetching
 } from 'store/actions/userActions';
@@ -56,22 +55,16 @@ export const signInWithGoogle = () =>
 
 export const signUp = ( { formFields, navigate } ) =>
   async ( dispatch ) => {
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword( formFields.email, formFields.password );
+      const { displayName } = formFields;
 
-  if( formFields.password !== formFields.confirmPassword ) {
-    dispatch( setSignUpErrorMatchPasswordMessage( 'Passwords do not match' ) );
-    return;
-  }
-
-  try {
-    const { user } = await createAuthUserWithEmailAndPassword( formFields.email, formFields.password );
-    const { displayName } = formFields;
-
-    await createUserDocumentFromAuth( user, { displayName } );
-    navigate('/');
-  } catch (error) {
-    dispatch( setSignUpErrorMessage( error ) );
-  }
-};
+      await createUserDocumentFromAuth( user, { displayName } );
+      navigate('/');
+    } catch (error) {
+      dispatch( setSignUpErrorMessage( error ) );
+    }
+  };
 
 export const signOut = () =>
   async ( dispatch ) => {

@@ -7,7 +7,6 @@ const userInitialState = {
   errorDisplayNameMessage: '',
   errorEmailMessage: '',
   errorPasswordMessage: '',
-  errorConfirmPasswordMessage: '',
 };
 
 const userReducer = ( state = userInitialState, action ) => {
@@ -45,12 +44,6 @@ const userReducer = ( state = userInitialState, action ) => {
         errorDisplayNameMessage: '',
         errorEmailMessage: '',
         errorPasswordMessage: '',
-        errorConfirmPasswordMessage: ''
-      };
-    case USER_STORE_ACTIONS.SET_ERROR_MATCH_PASSWORD_MESSAGE:
-      return {
-        ...state,
-        errorConfirmPasswordMessage: payload
       };
     case USER_STORE_ACTIONS.SET_ERROR_EMAIL_IN_USE_MESSAGE:
       return {
