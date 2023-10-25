@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
 
 import { signUp } from 'store/effects/userEffects';
 import { selectorUserState } from 'store/selectors/userSelectors';
@@ -28,40 +27,15 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector( selectorUserState );
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isValid },
-    setError,
-  } = useForm( {
-    defaultValues: defaultFormFields,
-    mode: 'onChange'
-  } );
 
-  useEffect( () => {
-    if ( userState?.errorDisplayNameMessage ) {
-      setError( 'displayName', { type: 'custom', message: userState?.errorDisplayNameMessage }, { shouldFocus: true } );
-    }
+  const submitHandler = ( event ) => {
+    event.preventDefault();
 
-    if ( userState?.errorEmailMessage ) {
-      setError( 'email', { type: 'custom', message: userState?.errorEmailMessage }, { shouldFocus: true } );
-    }
-
-    if ( userState?.errorPasswordMessage ) {
-      setError( 'password', { type: 'custom', message: userState?.errorPasswordMessage }, { shouldFocus: true } );
-    }
-
-    if ( userState?.errorDefaultMessage ) {
-      setError( 'default', { type: 'custom', message: userState?.errorDefaultMessage } );
-    }
-
-  }, [ setError, userState ] );
-
-  const submitHandler = ( data ) => dispatch( signUp( { formFields: data, navigate } ) );
+    dispatch( signUp( { formFields, navigate } ) );
+  }
 
   const formInputChangeHandler = ( e ) => {
-    setFormFields({ ...formFields, [e.target?.name]: e.target?.value });
+    setFormFields({ ...formFields, [e.name]: e.value });
     dispatch( resetSignInErrorMessage() );
   };
 
@@ -71,81 +45,49 @@ const SignUpPage = () => {
 
       <PageSubHeading>Sign up with your email and password</PageSubHeading>
 
-      <form onSubmit={ handleSubmit( submitHandler ) } className={ styles.signUpForm }>
+      <form onSubmit={ submitHandler } className={ styles.signUpForm }>
         <FormInput
           label='Display Name'
           type='text'
           required
+          onChange={ formInputChangeHandler }
           name='displayName'
           value={ formFields.displayName }
-          errors={ errors }
-          register={ register }
-          validationSchema={ {
-            required: 'Display Name field is required!',
-            minLength: {
-              value: 2,
-              message: 'Display Name must be at least 2 characters'
-            },
-            onChange: formInputChangeHandler
-          } }
+          error={ userState?.errorDisplayNameMessage }
         />
 
         <FormInput
           label='Email'
           type='email'
           required
+          onChange={ formInputChangeHandler }
           name='email'
           value={ formFields.email }
-          errors={ errors }
-          register={ register }
-          validationSchema={ {
-            required: 'Email field is required!',
-            validate: {
-              matchPattern: (v) =>
-                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-                'Email address must be a valid address'
-            },
-            onChange: formInputChangeHandler
-          } }
+          error={ userState?.errorEmailMessage }
         />
 
         <FormInput
           label='Password'
           type='password'
           required
+          onChange={ formInputChangeHandler }
           name='password'
           value={ formFields.password }
-          errors={ errors }
-          register={ register }
-          validationSchema={ {
-            required: 'Password field is required!',
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters'
-            },
-            onChange: formInputChangeHandler
-          } }
+          error={ userState?.errorPasswordMessage }
         />
 
         <FormInput
           label='Confirm Password'
           type='password'
           required
+          onChange={ formInputChangeHandler }
           name='confirmPassword'
           value={ formFields.confirmPassword }
-          errors={ errors }
-          register={ register }
-          validationSchema={ {
-            required: 'Confirm Password field is required!',
-            validate: {
-              match: value => watch( 'password' ) === value || 'Passwords do not match'
-            },
-            onChange: formInputChangeHandler
-          } }
+          error={ userState?.errorConfirmPasswordMessage }
         />
 
         <Label className={ styles.signUpFormBtn }>
-          <Button type='submit' disabled={ !isValid }>Sign Up</Button>
+          <Button type='submit'>Sign Up</Button>
         </Label>
       </form>
     </div>

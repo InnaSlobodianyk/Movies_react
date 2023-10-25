@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -7,7 +7,7 @@ import { selectorUserState } from 'store/selectors/userSelectors';
 import { resetSignInErrorMessage } from 'store/actions/userActions';
 
 import Button from 'components/Button';
-import FormInput from 'components/FormInput';
+import Input from 'components/Input';
 import Label from 'components/Label';
 import PageHeading from 'components/PageHeading';
 import PageSubHeading from 'components/PageSubHeading';
@@ -20,15 +20,14 @@ const defaultFormFields = {
 };
 
 const SignInPage = () => {
-  const [ formFields, setFormFields ] = useState( defaultFormFields );
   const userState = useSelector( selectorUserState );
   const dispatch = useDispatch();
   const {
-    register,
     handleSubmit,
     formState: { errors, isValid },
     setError,
-    clearErrors
+    clearErrors,
+    control,
   } = useForm( {
     defaultValues: defaultFormFields,
     mode: 'onChange'
@@ -51,9 +50,9 @@ const SignInPage = () => {
   const submitHandler = ( data ) => dispatch( signIn( data ) );
 
   const formInputChangeHandler = ( e ) => {
-    setFormFields({ ...formFields, [e.target?.name]: e.target?.value });
-    dispatch( resetSignInErrorMessage() );
-    clearErrors( 'default' );
+    // TODO: for the next step with validation
+    // dispatch( resetSignInErrorMessage() );
+    // clearErrors( 'default' );
   };
 
   const signInWithGoogleHandler = () => dispatch( signInWithGoogle() );
@@ -65,44 +64,24 @@ const SignInPage = () => {
       <PageSubHeading>Sign in with your email and password</PageSubHeading>
 
       <form onSubmit={ handleSubmit( submitHandler ) } className={ styles.signInForm }>
-        <FormInput
+        <Input
           label='Email'
           type='email'
           name='email'
           required
-          errors={ errors }
-          value={ formFields.email }
-          register={ register }
-          validationSchema={ {
-            required: `Email field is required!`,
-            validate: {
-              matchPattern: (v) =>
-                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-                'Email address must be a valid address'
-            },
-            onChange: formInputChangeHandler
-          } }
+          control={ control }
         />
 
-        <FormInput
+        <Input
           label='Password'
           type='password'
           name='password'
           required
-          errors={ errors }
-          register={ register }
-          validationSchema={ {
-            required: `Password field is required!`,
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters'
-            },
-            onChange: formInputChangeHandler
-          } }
-          value={ formFields.password }
+          control={ control }
         />
 
-        { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
+        {/*TODO: for next step with validation*/}
+        {/*{ errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }*/}
 
         <div className={ styles.signInFormButtonsContainer }>
           <Label className={ styles.signInFormBtn }>

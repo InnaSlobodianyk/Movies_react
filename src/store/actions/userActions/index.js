@@ -6,6 +6,7 @@ export const USER_STORE_ACTIONS = {
   SET_ERROR_WRONG_PASSWORD_MESSAGE: 'SET_ERROR_WRONG_PASSWORD_MESSAGE',
   SET_ERROR_NO_USER_MESSAGE: 'SET_ERROR_NO_USER_MESSAGE',
   SET_ERROR_DEFAULT_MESSAGE: 'SET_ERROR_DEFAULT_MESSAGE',
+  SET_ERROR_MATCH_PASSWORD_MESSAGE: 'SET_ERROR_MATCH_PASSWORD_MESSAGE',
   SET_ERROR_EMAIL_IN_USE_MESSAGE: 'SET_ERROR_EMAIL_IN_USE_MESSAGE',
   RESET_ERROR_MESSAGE: 'RESET_ERROR_MESSAGE',
 };
@@ -26,6 +27,8 @@ export const setSignInErrorMessage = ( error ) => {
 };
 
 export const resetSignInErrorMessage = () => makeActionCreator( USER_STORE_ACTIONS.RESET_ERROR_MESSAGE );
+
+export const setSignUpErrorMatchPasswordMessage = ( payload ) => makeActionCreator( USER_STORE_ACTIONS.SET_ERROR_MATCH_PASSWORD_MESSAGE, payload );
 
 export const setSignUpErrorMessage = ( error ) => {
   switch( error.code ) {
