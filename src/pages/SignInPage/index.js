@@ -33,6 +33,7 @@ const SignInPage = () => {
     mode: 'onChange'
   } );
 
+  // TODO: for validation
   useEffect( () => {
     if ( userState?.errorEmailMessage ) {
       setError( 'email', { type: 'custom', message: userState?.errorEmailMessage }, { shouldFocus: true } );
@@ -70,6 +71,15 @@ const SignInPage = () => {
           name='email'
           required
           control={ control }
+          validationSchema={ {
+            required: 'Email field is required!',
+            validate: {
+              matchPattern: (v) =>
+                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+                'Email address must be a valid address',
+            },
+          } }
+
         />
 
         <Input
@@ -78,10 +88,17 @@ const SignInPage = () => {
           name='password'
           required
           control={ control }
+          validationSchema={ {
+            required: 'Password field is required!',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters'
+            },
+          } }
         />
 
         {/*TODO: for next step with validation*/}
-        {/*{ errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }*/}
+        { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
 
         <div className={ styles.signInFormButtonsContainer }>
           <Label className={ styles.signInFormBtn }>

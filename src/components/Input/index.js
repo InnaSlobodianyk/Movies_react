@@ -3,15 +3,15 @@ import cn from 'classnames';
 
 import styles from 'components/FormInput/FormInput.module.scss';
 
-const Input = ( { label, name, required, control, ...rest } ) => {
+const Input = ( { label, name, required, control, validationSchema, ...rest } ) => {
   const {
     field: { name: fieldName, value, onChange, ...fieldRest },
     fieldState: { invalid, isTouched, isDirty },
-    formState: { touchedFields, dirtyFields },
+    formState: { touchedFields, dirtyFields, errors },
   } = useController({
     name,
     control,
-    rules: { required },
+    rules: validationSchema,
   });
 
   return (
@@ -22,7 +22,6 @@ const Input = ( { label, name, required, control, ...rest } ) => {
         name={ fieldName }
         value={ value }
         onChange={ onChange }
-        required={ required }
         { ...fieldRest }
         { ...rest }
       />
@@ -37,7 +36,7 @@ const Input = ( { label, name, required, control, ...rest } ) => {
       ) }
 
       {/*TODO: for the next step with validation*/}
-      {/*{ errors[ name ] && <div className={ styles.formErrorMessage }>{ errors[ name ].message }</div> }*/}
+      { invalid && errors[ name ] && <div className={ styles.formErrorMessage }>{ errors[ name ].message }</div> }
     </div>
   );
 };
