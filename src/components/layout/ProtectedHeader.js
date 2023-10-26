@@ -30,8 +30,10 @@ const ProtectedHeader = () => {
   };
 
   const submitHandler = ( query ) => {
-    dispatch( getMovieSearchResults({ searchQuery: query, currentPage: 1 }) );
-    navigate('/');
+    if ( typeof query === 'string' ) {
+      dispatch( getMovieSearchResults( { searchQuery: query, currentPage: 1 } ) );
+      navigate( '/' );
+    }
   };
 
   const signOutHandler = () => {

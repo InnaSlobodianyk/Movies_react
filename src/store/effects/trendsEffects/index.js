@@ -12,7 +12,7 @@ export const getMovieTrends = ( currentPage ) =>
     dispatch( setTrendsFetchingState( true ) );
 
     try {
-      const [{ results: trends }, allGenres, populars] = await Promise.all([
+      const [ { results: trends, total_pages, total_results }, allGenres, populars ] = await Promise.all([
         getTrends( currentPage ),
 
         getAllGenres(),
@@ -37,8 +37,8 @@ export const getMovieTrends = ( currentPage ) =>
       const trendsData = {
         trends: movies,
         currentPage,
-        totalPages: trends.total_pages <= 500 ? trends.total_pages : 500,
-        totalResults: trends.total_results
+        totalPages: total_pages <= 500 ? total_pages : 500,
+        totalResults: total_results
       };
 
       dispatch( setPopularMoviesData( { movies: popularMovies, fetching: false } ) );

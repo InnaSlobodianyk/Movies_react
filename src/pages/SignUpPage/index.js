@@ -1,16 +1,16 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { signUp } from 'store/effects/userEffects';
-import { selectorUserState } from 'store/selectors/userSelectors';
-import { resetSignInErrorMessage } from 'store/actions/userActions';
 
 import Button from 'components/Button';
-import FormInput from 'components/FormInput';
 import Label from 'components/Label';
 import PageHeading from 'components/PageHeading';
 import PageSubHeading from 'components/PageSubHeading';
+import Input from 'components/Input';
+import { signUpSchema } from 'components/FormInput/validation';
 
 import layoutStyles from 'components/layout/Layout.module.scss';
 import styles from './SignUpPage.module.scss';
@@ -23,20 +23,33 @@ const defaultFormFields = {
 };
 
 const SignUpPage = () => {
-  const [ formFields, setFormFields ] = useState( defaultFormFields );
+  const {
+    handleSubmit,
+    formState: { errors, isValid },
+    setError,
+    control,
+  } = useForm( {
+    defaultValues: defaultFormFields,
+    mode: 'onChange',
+    resolver: yupResolver( signUpSchema ),
+  } );
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userState = useSelector( selectorUserState );
 
-  const submitHandler = ( event ) => {
-    event.preventDefault();
+  const submitHandler = ( data ) => dispatch( signUp( { formFields: data, navigate } ) );
 
-    dispatch( signUp( { formFields, navigate } ) );
-  }
+  const submitClickHandler = ( e ) => {
+    e.preventDefault();
 
-  const formInputChangeHandler = ( e ) => {
-    setFormFields({ ...formFields, [e.name]: e.value });
-    dispatch( resetSignInErrorMessage() );
+    handleSubmit( ( payload ) => submitHandler( payload )
+      .then( ( response ) => {
+        if ( response ) {
+          setError( response.name, {
+            type: 'server',
+            message: response.message,
+          } );
+        }
+      } ) )();
   };
 
   return (
@@ -45,49 +58,43 @@ const SignUpPage = () => {
 
       <PageSubHeading>Sign up with your email and password</PageSubHeading>
 
-      <form onSubmit={ submitHandler } className={ styles.signUpForm }>
-        <FormInput
+      <form onSubmit={ submitClickHandler } className={ styles.signUpForm }>
+        <Input
           label='Display Name'
           type='text'
           required
-          onChange={ formInputChangeHandler }
           name='displayName'
-          value={ formFields.displayName }
-          error={ userState?.errorDisplayNameMessage }
+          control={ control }
         />
 
-        <FormInput
+        <Input
           label='Email'
           type='email'
           required
-          onChange={ formInputChangeHandler }
           name='email'
-          value={ formFields.email }
-          error={ userState?.errorEmailMessage }
+          control={ control }
         />
 
-        <FormInput
+        <Input
           label='Password'
           type='password'
           required
-          onChange={ formInputChangeHandler }
           name='password'
-          value={ formFields.password }
-          error={ userState?.errorPasswordMessage }
+          control={ control }
         />
 
-        <FormInput
+        <Input
           label='Confirm Password'
           type='password'
           required
-          onChange={ formInputChangeHandler }
           name='confirmPassword'
-          value={ formFields.confirmPassword }
-          error={ userState?.errorConfirmPasswordMessage }
+          control={ control }
         />
 
+        { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
+
         <Label className={ styles.signUpFormBtn }>
-          <Button type='submit'>Sign Up</Button>
+          <Button type='submit' disabled={ !isValid }>Sign Up</Button>
         </Label>
       </form>
     </div>
