@@ -23,39 +23,10 @@ const userReducer = ( state = userInitialState, action ) => {
         ...state,
         fetching: payload
       };
-    case USER_STORE_ACTIONS.SET_ERROR_WRONG_PASSWORD_MESSAGE:
-      return {
-        ...state,
-        errorPasswordMessage: payload
-      };
-    case USER_STORE_ACTIONS.SET_ERROR_NO_USER_MESSAGE:
-      return {
-        ...state,
-        errorEmailMessage: payload
-      };
     case USER_STORE_ACTIONS.SET_ERROR_DEFAULT_MESSAGE:
       return {
         ...state,
         errorDefaultMessage: payload
-      };
-    case USER_STORE_ACTIONS.RESET_ERROR_MESSAGE:
-      return {
-        ...state,
-        errorDefaultMessage: '',
-        errorDisplayNameMessage: '',
-        errorEmailMessage: '',
-        errorPasswordMessage: '',
-        errorConfirmPasswordMessage: ''
-      };
-    case USER_STORE_ACTIONS.SET_ERROR_MATCH_PASSWORD_MESSAGE:
-      return {
-        ...state,
-        errorConfirmPasswordMessage: payload
-      };
-    case USER_STORE_ACTIONS.SET_ERROR_EMAIL_IN_USE_MESSAGE:
-      return {
-        ...state,
-        errorEmailMessage: payload
       };
     default:
       return state;

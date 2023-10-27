@@ -36,4 +36,8 @@
   &-small {
     padding: 6px;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }

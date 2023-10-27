@@ -11,20 +11,6 @@
   }
 }
 
-.searchFormInput {
-  padding: 5px 10px;
-  border-radius: $border-radius / 2 $border-radius / 2 0 0;
-  background: transparent;
-  border-bottom-color: $base-purple;
-  color: $white;
-
-  &:focus {
-    color: $white;
-    background-color: rgba($base-indigo, .2);
-    border-color: transparent transparent $base-indigo transparent;
-  }
-}
-
 .searchFormBtn {
   padding: 10px 15px;
   display: flex;

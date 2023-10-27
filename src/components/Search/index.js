@@ -1,43 +1,51 @@
-import { useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import { useEffect } from 'react';
+import { IoSearch } from 'react-icons/io5';
+import { useForm } from 'react-hook-form';
 
-import Button from "components/Button";
+import Button from 'components/Button';
+import Input from 'components/Input';
 
-import styles from "./Search.module.scss";
+import styles from './Search.module.scss';
+
+const defaultValues = { search: '' };
 
 const Search = ( { submitHandler, fetching } ) => {
-  const [query, setQuery] = useState('');
+  const {
+    handleSubmit,
+    formState: { isSubmitSuccessful, isDirty },
+    control,
+    reset
+  } = useForm( {
+    defaultValues,
+    mode: 'onChange',
+  } );
 
-  const onSearchInputChange = ( e ) => {
-    const queryValue = e.target.value.toLowerCase();
 
-    setQuery( queryValue );
-  };
-
-  const handlesSubmit = () => {
-    submitHandler( query );
-    setQuery('');
-  };
+  useEffect(() => {
+    if ( isSubmitSuccessful ) {
+      reset( defaultValues );
+    }
+  }, [ isSubmitSuccessful, reset ] );
 
   return (
     <form
       className={ styles.searchForm }
-      onSubmit={ handlesSubmit }
+      onSubmit={ handleSubmit( submitHandler ) }
     >
-      <input
-        className={ styles.searchFormInput }
+      <Input
+        className='search'
         type="text"
         placeholder="Search"
         aria-label="Search"
-        value={ query }
-        onChange={ onSearchInputChange }
-        disabled={ fetching }
+        name='search'
+        control={ control }
       />
+
       <Button
         type="submit"
         className={ styles.searchFormBtn }
-        disabled={ ! query || fetching }
-        onClick={ handlesSubmit }
+        disabled={ !isDirty || fetching }
+        onClick={ submitHandler }
       >
         <IoSearch className={ styles.searchFormIcon } />
       </Button>

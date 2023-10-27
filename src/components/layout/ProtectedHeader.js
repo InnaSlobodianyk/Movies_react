@@ -29,9 +29,11 @@ const ProtectedHeader = () => {
     dispatch( setPagination( { isSearch, fetching: false, page: 1 } ) );
   };
 
-  const submitHandler = ( query ) => {
-    dispatch( getMovieSearchResults({ searchQuery: query, currentPage: 1 }) );
-    navigate('/');
+  const submitHandler = ( { search } ) => {
+    if ( typeof search === 'string' ) {
+      dispatch( getMovieSearchResults( { searchQuery: search, currentPage: 1 } ) );
+      navigate( '/' );
+    }
   };
 
   const signOutHandler = () => {

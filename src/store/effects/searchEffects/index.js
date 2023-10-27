@@ -12,7 +12,7 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
     dispatch( setSearchFetchingState( true ) );
 
     try {
-      const [ { results: searchResults }, allGenres] = await Promise.all([
+      const [ { results: searchResults, total_pages, total_results, page }, allGenres] = await Promise.all([
         getSearchResults( searchQuery, currentPage ),
 
         getAllGenres()
@@ -28,9 +28,9 @@ export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
       const moviesData = {
         searchQuery,
         searchedMovies: movies,
-        page: searchResults.page,
-        totalPages: searchResults.total_pages,
-        totalResults: searchResults.total_results
+        page: page,
+        totalPages: total_pages,
+        totalResults: total_results
       };
 
       dispatch( setSearchMoviesData( moviesData ) );

@@ -2,8 +2,6 @@ import {
   setCurrentUser,
   setLogOutError,
   setSignInErrorMessage,
-  setSignUpErrorMatchPasswordMessage,
-  setSignUpErrorMessage,
   setUserFetching
 } from 'store/actions/userActions';
 import {
@@ -35,14 +33,30 @@ export const getCurrentUser = () =>
   };
 
 export const signIn = ( formFields ) =>
-  async ( dispatch ) => {
+  async () => {
 
-  try {
-    await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
-  } catch ( error ) {
-    dispatch( setSignInErrorMessage( error ) );
-  }
-};
+    try {
+      await signInAuthUserWithEmailAndPassword( formFields.email, formFields.password );
+    } catch ( error ) {
+      switch( error.code ) {
+        case 'auth/wrong-password':
+          return {
+            name: 'password',
+            message: 'Incorrect password'
+          };
+        case 'auth/user-not-found':
+          return {
+            name: 'email',
+            message: 'No user associated with this email'
+          };
+        default:
+          return {
+            name: 'default',
+            message: error.message
+          };
+      }
+    }
+  };
 
 export const signInWithGoogle = () =>
   async ( dispatch ) => {
@@ -55,23 +69,29 @@ export const signInWithGoogle = () =>
   };
 
 export const signUp = ( { formFields, navigate } ) =>
-  async ( dispatch ) => {
+  async () => {
 
-  if( formFields.password !== formFields.confirmPassword ) {
-    dispatch( setSignUpErrorMatchPasswordMessage( 'Passwords do not match' ) );
-    return;
-  }
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword( formFields.email, formFields.password );
+      const { displayName } = formFields;
 
-  try {
-    const { user } = await createAuthUserWithEmailAndPassword( formFields.email, formFields.password );
-    const { displayName } = formFields;
-
-    await createUserDocumentFromAuth( user, { displayName } );
-    navigate('/');
-  } catch (error) {
-    dispatch( setSignUpErrorMessage( error ) );
-  }
-};
+      await createUserDocumentFromAuth( user, { displayName } );
+      navigate('/');
+    } catch (error) {
+      switch( error.code ) {
+        case 'auth/email-already-in-use':
+          return {
+            name: 'email',
+            message: 'Cannot create user, email already in use'
+          };
+        default:
+          return {
+            name: 'default',
+            message: 'User creation encountered an error'
+          };
+      }
+    }
+  };
 
 export const signOut = () =>
   async ( dispatch ) => {

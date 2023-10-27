@@ -13,6 +13,11 @@
 .gradient {
   background: $base-indigo;
   background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
+
+  &:has(button:disabled) {
+    background: darken($base-light-grey, 20%);
+    border-color: darken($base-light-grey, 20%);
+  }
 }
 
 .plain {
