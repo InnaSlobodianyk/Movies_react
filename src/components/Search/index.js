@@ -7,33 +7,30 @@ import Input from 'components/Input';
 
 import styles from './Search.module.scss';
 
-const defaultFormFields = { search: '' };
+const defaultValues = { search: '' };
 
 const Search = ( { submitHandler, fetching } ) => {
   const {
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, isDirty },
     control,
-    watch,
     reset
   } = useForm( {
-    defaultValues: defaultFormFields,
+    defaultValues,
     mode: 'onChange',
   } );
 
 
   useEffect(() => {
-    reset( defaultFormFields );
+    if ( isSubmitSuccessful ) {
+      reset( defaultValues );
+    }
   }, [ isSubmitSuccessful, reset ] );
-
-  const searchInputEmpty = watch( 'search' ) === '';
-
-  const handlesSubmit = ( { search } ) => submitHandler( search );
 
   return (
     <form
       className={ styles.searchForm }
-      onSubmit={ handleSubmit( handlesSubmit ) }
+      onSubmit={ handleSubmit( submitHandler ) }
     >
       <Input
         className='search'
@@ -41,15 +38,14 @@ const Search = ( { submitHandler, fetching } ) => {
         placeholder="Search"
         aria-label="Search"
         name='search'
-        disabled={ fetching }
         control={ control }
       />
 
       <Button
         type="submit"
         className={ styles.searchFormBtn }
-        disabled={ searchInputEmpty || fetching }
-        onClick={ handlesSubmit }
+        disabled={ !isDirty || fetching }
+        onClick={ submitHandler }
       >
         <IoSearch className={ styles.searchFormIcon } />
       </Button>
