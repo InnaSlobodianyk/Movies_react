@@ -1,7 +1,4 @@
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-
-import { signIn, signInWithGoogle } from 'store/effects/userEffects';
 
 import Input from 'components/Input';
 import Label from 'components/Label';
@@ -16,9 +13,7 @@ const defaultValues = {
   password: '',
 };
 
-const SignInForm = () => {
-  const dispatch = useDispatch();
-
+const SignInForm = ( { submitHandler, signInWithGoogleSubmitHandler } ) => {
   const {
     handleSubmit,
     formState: { errors, isDirty },
@@ -30,24 +25,16 @@ const SignInForm = () => {
     resolver,
   } );
 
-  const submitHandler = ( data ) => dispatch( signIn( data ) );
-
-  const submitClickHandler = ( e ) => {
-    e.preventDefault();
-
-    handleSubmit( ( payload ) => submitHandler( payload )
-      .then( ( response ) => {
-        if ( response ) {
-          setError( response.name, {
-            type: 'server',
-            message: response.message,
-          } );
-        }
-      } )
-    )();
-  };
-
-  const signInWithGoogleHandler = () => dispatch( signInWithGoogle() );
+  const submitClickHandler = handleSubmit( ( data ) => submitHandler( data )
+    .then( ( response ) => {
+      if ( response ) {
+        setError( response.name, {
+          type: 'server',
+          message: response.message,
+        } );
+      }
+    } )
+  );
 
   return (
     <form onSubmit={ submitClickHandler } className={ styles.signInForm }>
@@ -75,7 +62,7 @@ const SignInForm = () => {
         </Label>
 
         <Label variant='plain' className={ styles.signInFormBtn }>
-          <Button onClick={ signInWithGoogleHandler }>
+          <Button onClick={ signInWithGoogleSubmitHandler }>
             Sign In with Google
           </Button>
         </Label>

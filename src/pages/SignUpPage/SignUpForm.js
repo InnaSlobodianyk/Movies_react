@@ -1,8 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-
-import { signUp } from 'store/effects/userEffects';
 
 import Input from 'components/Input';
 import Label from 'components/Label';
@@ -19,7 +15,7 @@ const defaultValues = {
   confirmPassword: '',
 };
 
-const SignUpForm = () => {
+const SignUpForm = ( { submitHandler } ) => {
   const {
     handleSubmit,
     formState: { errors, isDirty },
@@ -31,25 +27,16 @@ const SignUpForm = () => {
     resolver,
   } );
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const submitHandler = ( formFields ) => dispatch( signUp( { formFields, navigate } ) );
-
-  const submitClickHandler = ( e ) => {
-    e.preventDefault();
-
-    handleSubmit( ( payload ) => submitHandler( payload )
-      .then( ( response ) => {
-        if ( response ) {
-          setError( response.name, {
-            type: 'server',
-            message: response.message,
-          } );
-        }
-      } )
-    )();
-  };
+  const submitClickHandler = handleSubmit( ( payload ) => submitHandler( payload )
+    .then( ( response ) => {
+      if ( response ) {
+        setError( response.name, {
+          type: 'server',
+          message: response.message,
+        } );
+      }
+    } )
+  );
 
   return (
     <form onSubmit={ submitClickHandler } className={ styles.signUpForm }>
