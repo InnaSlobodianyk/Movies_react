@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Input from 'components/Input';
 import Label from 'components/Label';
@@ -25,6 +26,8 @@ const SignInForm = ( { submitHandler, signInWithGoogleSubmitHandler } ) => {
     resolver,
   } );
 
+  const { t } = useTranslation();
+
   const submitClickHandler = handleSubmit( ( data ) => submitHandler( data )
     .then( ( response ) => {
       if ( response ) {
@@ -47,7 +50,7 @@ const SignInForm = ( { submitHandler, signInWithGoogleSubmitHandler } ) => {
       />
 
       <Input
-        label='Password'
+        label={ t( 'Password' ) }
         type='password'
         name='password'
         required
@@ -58,12 +61,12 @@ const SignInForm = ( { submitHandler, signInWithGoogleSubmitHandler } ) => {
 
       <div className={ styles.signInFormButtonsContainer }>
         <Label className={ styles.signInFormBtn }>
-          <Button type='submit' disabled={ !isDirty }>Sign In</Button>
+          <Button type='submit' disabled={ !isDirty }>{ t( 'Sign In' ) }</Button>
         </Label>
 
         <Label variant='plain' className={ styles.signInFormBtn }>
           <Button onClick={ signInWithGoogleSubmitHandler }>
-            Sign In with Google
+            { t( 'Sign In with Google' ) }
           </Button>
         </Label>
       </div>

@@ -1,15 +1,15 @@
-import { sendRequest } from "./apiService";
-import { apiRequestSearchUrl } from "config";
+import { sendRequest } from './apiService';
+import { apiRequestSearchUrl } from 'config';
 
-export const getSearchResults = async ( query, pageNumber = 1 ) => {
-  const response = await sendRequest({
+export const getSearchResults = async ( query, pageNumber = 1, language = 'en' ) => {
+  const response = await sendRequest( {
     url: apiRequestSearchUrl,
     params: {
       page: pageNumber,
       query,
-      language: 'en'
+      language
     },
-  });
+  } );
 
   return response;
 }

@@ -1,4 +1,6 @@
 import AuthMenu from 'components/AuthMenu';
+import LanguageSwitcher from 'components/LanguageSwitcher';
+
 import styles from './Header.module.scss';
 import logo from 'assets/images/movierise-logo.png';
 
@@ -10,6 +12,8 @@ const PublicHeader = () => (
       </div>
 
       <div className={ styles.headerMenuContainer }>
+        <LanguageSwitcher />
+
         <AuthMenu />
       </div>
     </div>

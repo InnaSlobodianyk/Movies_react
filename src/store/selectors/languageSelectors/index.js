@@ -1,0 +1,1 @@
+export const selectorLanguageState = state => state.language;

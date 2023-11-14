@@ -176,7 +176,7 @@
         display: none;
 
         @include media(">=tablet") {
-          min-width: 170px;
+          width: 180px;
         }
 
         @include media(">=desktop") {

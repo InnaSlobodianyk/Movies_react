@@ -8,14 +8,16 @@ import {
 } from 'helpers';
 
 export const getMovieSearchResults = ( { searchQuery, currentPage } ) =>
-  async ( dispatch ) => {
+  async ( dispatch, getState ) => {
     dispatch( setSearchFetchingState( true ) );
+
+    const { language: { currentLanguage } } = getState();
 
     try {
       const [ { results: searchResults, total_pages, total_results, page }, allGenres] = await Promise.all([
-        getSearchResults( searchQuery, currentPage ),
+        getSearchResults( searchQuery, currentPage, currentLanguage ),
 
-        getAllGenres()
+        getAllGenres( currentLanguage )
       ]);
 
       const movies = searchResults?.map( movie => {
