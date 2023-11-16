@@ -13,14 +13,10 @@ export const LABEL_SIZES = {
   large: 'large',
 };
 
-const Label = ( { variant, size, className, children } ) => {
-  const labelClassName = variant === LABEL_VARIANTS.plain ? styles.plain : variant === LABEL_VARIANTS.bordered ? styles.bordered : styles.gradient;
-
-  return (
-    <div className={ cn( styles.label, labelClassName, size === LABEL_SIZES.large ? styles.large : '', className ) }>
-      { children }
-    </div>
-  );
-};
+const Label = ( { variant = LABEL_VARIANTS.gradient, size, className, children } ) => (
+  <div className={ cn( styles.label, styles[variant], size === LABEL_SIZES.large ? styles.large : '', className ) }>
+    { children }
+  </div>
+);
 
 export default Label;

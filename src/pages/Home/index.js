@@ -18,9 +18,8 @@ import {
 
 import Slider from 'components/Slider';
 import Pagination from 'components/Pagination';
-import Button from 'components/Button';
+import Button, { BUTTON_SIZES, BUTTON_VARIANTS } from 'components/Button';
 import Loader from 'components/Loader';
-import Label from 'components/Label';
 import TrendcardsContainer from './TrendcardsContainer';
 
 import styles from 'components/layout/Layout.module.scss';
@@ -103,10 +102,12 @@ const Home = () => {
             </Trans>
 
             { searchQuery && (
-              <Button onClick={ clearSearchResults }>
-                <Label className={ styles.clearResultsBtn }>
-                  { t( 'Clear search results' ) }
-                </Label>
+              <Button
+                onClick={ clearSearchResults }
+                variant={ BUTTON_VARIANTS.gradient }
+                size={ BUTTON_SIZES.small }
+              >
+                { t( 'Clear search results' ) }
               </Button>
             ) }
           </div>

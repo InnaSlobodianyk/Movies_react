@@ -29,7 +29,6 @@ $font-size-h6: 14px;
 $black:                         #000;
 $white:                         #fff;
 
-$base-blue:                     #0aafea;
 $base-dark-grey:                #242b2d;
 $base-light-grey:               #f5f6f6;
 $base-grey:                     #1f1f1f;
@@ -38,13 +37,12 @@ $base-indigo:                   #6f1ddd;
 $base-blue-violet:              #7d33e0;
 $base-purple:                   #d82870;
 
+$base-indigo-darken-15:         darken($base-indigo, 15%);
+$base-grey-light-darken-20:     darken($base-light-grey, 20%);
+
 // Body
 //
 // Settings for the `<body>` element.
-
-$body-bg:                       $white;
-$body-color:                    $black;
-
 $animation-effect:              ease-out;
 $animation-speed:               300ms;
 

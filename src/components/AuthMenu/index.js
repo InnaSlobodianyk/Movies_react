@@ -23,7 +23,6 @@ const AuthMenu = () => {
       { auth.map( ( authItem ) => (
         <li key={ authItem.title } className={ styles.authMenuItem }>
           <NavLink to={ authItem.url } className={ styles.authMenuLink }>
-            {/*<span className={ styles.authMenuLinkName }>{ authItem.title }</span>*/}
             <span className={ styles.authMenuLinkName }>{ t( authItem.title ) }</span>
           </NavLink>
         </li>

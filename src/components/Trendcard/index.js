@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { IoBookmark, IoBookmarkOutline, IoStar } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 
@@ -8,7 +8,7 @@ import { addToFavorites, removeFromFavorites } from 'store/effects';
 
 import { calcDate, imageFullUrl } from 'helpers';
 
-import Button from 'components/Button';
+import BookmarkIcon from 'components/BookmarkIcon';
 import Genre from 'components/Genre';
 import Label, { LABEL_SIZES, LABEL_VARIANTS } from 'components/Label';
 
@@ -53,15 +53,12 @@ const Trendcard = ( { movie } ) => {
                       </div>
 
                       <div className={ styles.infoDetails }>
-                          { isFavorite ? (
-                            <Button className={ styles.icon } data-hash={ movieId } onClick={ removeFromFavoriteClickHandler } disabled={ !isFavorite }>
-                                <IoBookmark className={ styles.iconSvg }/>
-                            </Button>
-                          ) : (
-                            <Button className={ styles.icon } data-hash={ movieId } onClick={ addToFavoriteClickHandler } disabled={ isFavorite }>
-                                <IoBookmarkOutline className={ styles.iconSvg }/>
-                            </Button>
-                          ) }
+                          <BookmarkIcon
+                            isMarked={ isFavorite }
+                            movieId={ movieId }
+                            onMark={ addToFavoriteClickHandler }
+                            onUnmark={ removeFromFavoriteClickHandler }
+                          />
                       </div>
                   </div>
 

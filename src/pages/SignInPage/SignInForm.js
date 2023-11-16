@@ -2,8 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Input from 'components/Input';
-import Label from 'components/Label';
-import Button from 'components/Button';
+import Button, { BUTTON_VARIANTS } from 'components/Button';
 
 import { resolver } from './validation';
 
@@ -60,15 +59,17 @@ const SignInForm = ( { submitHandler, signInWithGoogleSubmitHandler } ) => {
       { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
 
       <div className={ styles.signInFormButtonsContainer }>
-        <Label className={ styles.signInFormBtn }>
-          <Button type='submit' disabled={ !isDirty }>{ t( 'Sign In' ) }</Button>
-        </Label>
+        <Button
+          type='submit'
+          disabled={ !isDirty }
+          variant={ BUTTON_VARIANTS.gradient }
+        >
+          { t( 'Sign In' ) }
+        </Button>
 
-        <Label variant='plain' className={ styles.signInFormBtn }>
-          <Button onClick={ signInWithGoogleSubmitHandler }>
-            { t( 'Sign In with Google' ) }
-          </Button>
-        </Label>
+        <Button onClick={ signInWithGoogleSubmitHandler }>
+          { t( 'Sign In with Google' ) }
+        </Button>
       </div>
     </form>
   );

@@ -15,7 +15,7 @@
   -webkit-mask-composite: xor,destination-over;
   mask-composite: exclude,add;
   -webkit-mask-repeat:repeat-x;
-  background:linear-gradient($base-purple 0 0) left/0% 100% $base-indigo no-repeat;
+  background: linear-gradient(var(--color-secondary) 0 0) left/0% 100% var(--color-primary) no-repeat;
   animation: p10 2s infinite linear;
   margin: 40px auto 0;
 }

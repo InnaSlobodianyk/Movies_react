@@ -1,11 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { addToFavorites, removeFromFavorites } from 'store/effects';
 
-import Button from 'components/Button';
+import BookmarkIcon from 'components/BookmarkIcon';
 import Label, { LABEL_VARIANTS } from 'components/Label';
 import Genre from 'components/Genre';
 import StarRating from 'components/StarRating';
@@ -29,15 +28,12 @@ const MovieDetails = ({ movieDetails }) => {
           { movieDetails.title }
         </h3>
 
-        { isFavorite ? (
-          <Button className={ styles.movieReview__btnFavourite } data-hash={ movieId } onClick={ removeFromFavoriteClickHandler }>
-            <IoBookmark />
-          </Button>
-        ) : (
-          <Button data-hash={ movieId } className={ styles.movieReview__btnFavourite } onClick={ addToFavoriteClickHandler }>
-            <IoBookmarkOutline />
-          </Button>
-        ) }
+        <BookmarkIcon
+          isMarked={ isFavorite }
+          movieId={ movieId }
+          onMark={ addToFavoriteClickHandler }
+          onUnmark={ removeFromFavoriteClickHandler }
+        />
       </div>
 
       <div className={ styles.movieReview__subheading }>

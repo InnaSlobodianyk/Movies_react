@@ -12,7 +12,7 @@ import { signOut } from 'store/effects/userEffects';
 
 import Search from 'components/Search';
 import Menu from 'components/Menu';
-import Button from 'components/Button';
+import Button, { BUTTON_SIZES, BUTTON_VARIANTS } from 'components/Button';
 import LanguageSwitcher from 'components/LanguageSwitcher';
 
 import styles from './Header.module.scss';
@@ -68,7 +68,14 @@ const ProtectedHeader = () => {
 
           <div className={styles.headerMenuItem}>
             <div className={ styles.headerMenuLink }>
-              <Button className={styles.headerMenuLinkName} onClick={ signOutHandler }>{ t( 'Log Out' ) }</Button>
+              <Button
+                className={ styles.headerMenuLinkName }
+                onClick={ signOutHandler }
+                size={ BUTTON_SIZES.small }
+                variant={ BUTTON_VARIANTS.transparent }
+              >
+                { t( 'Log Out' ) }
+              </Button>
             </div>
           </div>
         </div>

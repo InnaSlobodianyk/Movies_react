@@ -1,7 +1,7 @@
 @import '../../scss/base';
 
 .pagination {
-  color: $base-dark-grey;
+  color: var(--title-color);
   display: flex;
   justify-content: center;
   gap: 8px;
@@ -21,23 +21,23 @@
   transition: background-color $animation-speed $animation-effect;
 
   &:hover {
-    background-color: colorOpacity($base-dark-grey, 0.04);
+    background-color: color-mix(in srgb, var(--title-color), transparent 96%);
     cursor: pointer;
   }
 }
 
 .paginationItemSelected {
-  color: $white;
-  background: $base-indigo;
-  background: linear-gradient(90deg, colorOpacity($base-indigo, 1) 0%, colorOpacity($base-purple,1) 100%);
+  color: var(--text-color-inverse);
+  background: var(--color-primary);
+  background: var(--gradient-inverse-color);
 }
 
 .paginationItemDisabled {
   pointer-events: none;
 
   .paginationArrow::before {
-    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.43);
-    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.43);
+    border-right: 1.5px solid color-mix(in srgb, var(--title-color), transparent 57%);
+    border-top: 1.5px solid color-mix(in srgb, var(--title-color), transparent 57%);
   }
 
   &:hover {
@@ -55,8 +55,8 @@
     display: inline-block;
     width: 6px;
     height: 6px;
-    border-right: 1.5px solid colorOpacity($base-dark-grey, 0.87);
-    border-top: 1.5px solid colorOpacity($base-dark-grey, 0.87);
+    border-right: 1.5px solid color-mix(in srgb, var(--title-color), transparent 13%);
+    border-top: 1.5px solid color-mix(in srgb, var(--title-color), transparent 13%);
   }
 }
 

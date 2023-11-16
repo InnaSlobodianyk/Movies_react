@@ -3,7 +3,7 @@
 .label {
   font-size: $base-font-size;
   line-height: 1;
-  color: $white;
+  color: var(--text-color-inverse);
   padding: 5px 16px;
   border-radius: 20px;
   min-width: 50px;
@@ -11,22 +11,22 @@
 }
 
 .gradient {
-  background: $base-indigo;
-  background: linear-gradient(90deg, rgba($base-indigo, 1) 0%, rgba($base-purple,1) 100%);
+  background: var(--color-primary);
+  background: var(--gradient-inverse-color);
 
   &:has(button:disabled) {
-    background: darken($base-light-grey, 20%);
-    border-color: darken($base-light-grey, 20%);
+    background: var(--color-grey-light-darken-20);
+    border-color: var(--color-grey-light-darken-20);
   }
 }
 
 .plain {
-  background: $base-purple;
+  background-color: var(--color-secondary);
 }
 
 .bordered {
-  border: 1px solid $base-indigo;
-  color: $base-indigo;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   padding: 5px 7px;
 }
 .large {

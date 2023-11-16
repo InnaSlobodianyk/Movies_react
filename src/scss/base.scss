@@ -3,10 +3,27 @@
 @import './base/include-media';
 @import './base/functions';
 
+:root {
+  --background-color: #{$white};
+  --text-color: #{$base-grey};
+  --text-color-inverse: #{$white};
+  --title-color: #{$base-dark-grey};
+  --color-primary: #{$base-indigo};
+  --color-secondary: #{$base-purple};
+  --color-tertiary: #{$base-blue-violet};
+  --color-grey-light: #{$base-light-grey};
+  --color-primary-darken-15: #{$base-indigo-darken-15};
+  --color-grey-light-darken-20: #{$base-grey-light-darken-20};
+  --box-shadow-color: color-mix(in srgb, var(--text-color), transparent 70%);
+  --gradient-color: linear-gradient(-90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --gradient-inverse-color: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --gradient-inverse-hovered-color: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
 a {
-  color: $base-indigo;
+  color: var(--color-primary);
 }
 
 a:hover {
-  color: $base-purple;
+  color: var(--color-secondary);
 }

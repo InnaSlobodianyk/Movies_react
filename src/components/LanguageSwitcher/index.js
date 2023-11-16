@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { setActiveLanguage } from 'store/effects/languageEffects';
+import { setLanguage } from 'store/actions/languageActions';
 import { selectorLanguageState } from 'store/selectors/languageSelectors';
 
 import styles from './LanguageSwitcher.module.scss';
@@ -29,7 +29,7 @@ const LanguageSwitcher = () => {
   const handleLanguageChange = ( e ) => {
     const newLang = e.target.value;
     i18n.changeLanguage(newLang);
-    dispatch( setActiveLanguage( newLang ) );
+    dispatch( setLanguage( newLang ) )
   };
 
   return (

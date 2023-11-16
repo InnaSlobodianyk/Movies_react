@@ -2,8 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Input from 'components/Input';
-import Label from 'components/Label';
-import Button from 'components/Button';
+import Button, { BUTTON_VARIANTS } from 'components/Button';
 
 import { resolver } from './validation';
 
@@ -77,9 +76,13 @@ const SignUpForm = ( { submitHandler } ) => {
 
       { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
 
-      <Label className={ styles.signUpFormBtn }>
-        <Button type='submit' disabled={ !isDirty }>{ t( 'Sign Up' ) }</Button>
-      </Label>
+      <Button
+        type='submit'
+        disabled={ !isDirty }
+        variant={ BUTTON_VARIANTS.gradient }
+      >
+        { t( 'Sign Up' ) }
+      </Button>
     </form>
   );
 }

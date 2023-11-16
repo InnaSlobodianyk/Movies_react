@@ -9,23 +9,24 @@
   @include media(">=tablet") {
     width: auto;
   }
-}
 
-.searchFormBtn {
-  padding: 10px 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color $animation-speed $animation-effect;
+  .searchFormBtn {
+    padding: 10px 15px;
 
-  &:not(:disabled):hover {
-    .searchFormIcon {
-      color: $base-indigo;
+    &:disabled {
+      background-color: transparent;
+    }
+
+    &:not(:disabled):hover {
+      .searchFormIcon {
+        color: var(--color-primary);
+      }
     }
   }
 }
 
 .searchFormIcon {
-  color: $base-purple;
+  color: var(--color-secondary);
   font-size: 20px;
+  transition: color $animation-speed $animation-effect;
 }
