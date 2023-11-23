@@ -1,0 +1,17 @@
+@import '../../scss/base';
+
+.langSwitcherSelect {
+  background-color: transparent;
+  border: 0;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: color $animation-speed $animation-effect;
+
+  @media (hover: hover) {
+    transition: color $animation-speed $animation-effect;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}

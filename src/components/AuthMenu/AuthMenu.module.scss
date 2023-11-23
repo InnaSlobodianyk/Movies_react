@@ -1,4 +1,5 @@
 @import '../../scss/base';
+@import '../../scss/base/mixins';
 
 .authMenu {
   display: flex;
@@ -16,32 +17,7 @@
 }
 
 .authMenuLink {
-  color: $base-purple;
-  transition: color $animation-speed $animation-effect;
-  font-size: 17px;
-  display: flex;
-  padding: 5px;
-
-  &:hover {
-    color: darken($base-indigo, 15%);
-
-    .menuNum {
-      background-color: transparent;
-      color: $base-purple;
-    }
-  }
-
-  &[aria-current="page"] {
-    color: $base-blue-violet;
-  }
-
-  .fa {
-    font-size: 22px;
-  }
-
-  button {
-    padding: 0;
-  }
+  @include navLink;
 }
 
 .authMenuLinkName {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import styles from './AuthMenu.module.scss';
 
@@ -14,16 +15,20 @@ const auth = [
   },
 ];
 
-const AuthMenu = () => (
-  <ul className={ styles.authMenu }>
-    { auth.map((authItem) => (
-      <li key={authItem.title} className={styles.authMenuItem}>
-        <NavLink to={authItem.url} className={styles.authMenuLink}>
-          <span className={styles.authMenuLinkName}>{authItem.title}</span>
-        </NavLink>
-      </li>
-    )) }
-  </ul>
-);
+const AuthMenu = () => {
+  const { t } = useTranslation();
 
-export default React.memo(AuthMenu);
+  return (
+    <ul className={ styles.authMenu }>
+      { auth.map( ( authItem ) => (
+        <li key={ authItem.title } className={ styles.authMenuItem }>
+          <NavLink to={ authItem.url } className={ styles.authMenuLink }>
+            <span className={ styles.authMenuLinkName }>{ t( authItem.title ) }</span>
+          </NavLink>
+        </li>
+      ) ) }
+    </ul>
+  );
+};
+
+export default React.memo( AuthMenu );

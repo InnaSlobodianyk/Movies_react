@@ -1,17 +1,11 @@
 @import '../../scss/base';
+@import '../../scss/base/mixins';
 
 .signUpForm {
-  display: flex;
-  flex-direction: column;
-  width: 380px;
-  margin: 0 auto;
-}
-
-.signUpFormBtn {
-  padding: 10px 0;
+  @include form;
 }
 
 .formErrorMessage {
-  color: $base-purple;
+  color: var(--color-secondary);
   margin: 0 0 25px;
 }

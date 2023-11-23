@@ -1,7 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import styles from "./Menu.module.scss";
+import styles from './Menu.module.scss';
 
 const menu = [
   {
@@ -14,18 +15,22 @@ const menu = [
   },
 ];
 
-const Menu = () => (
-  <nav className={ styles.menuNav } role="navigation">
-    <ul className={ styles.menu }>
-      { menu.map( ( menuItem ) => (
-        <li key={ menuItem.title } className={ styles.menuItem }>
-          <NavLink to={ menuItem.url } className={ styles.menuLink }>
-            <span className={ styles.menuLinkName }>{ menuItem.title }</span>
-          </NavLink>
-        </li>
-      ) ) }
-    </ul>
-  </nav>
-);
+const Menu = () => {
+  const { t } = useTranslation();
+
+  return (
+    <nav className={ styles.menuNav } role="navigation">
+      <ul className={ styles.menu }>
+        { menu.map( ( menuItem ) => (
+          <li key={ menuItem.title } className={ styles.menuItem }>
+            <NavLink to={ menuItem.url } className={ styles.menuLink }>
+              <span className={ styles.menuLinkName }>{ t( menuItem.title ) }</span>
+            </NavLink>
+          </li>
+        ) ) }
+      </ul>
+    </nav>
+  );
+};
 
 export default React.memo(Menu);

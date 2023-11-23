@@ -1,14 +1,14 @@
-import { sendRequest } from "./apiService";
-import { apiRequestTrendsUrl } from "config";
+import { sendRequest } from './apiService';
+import { apiRequestTrendsUrl } from 'config';
 
-export const getTrends = async ( pageNumber = 1 ) => {
-  const response = sendRequest({
+export const getTrends = async ( pageNumber = 1, language = 'en' ) => {
+  const response = sendRequest( {
     url: apiRequestTrendsUrl,
     params: {
       page: pageNumber,
-      language: 'en'
+      language
     },
-  });
+  } );
 
   return response;
 }

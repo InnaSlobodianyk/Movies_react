@@ -1,10 +1,5 @@
 @import '../../scss/base';
-
-@mixin shrinkLabel {
-  top: -14px;
-  font-size: $base-font-size;
-  color: $base-dark-grey;
-}
+@import '../../scss/base/mixins';
 
 .formGroup {
   position: relative;
@@ -16,7 +11,7 @@
     }
 
     &:focus {
-      border-color: $base-purple;
+      border-color: var(--color-secondary);
     }
   }
 
@@ -27,29 +22,29 @@
       padding: 5px 10px;
       border-radius: $border-radius / 2 $border-radius / 2 0 0;
       background: transparent;
-      border-bottom-color: $base-purple;
-      color: $white;
+      border-bottom-color: var(--color-secondary);
+      color: var(--text-color-inverse);
       font-size: 17px;
 
       &:focus {
-        color: $white;
-        background-color: rgba($base-indigo, .2);
-        border-color: transparent transparent $base-indigo transparent;
+        color: var(--text-color-inverse);
+        background-color: color-mix(in srgb, var(--color-primary), transparent 80%);
+        border-color: transparent transparent var(--color-primary) transparent;
       }
     }
   }
 }
 
 .formInput {
-  background-color: $white;
-  color: $base-dark-grey;
+  background-color: var(--background-color);
+  color: var(--title-color);
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
   border: 0;
   border-radius: 0;
-  border-bottom: 1px solid $base-indigo;
+  border-bottom: 1px solid var(--color-primary);
 
   &:focus {
     outline: none;
@@ -61,18 +56,18 @@
 }
 
 .formInputLabel {
-  color: $base-dark-grey;
+  color: var(--title-color);
   font-size: 16px;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
   left: 5px;
   top: 10px;
-  transition: 300ms ease all;
+  transition: all $animation-speed $animation-effect;
 }
 
 .formErrorMessage {
-  color: $base-purple;
+  color: var(--color-secondary);
   margin-top: 5px;
 }
 

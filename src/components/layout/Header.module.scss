@@ -1,7 +1,8 @@
 @import '../../scss/base';
+@import '../../scss/base/mixins';
 
 .header {
-  background-color: $base-grey;
+  background-color: var(--text-color);
   display: flex;
   justify-content: center;
 }
@@ -43,31 +44,16 @@
 }
 
 .headerMenuLink {
-  color: $base-purple;
-  transition: color $animation-speed $animation-effect;
-  font-size: 17px;
-  display: flex;
-  padding: 5px;
-
-  &:hover {
-    color: darken($base-indigo, 15%);
-
-    .menuNum {
-      background-color: transparent;
-      color: $base-purple;
-    }
-  }
-
-  &[aria-current="page"] {
-    color: $base-blue-violet;
-  }
-
-  .fa {
-    font-size: 22px;
-  }
+  @include navLink;
 
   button {
-    padding: 0;
+    color: inherit;
+
+    @media (hover: hover) {
+      &[type]:hover {
+        color: inherit;
+      }
+    }
   }
 }
 

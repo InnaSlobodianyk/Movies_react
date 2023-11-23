@@ -1,14 +1,14 @@
-import { sendRequest } from "./apiService";
-import { apiRequestUrl } from "config";
+import { sendRequest } from './apiService';
+import { apiRequestUrl } from 'config';
 
-export const getMovie = async ( id ) => {
-  const response = await sendRequest({
-    url: `${apiRequestUrl}${id}`,
+export const getMovie = async ( { id, language = 'en' } ) => {
+  const response = await sendRequest( {
+    url: `${ apiRequestUrl }${ id }`,
     params: {
       append_to_response: 'videos,similar,recommendations,credits',
-      language: 'en'
+      language
     },
-  });
+  } );
 
   return response;
 }

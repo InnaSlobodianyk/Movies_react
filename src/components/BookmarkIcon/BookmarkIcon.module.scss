@@ -1,0 +1,26 @@
+@import '../../scss/base';
+
+.icon {
+  align-self: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  padding: 0;
+
+  @include media(">=tablet") {
+    margin-bottom: 20px;
+  }
+}
+
+.iconSvg {
+  color: var(--color-secondary);
+  font-size: 20px;
+  padding: 0;
+
+  @media (hover: hover) {
+    transition: color $animation-speed $animation-effect;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}

@@ -7,17 +7,17 @@ import { setPopularMoviesData } from 'store/actions/popularsActions';
 
 import { calcDate, filterGenres, roundRatingValue } from 'helpers';
 
-export const getMovieTrends = ( currentPage ) =>
+export const getMovieTrends = ( currentPage, currentLanguage ) =>
   async ( dispatch ) => {
     dispatch( setTrendsFetchingState( true ) );
 
     try {
       const [ { results: trends, total_pages, total_results }, allGenres, populars ] = await Promise.all([
-        getTrends( currentPage ),
+        getTrends( currentPage, currentLanguage ),
 
-        getAllGenres(),
+        getAllGenres( currentLanguage ),
 
-        getPopulars()
+        getPopulars( currentLanguage )
       ]);
 
       const movies = trends.map( movie => {

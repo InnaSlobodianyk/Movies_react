@@ -1,11 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import { addToFavorites, removeFromFavorites } from 'store/effects';
 
-import Button from 'components/Button';
-import Label from 'components/Label';
+import BookmarkIcon from 'components/BookmarkIcon';
+import Label, { LABEL_VARIANTS } from 'components/Label';
 import Genre from 'components/Genre';
 import StarRating from 'components/StarRating';
 import TableRow from './TableRow';
@@ -14,6 +14,7 @@ import styles from 'components/movie/Movie.module.scss';
 
 const MovieDetails = ({ movieDetails }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { id: movieId, isFavorite } = movieDetails;
 
   const addToFavoriteClickHandler = () => dispatch( addToFavorites( { movie: movieDetails } ) );
@@ -27,15 +28,12 @@ const MovieDetails = ({ movieDetails }) => {
           { movieDetails.title }
         </h3>
 
-        { isFavorite ? (
-          <Button className={ styles.movieReview__btnFavourite } data-hash={ movieId } onClick={ removeFromFavoriteClickHandler }>
-            <IoBookmark />
-          </Button>
-        ) : (
-          <Button data-hash={ movieId } className={ styles.movieReview__btnFavourite } onClick={ addToFavoriteClickHandler }>
-            <IoBookmarkOutline />
-          </Button>
-        ) }
+        <BookmarkIcon
+          isMarked={ isFavorite }
+          movieId={ movieId }
+          onMark={ addToFavoriteClickHandler }
+          onUnmark={ removeFromFavoriteClickHandler }
+        />
       </div>
 
       <div className={ styles.movieReview__subheading }>
@@ -50,7 +48,7 @@ const MovieDetails = ({ movieDetails }) => {
           <div className={ styles.movieReview__genres }>
 
             { movieDetails.genres && (
-              <Genre genres={ movieDetails.genres } variant='plain' labeled />
+              <Genre genres={ movieDetails.genres } variant={ LABEL_VARIANTS.plain } labeled />
             ) }
           </div>
         </div>
@@ -61,7 +59,7 @@ const MovieDetails = ({ movieDetails }) => {
       <table className={ cn( styles.movieReview__table, styles.movieReview__section ) }>
         <tbody>
         { movieDetails.production_countries?.length > 0 && (
-          <TableRow label='Country'>
+          <TableRow label={ t( 'Country' ) }>
             <ul>
               { movieDetails.production_countries.map( (el, index) => <li key={index}>{el.name}</li>) }
             </ul>
@@ -70,7 +68,7 @@ const MovieDetails = ({ movieDetails }) => {
 
         { movieDetails.tagline ? (
           <TableRow
-            label='Slogan'
+            label={ t( 'Slogan' ) }
             className={ styles.movieReview__sloganDesc }
           >
             { movieDetails.tagline }
@@ -78,15 +76,15 @@ const MovieDetails = ({ movieDetails }) => {
         ) : null }
 
         { movieDetails.runtime ? (
-          <TableRow label='Runtime'>{ movieDetails.runtime }</TableRow>
+          <TableRow label={ t( 'Runtime' ) }>{ movieDetails.runtime }</TableRow>
         ) : null }
 
         { movieDetails.budget ? (
-          <TableRow label='Budget'>$ { movieDetails.budget }</TableRow>
+          <TableRow label={ t( 'Budget' ) }>$ { movieDetails.budget }</TableRow>
         ) : null }
 
         { movieDetails.homepage ? (
-          <TableRow label='Homepage'>
+          <TableRow label={ t( 'Homepage' ) }>
             <a href={ movieDetails.homepage } target="_blank" rel="nofollow noreferrer">
               { movieDetails.homepage }
             </a>
@@ -94,7 +92,7 @@ const MovieDetails = ({ movieDetails }) => {
         ) : null }
 
         { movieDetails.production_companies?.length > 0 && (
-          <TableRow label='Production companies'>
+          <TableRow label={ t( 'Production companies' ) }>
             <ul className={styles.movieReview__company}>
               { movieDetails.production_companies.map( (el, index) => (
                 <li key={ index } className={ styles.movieReview__companyItem }>{ el.name }</li>
@@ -104,7 +102,7 @@ const MovieDetails = ({ movieDetails }) => {
         ) }
 
         { movieDetails.overview ? (
-          <TableRow label='Overview'>{ movieDetails.overview }</TableRow>
+          <TableRow label={ t( 'Overview' ) }>{ movieDetails.overview }</TableRow>
         ) : null }
         </tbody>
       </table>

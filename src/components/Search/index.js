@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
-import Button from 'components/Button';
+import Button, { BUTTON_VARIANTS } from 'components/Button';
 import Input from 'components/Input';
 
 import styles from './Search.module.scss';
@@ -20,6 +21,7 @@ const Search = ( { submitHandler, fetching } ) => {
     mode: 'onChange',
   } );
 
+  const { t } = useTranslation();
 
   useEffect(() => {
     if ( isSubmitSuccessful ) {
@@ -35,8 +37,8 @@ const Search = ( { submitHandler, fetching } ) => {
       <Input
         className='search'
         type="text"
-        placeholder="Search"
-        aria-label="Search"
+        placeholder={ t( 'Search' ) }
+        aria-label={ t( 'Search' ) }
         name='search'
         control={ control }
       />
@@ -46,6 +48,7 @@ const Search = ( { submitHandler, fetching } ) => {
         className={ styles.searchFormBtn }
         disabled={ !isDirty || fetching }
         onClick={ submitHandler }
+        variant={ BUTTON_VARIANTS.transparent }
       >
         <IoSearch className={ styles.searchFormIcon } />
       </Button>

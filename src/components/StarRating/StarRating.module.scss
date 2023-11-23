@@ -1,4 +1,5 @@
-@import "../../scss/base";
+@import '../../scss/base';
+@import '../../scss/base/mixins';
 
 .rating {
   display: flex;
@@ -18,15 +19,13 @@
     display: flex;
     line-height: 1;
     font-size: 19px;
-    color: $base-purple;
+    color: var(--color-secondary);
   }
 
   &__active {
-    position: absolute;
-    top: 50%;
+    @include center-y;
     left: 0;
     right: 0;
-    transform: translateY(-50%);
     flex: none;
     flex-wrap: nowrap;
     overflow: hidden;

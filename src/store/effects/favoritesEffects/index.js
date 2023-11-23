@@ -5,14 +5,14 @@ import { setFavorites, setFavoritesFetchingState } from 'store/actions/favorites
 
 import { roundRatingValue } from 'helpers';
 
-export const getFavoriteMovies = () =>
+export const getFavoriteMovies = ( currentLanguage ) =>
   async ( dispatch ) => {
     dispatch( setFavoritesFetchingState( true ) );
 
     try {
       const favoriteMoviesIDs = await getFavoritesAndDocuments();
 
-      const favorites = favoriteMoviesIDs.map( getMovie );
+      const favorites = favoriteMoviesIDs.map( ( id ) => getMovie( { id, language: currentLanguage } ) );
 
       const movies = await Promise.all( favorites );
 
@@ -31,7 +31,7 @@ export const getFavoriteMovies = () =>
     } catch (e) {
       dispatch( setFavorites( {
         favoriteMovies: [],
-        currentPage: 0
+        currentPage: 1
       } ) );
     } finally {
       dispatch( setFavoritesFetchingState( false ) );

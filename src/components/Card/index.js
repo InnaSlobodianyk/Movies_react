@@ -1,18 +1,20 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { IoStar } from "react-icons/io5";
-import cn from "classnames";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { IoStar } from 'react-icons/io5';
+import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import {
   calcDate,
   imageFullUrl,
   roundRatingValue
-} from "helpers";
-import Genre from "components/Genre";
+} from 'helpers';
+import Genre from 'components/Genre';
 
-import styles from "./Card.module.scss";
+import styles from './Card.module.scss';
 
 const Card = ({ details }) => {
+  const { t } = useTranslation();
   const ratingRounded = useMemo( () => roundRatingValue(details.vote_average), [details.vote_average]);
   const releaseDate = useMemo(() => calcDate(details.release_date), [details.release_date]);
 
@@ -22,7 +24,7 @@ const Card = ({ details }) => {
         <figure className={ styles.card__imgWrapper }>
           { details.poster_path && (
             <img src={ imageFullUrl( { imagePath: details.poster_path } ) }
-                 className={ styles.card__img } alt={ details.title || 'Poster' } />
+                 className={ styles.card__img } alt={ details.title || t('poster') } />
           ) }
         </figure>
       </Link>

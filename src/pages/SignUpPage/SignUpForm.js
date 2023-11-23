@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import Input from 'components/Input';
-import Label from 'components/Label';
-import Button from 'components/Button';
+import Button, { BUTTON_VARIANTS } from 'components/Button';
 
 import { resolver } from './validation';
 
@@ -27,6 +27,8 @@ const SignUpForm = ( { submitHandler } ) => {
     resolver,
   } );
 
+  const { t } = useTranslation();
+
   const submitClickHandler = handleSubmit( ( payload ) => submitHandler( payload )
     .then( ( response ) => {
       if ( response ) {
@@ -41,7 +43,7 @@ const SignUpForm = ( { submitHandler } ) => {
   return (
     <form onSubmit={ submitClickHandler } className={ styles.signUpForm }>
       <Input
-        label='Display Name'
+        label={ t( 'Display Name' ) }
         type='text'
         required
         name='displayName'
@@ -57,7 +59,7 @@ const SignUpForm = ( { submitHandler } ) => {
       />
 
       <Input
-        label='Password'
+        label={ t( 'Password' ) }
         type='password'
         required
         name='password'
@@ -65,7 +67,7 @@ const SignUpForm = ( { submitHandler } ) => {
       />
 
       <Input
-        label='Confirm Password'
+        label={ t( 'Confirm Password' ) }
         type='password'
         required
         name='confirmPassword'
@@ -74,9 +76,13 @@ const SignUpForm = ( { submitHandler } ) => {
 
       { errors?.default && <div className={ styles.formErrorMessage }>{ errors.default.message }</div> }
 
-      <Label className={ styles.signUpFormBtn }>
-        <Button type='submit' disabled={ !isDirty }>Sign Up</Button>
-      </Label>
+      <Button
+        type='submit'
+        disabled={ !isDirty }
+        variant={ BUTTON_VARIANTS.gradient }
+      >
+        { t( 'Sign Up' ) }
+      </Button>
     </form>
   );
 }

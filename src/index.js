@@ -7,6 +7,8 @@ import store from './store';
 
 import App from './App';
 
+import 'services/i18n';
+
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";

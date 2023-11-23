@@ -1,43 +1,87 @@
-@import "../../scss/base";
+@import '../../scss/base';
 
 .btn {
-  padding: 6px 30px;
+  padding: 14px 30px;
   border: 0;
+  border-radius: 20px;
   background-color: transparent;
+  color: var(--text-color-inverse);
+  transition: all $animation-speed $animation-effect;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &-primary {
-    color: $white;
-    background-color: $base-blue;
-    border-color: $base-blue;
+  &[type]:hover {
+    color: var(--text-color-inverse);
+  }
 
-    &:hover {
-      background-color: darken($base-blue, 15%);
-      border-color: darken($base-blue, 15%);
-    }
+  &.btnPrimary {
+    background-color: var(--color-primary);
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-      background-color: darken($base-blue, 20%);
-      border-color: darken($base-blue, 20%);
-
-      &:focus {
-        box-shadow: none;
+    @media (hover: hover) {
+      &:not(:disabled):not(.disabled):hover {
+        background-color: var(--color-secondary);
       }
-    }
-
-    &:focus,
-    &.focus {
-      background-color: darken($base-blue, 20%);
-      border-color: darken($base-blue, 20%);
-      box-shadow: none;
     }
   }
 
-  &-small {
+  &.btnSecondary {
+    background-color: var(--color-secondary);
+
+    @media (hover: hover) {
+      &:not(:disabled):not(.disabled):hover {
+        background-color: var(--color-primary);
+      }
+    }
+  }
+
+  &.btnGradient {
+    background: var(--color-primary);
+    background: var(--gradient-inverse-color);
+    position: relative;
+    z-index: 1;
+
+    &:before {
+      border-radius: inherit;
+      background: var(--gradient-inverse-hovered-color);
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      width: 100%;
+      z-index: -100;
+      transition: opacity $animation-speed $animation-effect;
+    }
+
+    @media (hover: hover) {
+      &:not(:disabled):not(.disabled):hover {
+        &:before {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &.btnTransparent {
+    background-color: transparent;
+
+    @media (hover: hover) {
+      &:not(:disabled):not(.disabled):hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &.btnSmall {
     padding: 6px;
   }
 
   &:disabled {
     cursor: not-allowed;
+    background: var(--color-grey-light-darken-20);
+    border-color: var(--color-grey-light-darken-20);
   }
 }

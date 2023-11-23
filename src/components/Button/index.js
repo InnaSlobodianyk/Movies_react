@@ -2,8 +2,27 @@ import cn from "classnames";
 
 import styles from "./Button.module.scss";
 
-const Button = ({ type = 'button', disabled = false, className, onClick, children }) => {
-    const buttonClasses = cn( styles.btn, className );
+export const BUTTON_VARIANTS = {
+    primary: 'btnPrimary',
+    secondary: 'btnSecondary',
+    gradient: 'btnGradient',
+    transparent: 'btnTransparent',
+};
+
+export const BUTTON_SIZES = {
+    small: 'btnSmall',
+};
+
+const Button = ({
+    type = 'button',
+    disabled = false,
+    className,
+    onClick,
+    variant = BUTTON_VARIANTS.secondary,
+    size,
+    children
+}) => {
+    const buttonClasses = cn( styles.btn, styles[variant], styles[size], className );
 
     return (
         <button

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getMovieDetails } from 'store/effects/movieEffects';
 import { selectorMovieState, selectorMovieStateWithFavorites } from 'store/selectors/movieSelectors';
+import { selectorLanguageState } from 'store/selectors/languageSelectors';
 
 import Movie from 'components/movie';
 
@@ -12,10 +13,11 @@ const MoviePage = () => {
   const dispatch = useDispatch();
   const { fetching: movieFetching } = useSelector( selectorMovieState );
   const movieDetails = useSelector( selectorMovieStateWithFavorites );
+  const { currentLanguage } = useSelector( selectorLanguageState );
 
   useEffect( () => {
-    dispatch( getMovieDetails( movieId ) );
-  }, [ movieId ] );
+    dispatch( getMovieDetails( { id: movieId, currentLanguage } ) );
+  }, [currentLanguage, movieId] );
 
   return movieDetails && <Movie movieDetails={ movieDetails } fetching={ movieFetching } />;
 }

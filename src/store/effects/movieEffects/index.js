@@ -3,12 +3,12 @@ import { setMovieDetails, setMovieFetchingState } from 'store/actions/movieActio
 
 import { calcDate, formatBudget, formatRuntime } from 'helpers';
 
-export const getMovieDetails = ( id ) =>
+export const getMovieDetails = ( { id, currentLanguage } ) =>
   async ( dispatch ) => {
     dispatch( setMovieFetchingState( true ) );
 
     try {
-      const response = await getMovie( id );
+      const response = await getMovie( { id, language: currentLanguage } );
 
       const runtime = response.runtime > 0 ? formatRuntime( response.runtime ) : '';
       const budget = formatBudget( response.budget );
