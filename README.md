@@ -11,7 +11,7 @@
 
 <h2>Installation</h2>
 <ol>
-    <li>Clone repository <code>https://gitlab.codeit.pro/InnaBondarenko/movies-react.git</code></li>
+    <li>Clone repository</li>
     <li>From the root directory run command <code>npm install</code> (this'll install node_modules)</li>
     <li>Run command <code>npm run build</code> to compile files to build/ directory</li>
     <li>To start local development with auto-watcher run command <code>npm start</code></li>
