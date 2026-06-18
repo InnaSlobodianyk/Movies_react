@@ -24,7 +24,7 @@ const Favorites = () => {
 
   useEffect( () => {
     dispatch( setTrendsCurrentPage( { fetching: false, page: 1 } ) );
-  }, [] );
+  }, [dispatch] );
 
   const favoritesPaginationClickHandler = ( page ) => dispatch( setPagination( { type: PAGINATION_TYPE.FAVORITES, fetching: favoritesFetching, page } ) );
 

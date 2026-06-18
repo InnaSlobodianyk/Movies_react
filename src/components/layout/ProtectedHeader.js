@@ -30,7 +30,7 @@ const ProtectedHeader = () => {
 
   useEffect( () => {
     dispatch( getMovieSearchResults( { searchQuery, currentPage: 1 } ) );
-  }, [currentLanguage, searchQuery] );
+  }, [currentLanguage, dispatch, searchQuery] );
 
   const logoClickHandler = () => {
     if ( isSearch ) {

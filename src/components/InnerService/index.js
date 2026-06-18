@@ -10,7 +10,7 @@ const InnerService = () => {
 
   useEffect( () => {
     dispatch( getFavoriteMovies( currentLanguage ) );
-  }, [currentLanguage] );
+  }, [currentLanguage, dispatch] );
 
   return null;
 }

@@ -17,7 +17,7 @@ const MoviePage = () => {
 
   useEffect( () => {
     dispatch( getMovieDetails( { id: movieId, currentLanguage } ) );
-  }, [currentLanguage, movieId] );
+  }, [currentLanguage, dispatch, movieId] );
 
   return movieDetails && <Movie movieDetails={ movieDetails } fetching={ movieFetching } />;
 }

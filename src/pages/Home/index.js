@@ -65,7 +65,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch( getMovieTrends( trendsCurrentPage || 1, currentLanguage ) );
-  }, [currentLanguage, trendsCurrentPage]);
+  }, [currentLanguage, dispatch, trendsCurrentPage]);
 
   const isPaginationVisible = isSearch ? searchTotalResults > 20 : trendsTotalResults > 20;
 

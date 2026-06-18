@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect( () => {
     dispatch( getCurrentUser() );
-  }, [] );
+  }, [dispatch] );
 
   return (
     <Routes>
